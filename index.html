@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>瓦罗兰特 4v4 对局记录</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>"">
   <style>
     body {
       font-family: sans-serif;
@@ -101,19 +102,47 @@
 
     // ---------- GitHub 读取 ----------
     async function loadDataWithToken() {
+      try {
+        const url = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
+        const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
 
-      const url = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
-      const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
-      const data = await res.json();
-      const bytes = Uint8Array.from(atob(data.content), c => c.charCodeAt(0));
-      const jsonStr = new TextDecoder("utf-8").decode(bytes);
-      let parsed;
+        if (!res.ok) {
+          console.error('GitHub API错误:', res.status, res.statusText);
+          if (res.status === 401) {
+            alert('GitHub Token无效或已过期，请检查token权限');
+          } else if (res.status === 404) {
+            console.log('data.json文件不存在，使用默认数据');
+            players = [];
+            matches = [];
+            renderPlayers();
+          }
+          return;
+        }
 
-      parsed = JSON.parse(jsonStr);
+        const data = await res.json();
 
-      players = Array.isArray(parsed.players) ? parsed.players : [];
-      matches = Array.isArray(parsed.matches) ? parsed.matches : [];
-      renderPlayers();
+        if (!data.content) {
+          console.error('GitHub API没有返回content字段');
+          players = [];
+          matches = [];
+          renderPlayers();
+          return;
+        }
+
+        const cleanedContent = data.content.replace(/\s/g, '');
+        const bytes = Uint8Array.from(atob(cleanedContent), c => c.charCodeAt(0));
+        const jsonStr = new TextDecoder("utf-8").decode(bytes);
+        const parsed = JSON.parse(jsonStr);
+
+        players = Array.isArray(parsed.players) ? parsed.players : [];
+        matches = Array.isArray(parsed.matches) ? parsed.matches : [];
+        renderPlayers();
+      } catch (error) {
+        console.error('加载数据失败:', error);
+        players = [];
+        matches = [];
+        renderPlayers();
+      }
     }
 
 
