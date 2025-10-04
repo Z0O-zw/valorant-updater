@@ -924,24 +924,46 @@ async function updateLeaderboard() {
         const files = await dirRes.json();
         console.log(`📊 leaderboard更新: 找到 ${files.length} 个比赛文件`);
 
+        // 过滤出比赛文件（排除 README.md）
+        const matchFiles = files.filter(file =>
+          file.name.endsWith('.json') &&
+          file.name !== 'README.md'
+        );
+        console.log(`📄 过滤后的比赛文件:`, matchFiles.map(f => f.name));
+
         // 并行读取所有比赛文件
-        const matchPromises = files
-          .filter(file => file.name.endsWith('.json'))
-          .map(async (file) => {
-            try {
-              const fileRes = await fetch(file.url, {
-                headers: { "Authorization": `token ${config.token}` }
-              });
-              if (fileRes.ok) {
-                const fileData = await fileRes.json();
-                const decodedContent = atob(fileData.content.replace(/\s/g, ''));
-                return JSON.parse(decodedContent);
+        const matchPromises = matchFiles.map(async (file) => {
+          try {
+            console.log(`📖 读取文件: ${file.name}`);
+            const fileRes = await fetch(file.url, {
+              headers: { "Authorization": `token ${config.token}` }
+            });
+
+            if (fileRes.ok) {
+              const fileData = await fileRes.json();
+              console.log(`📦 文件 ${file.name} 内容长度:`, fileData.content?.length || 0);
+
+              if (!fileData.content) {
+                console.error(`❌ 文件 ${file.name} 没有 content 字段`);
+                return null;
               }
-            } catch (error) {
-              console.error(`加载比赛文件 ${file.name} 失败:`, error);
+
+              // 使用简单的 atob 解码方式
+              const decodedContent = atob(fileData.content.replace(/\s/g, ''));
+              console.log(`📝 文件 ${file.name} 解码后内容长度:`, decodedContent.length);
+
+              const matchData = JSON.parse(decodedContent);
+              console.log(`✅ 文件 ${file.name} 解析成功，matchid:`, matchData.metadata?.matchid);
+              return matchData;
+            } else {
+              console.error(`❌ 读取文件 ${file.name} 失败:`, fileRes.status);
               return null;
             }
-          });
+          } catch (error) {
+            console.error(`❌ 加载比赛文件 ${file.name} 失败:`, error);
+            return null;
+          }
+        });
 
         const matches = await Promise.all(matchPromises);
         allMatches = matches.filter(match => match !== null);
@@ -971,8 +993,11 @@ async function updateLeaderboard() {
       allMatches.forEach(match => {
         if (match.kills && match.kills.length > 0) {
           match.kills.forEach(kill => {
-            const killerPuuid = kill.killer?.puuid;
-            const victimPuuid = kill.victim?.puuid;
+            // 适配实际文件中的数据结构
+            const killerPuuid = kill.killer_puuid || kill.killer?.puuid;
+            const victimPuuid = kill.victim_puuid || kill.victim?.puuid;
+
+            console.log(`🔫 处理击杀: ${killerPuuid} -> ${victimPuuid}`);
 
             // 找到 killer 和 victim 在 leaderboard 中的记录
             const killerPlayer = leaderboardData.players.find(p => p.puuid === killerPuuid);
@@ -984,20 +1009,24 @@ async function updateLeaderboard() {
               if (killerPlayer.killsAgainst[victimPuuid] !== undefined) {
                 killerPlayer.killsAgainst[victimPuuid] += 1;
               }
+              console.log(`✅ ${killerPuuid} 击杀统计 +1`);
             }
 
             if (victimPlayer) {
               victimPlayer.deaths += 1;
+              console.log(`✅ ${victimPuuid} 死亡统计 +1`);
             }
 
             // 处理助攻统计
             if (kill.assistants && kill.assistants.length > 0) {
               kill.assistants.forEach(assistant => {
-                const assistantPuuid = assistant.puuid;
+                // 适配可能的不同数据结构
+                const assistantPuuid = assistant.assistant_puuid || assistant.puuid;
                 const assistantPlayer = leaderboardData.players.find(p => p.puuid === assistantPuuid);
 
                 if (assistantPlayer) {
                   assistantPlayer.assists += 1;
+                  console.log(`✅ ${assistantPuuid} 助攻统计 +1`);
                 }
               });
             }
