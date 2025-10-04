@@ -762,17 +762,29 @@ async function saveMatchData(matchJson, sha) {
   // 验证 match.json 确实被写回后再更新 leaderboard
   try {
     console.log("🔍 验证 match.json 是否已成功写回...");
+    console.log("📍 验证读取路径:", `${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`);
 
     // 重新读取文件以确认保存成功
     const verifyRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
       headers: { "Authorization": `token ${config.token}` }
     });
 
+    console.log("📡 验证响应状态:", verifyRes.status, verifyRes.statusText);
+
     if (verifyRes.ok) {
       const verifyData = await verifyRes.json();
+      console.log("📦 GitHub API 响应数据:", {
+        name: verifyData.name,
+        path: verifyData.path,
+        size: verifyData.size,
+        sha: verifyData.sha,
+        contentLength: verifyData.content ? verifyData.content.length : 0
+      });
+
       // 使用与第一次读取相同的解码方式
       const decodedContent = atob(verifyData.content.replace(/\s/g, ''));
       console.log("📄 验证阶段：解码后的 match.json 内容长度:", decodedContent.length);
+      console.log("📝 前100个字符:", decodedContent.substring(0, 100));
 
       if (decodedContent.trim() !== '') {
         try {
