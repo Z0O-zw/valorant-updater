@@ -451,74 +451,133 @@ function renderSync() {
 
 // ---------- 用户数据更新 ----------
 async function updateUserData() {
+  // 显示加载指示器
+  showLoadingIndicator(true);
+
   try {
-    const userDataRes = await fetch(`https://api.github.com/repos/${repo}/contents/${userDataPath}?ref=${branch}`, {
-      headers: { Authorization: `token ${token}` }
+    console.log("📥 开始检查用户数据更新...");
+
+    // 1. 获取当前的 user.json
+    const userDataRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}?ref=${config.branch}`, {
+      headers: { Authorization: `token ${config.token}` }
     });
+
     if (!userDataRes.ok) {
-      console.log("user.json not found on GitHub, skipping update");
+      console.log("⚠️ user.json not found on GitHub, skipping update");
       return;
     }
 
     const userData = await userDataRes.json();
-    const userJson = JSON.parse(atob(userData.content));
+    const userJson = JSON.parse(atob(userData.content.replace(/\s/g, '')));
 
+    console.log("📊 当前最新 Match ID:", userJson.newestMatchID || "无");
+
+    // 2. 获取最新的比赛列表
     const matchListUrl = `https://api.henrikdev.xyz/valorant/v3/matches/eu/SuperLulino/4088?mode=custom`;
+    console.log("🔍 正在查询最新比赛...");
+
     const matchRes = await fetch(matchListUrl, {
-      headers: { "Authorization": henrikapiKey }
+      headers: { "Authorization": config.henrikapiKey }
     });
 
-    if (!matchRes.ok) return;
+    if (!matchRes.ok) {
+      console.log("❌ Henrik API请求失败:", matchRes.status);
+      throw new Error(`Henrik API响应错误: ${matchRes.status}`);
+    }
 
     const matchData = await matchRes.json();
     const userPuuids = userJson.players.map(p => p.puuid);
 
+    console.log("👥 目标玩家数量:", userPuuids.length);
+
+    // 3. 查找最新的自定义模式比赛
     if (matchData.data && Array.isArray(matchData.data)) {
+      let latestCustomMatch = null;
+
+      // 按时间从新到旧排序，找到第一个包含所有8个玩家的自定义比赛
       for (const match of matchData.data) {
         if (match.metadata?.mode === "custom" || match.metadata?.mode_id === "custom") {
           const matchPlayers = match.players?.all_players || [];
           const matchPuuids = matchPlayers.map(p => p.puuid);
 
+          // 验证是否包含所有8个目标玩家
           const allPuuidsMatch = userPuuids.every(puuid => matchPuuids.includes(puuid));
 
           if (allPuuidsMatch && matchPuuids.length === 8) {
-            userJson.newestMatchID = match.metadata.matchid;
-
-            userJson.players = userJson.players.map(player => {
-              const matchPlayer = matchPlayers.find(p => p.puuid === player.puuid);
-              if (matchPlayer) {
-                player.name = matchPlayer.name;
-                player.tag = matchPlayer.tag;
-                player.card = matchPlayer.assets?.card?.small || "";
-              }
-              return player;
-            });
-
-            await saveUserData(userJson, userData.sha);
+            latestCustomMatch = match;
+            console.log("🎮 找到最新自定义比赛:", match.metadata.matchid);
             break;
           }
         }
       }
+
+      // 4. 比较 Match ID 并更新
+      if (latestCustomMatch) {
+        const latestMatchId = latestCustomMatch.metadata.matchid;
+
+        if (latestMatchId === userJson.newestMatchID) {
+          console.log("✅ 数据已是最新，无需更新");
+          return;
+        }
+
+        console.log("🔄 发现新比赛，开始更新用户数据...");
+        console.log("📝 新 Match ID:", latestMatchId);
+
+        // 更新 newestMatchID
+        userJson.newestMatchID = latestMatchId;
+
+        // 更新每个玩家的信息（基于 puuid 匹配）
+        const matchPlayers = latestCustomMatch.players.all_players;
+        let updatedCount = 0;
+
+        userJson.players = userJson.players.map(player => {
+          const matchPlayer = matchPlayers.find(p => p.puuid === player.puuid);
+          if (matchPlayer) {
+            const oldInfo = { name: player.name, tag: player.tag, card: player.card };
+
+            player.name = matchPlayer.name;
+            player.tag = matchPlayer.tag;
+            player.card = matchPlayer.assets?.card?.small || "";
+
+            // 记录变化
+            if (oldInfo.name !== player.name || oldInfo.tag !== player.tag || oldInfo.card !== player.card) {
+              console.log(`👤 更新玩家: ${oldInfo.name}#${oldInfo.tag} → ${player.name}#${player.tag}`);
+              updatedCount++;
+            }
+          }
+          return player;
+        });
+
+        // 保存更新后的数据
+        await saveUserData(userJson, userData.sha);
+        console.log(`✅ 用户数据更新完成! (${updatedCount} 个玩家信息更新)`);
+      } else {
+        console.log("🔍 未找到包含所有目标玩家的自定义比赛");
+      }
     }
   } catch (error) {
-    console.error("Error updating user data:", error);
+    console.error("❌ 更新用户数据时发生错误:", error);
+    showErrorMessage("数据更新失败: " + error.message);
+  } finally {
+    // 隐藏加载指示器
+    showLoadingIndicator(false);
   }
 }
 
 async function saveUserData(userJson, sha) {
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(userJson, null, 4))));
 
-  await fetch(`https://api.github.com/repos/${repo}/contents/${userDataPath}`, {
+  await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}`, {
     method: "PUT",
     headers: {
-      "Authorization": `token ${token}`,
+      "Authorization": `token ${config.token}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
       message: "Update user data",
       content: encoded,
       sha: sha,
-      branch: branch
+      branch: config.branch
     })
   });
 }
@@ -538,6 +597,52 @@ window.matches = matches;
 window.selA = selA;
 window.selB = selB;
 window.winner = winner;
+
+// ---------- 加载指示器和错误处理 ----------
+function showLoadingIndicator(show) {
+  let indicator = document.getElementById('loading-indicator');
+
+  if (show) {
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.id = 'loading-indicator';
+      indicator.className = 'loading-indicator';
+      indicator.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div class="loading-text">🔄 正在检查数据更新...</div>
+      `;
+      document.body.appendChild(indicator);
+    }
+    indicator.style.display = 'flex';
+  } else {
+    if (indicator) {
+      indicator.style.display = 'none';
+    }
+  }
+}
+
+function showErrorMessage(message) {
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-message';
+  errorDiv.innerHTML = `❌ ${message}`;
+  errorDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4444;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    z-index: 10000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  `;
+
+  document.body.appendChild(errorDiv);
+
+  setTimeout(() => {
+    document.body.removeChild(errorDiv);
+  }, 5000);
+}
 
 // ---------- 初始化 ----------
 addEventListener('DOMContentLoaded', async () => {
