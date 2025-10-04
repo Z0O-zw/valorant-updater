@@ -141,7 +141,9 @@ async function saveToGithub() {
   const { sha } = await getRes.json();
 
   const newData = { players, matches };
-  const encoded = btoa(encodeURIComponent(JSON.stringify(newData, null, 2)));
+  // 正确的编码方式：直接对 JSON 字符串进行 Base64 编码
+  const jsonString = JSON.stringify(newData, null, 2);
+  const encoded = btoa(jsonString);
 
   const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.path}`, {
     method: "PUT",
@@ -566,7 +568,9 @@ async function updateUserData() {
 }
 
 async function saveUserData(userJson, sha) {
-  const encoded = btoa(encodeURIComponent(JSON.stringify(userJson, null, 4)));
+  // 正确的编码方式：直接对 JSON 字符串进行 Base64 编码
+  const jsonString = JSON.stringify(userJson, null, 4);
+  const encoded = btoa(jsonString);
 
   await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}`, {
     method: "PUT",
