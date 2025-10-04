@@ -501,8 +501,25 @@ async function updateUserData() {
       console.log("⚠️ user.json not found on GitHub, skipping update");
       return;
     }
-    const userData = await userDataRes.json();
-    const userJson = JSON.parse(atob(userData.content.replace(/\s/g, '')));
+
+    let userJson;
+    try {
+      const userData = await userDataRes.json();
+      const decodedUserContent = atob(userData.content.replace(/\s/g, ''));
+      console.log("📄 解码后的 user.json 内容长度:", decodedUserContent.length);
+
+      if (decodedUserContent.trim() === '') {
+        console.error("❌ user.json 文件为空");
+        return;
+      }
+
+      userJson = JSON.parse(decodedUserContent);
+      console.log("👥 user.json 中有", userJson.players?.length || 0, "个玩家");
+    } catch (error) {
+      console.error("❌ 解析 user.json 失败:", error);
+      return;
+    }
+
     const userPuuids = userJson.players.map(p => p.puuid);
 
     // 2.2 解析 match.json（可能不存在）
@@ -512,8 +529,23 @@ async function updateUserData() {
     if (matchDataRes.ok) {
       const matchDataInfo = await matchDataRes.json();
       matchDataSha = matchDataInfo.sha;
-      matchJson = JSON.parse(atob(matchDataInfo.content.replace(/\s/g, '')));
-      console.log("📊 当前 match.json 中有", matchJson.matches.length, "场比赛");
+
+      try {
+        const decodedContent = atob(matchDataInfo.content.replace(/\s/g, ''));
+        console.log("📄 解码后的 match.json 内容长度:", decodedContent.length);
+
+        if (decodedContent.trim() === '') {
+          console.log("⚠️ match.json 文件为空，使用默认结构");
+          matchJson = { matches: [], newestMatchID: "" };
+        } else {
+          matchJson = JSON.parse(decodedContent);
+          console.log("📊 当前 match.json 中有", matchJson.matches?.length || 0, "场比赛");
+        }
+      } catch (error) {
+        console.error("❌ 解析 match.json 失败:", error);
+        console.log("⚠️ 使用默认 match.json 结构");
+        matchJson = { matches: [], newestMatchID: "" };
+      }
     } else {
       console.log("⚠️ match.json 不存在，将创建新文件");
     }
