@@ -16,10 +16,16 @@ export default async function handler(req, res) {
     }
 
     // 从查询参数获取请求信息
-    const { name = 'SuperLulino', tag = '4088', region = 'eu', mode = 'custom' } = req.query;
+    const { name = 'SuperLulino', tag = '4088', region = 'eu', mode = 'custom', size } = req.query;
 
     // 构建 Henrik API URL
-    const henrikapiUrl = `https://api.henrikdev.xyz/valorant/v3/matches/${region}/${name}/${tag}${mode ? `?mode=${mode}` : ''}`;
+    let henrikapiUrl = `https://api.henrikdev.xyz/valorant/v3/matches/${region}/${name}/${tag}`;
+    const queryParams = [];
+    if (mode) queryParams.push(`mode=${mode}`);
+    if (size) queryParams.push(`size=${size}`);
+    if (queryParams.length > 0) {
+      henrikapiUrl += '?' + queryParams.join('&');
+    }
 
     console.log('请求 Henrik API:', henrikapiUrl);
 
