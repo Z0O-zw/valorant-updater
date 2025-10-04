@@ -770,13 +770,17 @@ async function saveMatchData(matchJson, sha) {
 
     if (verifyRes.ok) {
       const verifyData = await verifyRes.json();
-      // 使用与保存时相反的解码方式
+      // 使用与第一次读取相同的解码方式
       const decodedContent = atob(verifyData.content.replace(/\s/g, ''));
-      const verifyContent = decodeURIComponent(escape(decodedContent));
+      console.log("📄 验证阶段：解码后的 match.json 内容长度:", decodedContent.length);
 
-      if (verifyContent.trim() !== '') {
-        const verifyJson = JSON.parse(verifyContent);
-        console.log("✅ match.json 验证成功，包含", verifyJson.matches?.length || 0, "场比赛");
+      if (decodedContent.trim() !== '') {
+        try {
+          const verifyJson = JSON.parse(decodedContent);
+          console.log("✅ match.json 验证成功，包含", verifyJson.matches?.length || 0, "场比赛");
+        } catch (error) {
+          console.error("⚠️ match.json 验证警告：JSON 解析失败", error);
+        }
       } else {
         console.error("⚠️ match.json 验证警告：文件内容为空，但仍尝试更新 leaderboard");
       }
