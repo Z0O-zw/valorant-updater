@@ -477,20 +477,13 @@ async function updateUserData() {
       })
     );
 
-    // match.json 请求
-    fetchPromises.push(
-      fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
-        headers: { Authorization: `token ${config.token}` }
-      })
-    );
-
     // Henrik API 请求（比赛列表）
     const matchListUrl = `${config.henrikapiProxy || '/api/henrik'}?name=SuperLulino&tag=4088&region=eu&mode=custom&size=8`;
     fetchPromises.push(fetch(matchListUrl));
 
     // 1.2 并行执行所有请求
     console.log("🔄 正在并行获取数据...");
-    const [userDataRes, matchDataRes, matchRes] = await Promise.all(fetchPromises);
+    const [userDataRes, matchRes] = await Promise.all(fetchPromises);
 
     // =========================
     // 第二步：解析响应数据
@@ -522,42 +515,14 @@ async function updateUserData() {
 
     const userPuuids = userJson.players.map(p => p.puuid);
 
-    // 2.2 解析 match.json（可能不存在）
-    let matchJson = { matches: [], newestMatchID: "" };
-    let matchDataSha = null;
-
-    if (matchDataRes.ok) {
-      const matchDataInfo = await matchDataRes.json();
-      matchDataSha = matchDataInfo.sha;
-
-      try {
-        const decodedContent = atob(matchDataInfo.content.replace(/\s/g, ''));
-        console.log("📄 解码后的 match.json 内容长度:", decodedContent.length);
-
-        if (decodedContent.trim() === '') {
-          console.log("⚠️ match.json 文件为空，使用默认结构");
-          matchJson = { matches: [], newestMatchID: "" };
-        } else {
-          matchJson = JSON.parse(decodedContent);
-          console.log("📊 当前 match.json 中有", matchJson.matches?.length || 0, "场比赛");
-        }
-      } catch (error) {
-        console.error("❌ 解析 match.json 失败:", error);
-        console.log("⚠️ 使用默认 match.json 结构");
-        matchJson = { matches: [], newestMatchID: "" };
-      }
-    } else {
-      console.log("⚠️ match.json 不存在，将创建新文件");
-    }
-
-    // 2.3 解析比赛列表
+    // 2.2 解析比赛列表
     if (!matchRes.ok) {
       console.log("❌ Henrik API请求失败:", matchRes.status);
       throw new Error(`Henrik API响应错误: ${matchRes.status}`);
     }
     const matchData = await matchRes.json();
 
-    console.log("📊 当前最新 Match ID:", matchJson.newestMatchID || userJson.newestMatchID || "无");
+    console.log("📊 当前最新 Match ID:", userJson.newestMatchID || "无");
     console.log("👥 目标玩家数量:", userPuuids.length);
     console.log("🔍 获取到", matchData.data?.length || 0, "场比赛数据");
 
@@ -641,39 +606,33 @@ async function updateUserData() {
         }
 
         // 4.2 检查并准备比赛数据更新
-        if (newCustomMatches.length > 0 || latestMatchId !== matchJson.newestMatchID) {
+        if (newCustomMatches.length > 0 || latestMatchId !== userJson.newestMatchID) {
           console.log("🔄 需要更新比赛数据...");
           console.log("   - 新比赛数量:", newCustomMatches.length);
-          console.log("   - 当前 matchJson.newestMatchID:", matchJson.newestMatchID);
+          console.log("   - 当前 userJson.newestMatchID:", userJson.newestMatchID);
           console.log("   - 最新 latestMatchId:", latestMatchId);
 
           // 更新 newestMatchID
-          matchJson.newestMatchID = latestMatchId;
+          userJson.newestMatchID = latestMatchId;
 
-          // 添加新比赛到开头
+          // 保存每场新比赛为单独的文件
           if (newCustomMatches.length > 0) {
-            console.log("📝 添加新比赛到 match.json...");
-            // 反向添加，保持时间顺序
-            for (let i = newCustomMatches.length - 1; i >= 0; i--) {
-              matchJson.matches.unshift(newCustomMatches[i]);
+            console.log("📝 保存新比赛到 src/match/ 目录...");
+
+            for (const match of newCustomMatches) {
+              const matchId = match.metadata.matchid;
+              const matchPath = `src/match/${matchId}.json`;
+
+              promises.push(
+                saveMatchFile(match, matchPath)
+                  .then(() => console.log(`✅ 比赛 ${matchId} 已保存`))
+                  .catch(err => {
+                    console.error(`❌ 保存比赛 ${matchId} 失败:`, err);
+                    throw err;
+                  })
+              );
             }
-
-            // 按时间排序（最新的在前）
-            matchJson.matches.sort((a, b) => {
-              return (b.metadata.game_start || 0) - (a.metadata.game_start || 0);
-            });
           }
-
-          // 添加保存比赛数据的 Promise
-          console.log("📤 准备保存到 GitHub，sha:", matchDataSha ? "有" : "无");
-          promises.push(
-            saveMatchData(matchJson, matchDataSha)
-              .then(() => console.log(`✅ 比赛数据更新完成! (新增 ${newCustomMatches.length} 场比赛，总计 ${matchJson.matches.length} 场)`))
-              .catch(err => {
-                console.error("❌ 保存比赛数据失败:", err);
-                throw err;
-              })
-          );
         } else {
           console.log("ℹ️ 比赛数据无需更新");
         }
@@ -681,6 +640,16 @@ async function updateUserData() {
         // 4.3 并行执行所有更新操作
         if (promises.length > 0) {
           await Promise.all(promises);
+
+          // 如果有新比赛被保存，更新 leaderboard
+          if (newCustomMatches.length > 0) {
+            console.log("🏆 开始更新 leaderboard...");
+            try {
+              await updateLeaderboard();
+            } catch (error) {
+              console.error("❌ 更新 leaderboard 失败:", error);
+            }
+          }
         } else {
           console.log("✅ 所有数据已是最新，无需更新");
         }
@@ -717,27 +686,41 @@ async function saveUserData(userJson, sha) {
   });
 }
 
-// ---------- 保存比赛数据到 match.json ----------
-async function saveMatchData(matchJson, sha) {
+// ---------- 保存单个比赛文件到 src/match/ 目录 ----------
+async function saveMatchFile(matchData, matchPath) {
   // 正确的编码方式：支持 UTF-8 字符
-  const jsonString = JSON.stringify(matchJson, null, 4);
+  const jsonString = JSON.stringify(matchData, null, 4);
   const encoded = btoa(unescape(encodeURIComponent(jsonString)));
+
+  // 检查文件是否已存在
+  let sha = null;
+  try {
+    const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${matchPath}?ref=${config.branch}`, {
+      headers: { "Authorization": `token ${config.token}` }
+    });
+    if (checkRes.ok) {
+      const fileInfo = await checkRes.json();
+      sha = fileInfo.sha;
+      console.log(`⚠️ 比赛文件 ${matchPath} 已存在，将跳过`);
+      return; // 文件已存在，跳过
+    }
+  } catch (error) {
+    // 文件不存在，继续创建
+  }
 
   // 构建请求体
   const requestBody = {
-    message: "Update match data",
+    message: `Save match ${matchData.metadata.matchid}`,
     content: encoded,
     branch: config.branch
   };
 
-  // 只有在文件存在时才需要 sha
+  // 只有在文件存在时才需要 sha（虽然这里应该不会发生）
   if (sha) {
     requestBody.sha = sha;
   }
 
-  console.log("📝 正在保存 match.json...", sha ? "更新文件" : "创建新文件");
-
-  const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}`, {
+  const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${matchPath}`, {
     method: "PUT",
     headers: {
       "Authorization": `token ${config.token}`,
@@ -748,63 +731,11 @@ async function saveMatchData(matchJson, sha) {
 
   if (!res.ok) {
     const error = await res.json();
-    console.error("❌ 保存 match.json 失败:", error);
-    console.error("请求详情:", {
-      url: `https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}`,
-      sha: sha,
-      hasToken: !!config.token
-    });
-    throw new Error(`Failed to save match data: ${error.message || res.status}`);
+    console.error(`❌ 保存比赛文件 ${matchPath} 失败:`, error);
+    throw new Error(`Failed to save match file: ${error.message || res.status}`);
   }
 
-  console.log("✅ match.json 已成功保存到 GitHub");
-
-  // 验证 match.json 确实被写回后再更新 leaderboard
-  try {
-    console.log("🔍 验证 match.json 是否已成功写回...");
-    console.log("📍 验证读取路径:", `${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`);
-
-    // 重新读取文件以确认保存成功
-    const verifyRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
-      headers: { "Authorization": `token ${config.token}` }
-    });
-
-    console.log("📡 验证响应状态:", verifyRes.status, verifyRes.statusText);
-
-    if (verifyRes.ok) {
-      const verifyData = await verifyRes.json();
-      console.log("📦 GitHub API 响应数据:", {
-        name: verifyData.name,
-        path: verifyData.path,
-        size: verifyData.size,
-        sha: verifyData.sha,
-        contentLength: verifyData.content ? verifyData.content.length : 0
-      });
-
-      // 使用与第一次读取相同的解码方式
-      const decodedContent = atob(verifyData.content.replace(/\s/g, ''));
-      console.log("📄 验证阶段：解码后的 match.json 内容长度:", decodedContent.length);
-      console.log("📝 前100个字符:", decodedContent.substring(0, 100));
-
-      if (decodedContent.trim() !== '') {
-        try {
-          const verifyJson = JSON.parse(decodedContent);
-          console.log("✅ match.json 验证成功，包含", verifyJson.matches?.length || 0, "场比赛");
-        } catch (error) {
-          console.error("⚠️ match.json 验证警告：JSON 解析失败", error);
-        }
-      } else {
-        console.error("⚠️ match.json 验证警告：文件内容为空，但仍尝试更新 leaderboard");
-      }
-
-      // 无论验证是否成功，都尝试更新 leaderboard
-      await updateLeaderboard();
-    } else {
-      console.error("❌ match.json 验证失败：无法读取文件");
-    }
-  } catch (error) {
-    console.error("❌ 验证 match.json 或更新 leaderboard 失败:", error);
-  }
+  console.log(`✅ 比赛文件 ${matchPath} 已保存`);
 }
 
 // ---------- 全局变量和函数暴露 ----------
@@ -902,31 +833,46 @@ async function updateLeaderboard() {
       return;
     }
 
-    // 2. 加载 match.json 数据
-    let matchData;
+    // 2. 加载 src/match/ 目录下的所有比赛文件
+    let allMatches = [];
     try {
-      const matchRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
+      // 获取 src/match/ 目录下的文件列表
+      const dirRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`, {
         headers: { "Authorization": `token ${config.token}` }
       });
 
-      if (matchRes.ok) {
-        const matchFile = await matchRes.json();
-        const decodedMatchContent = atob(matchFile.content.replace(/\s/g, ''));
-        console.log("📄 leaderboard更新: 解码后的 match.json 内容长度:", decodedMatchContent.length);
+      if (dirRes.ok) {
+        const files = await dirRes.json();
+        console.log(`📊 leaderboard更新: 找到 ${files.length} 个比赛文件`);
 
-        if (decodedMatchContent.trim() === '') {
-          console.log("⚠️ match.json 文件为空，无法更新 leaderboard");
-          return;
-        }
+        // 并行读取所有比赛文件
+        const matchPromises = files
+          .filter(file => file.name.endsWith('.json'))
+          .map(async (file) => {
+            try {
+              const fileRes = await fetch(file.url, {
+                headers: { "Authorization": `token ${config.token}` }
+              });
+              if (fileRes.ok) {
+                const fileData = await fileRes.json();
+                const decodedContent = atob(fileData.content.replace(/\s/g, ''));
+                return JSON.parse(decodedContent);
+              }
+            } catch (error) {
+              console.error(`加载比赛文件 ${file.name} 失败:`, error);
+              return null;
+            }
+          });
 
-        matchData = JSON.parse(decodedMatchContent);
-        console.log("📊 leaderboard更新: match.json 中有", matchData.matches?.length || 0, "场比赛");
+        const matches = await Promise.all(matchPromises);
+        allMatches = matches.filter(match => match !== null);
+        console.log(`📊 leaderboard更新: 成功加载 ${allMatches.length} 场比赛`);
       } else {
-        console.log("match.json 不存在，无法更新 leaderboard");
+        console.log("src/match 目录不存在，无法更新 leaderboard");
         return;
       }
     } catch (error) {
-      console.error("加载 match.json 失败:", error);
+      console.error("加载比赛文件失败:", error);
       return;
     }
 
@@ -942,8 +888,8 @@ async function updateLeaderboard() {
     });
 
     // 4. 统计所有比赛的击杀数据
-    if (matchData.matches && matchData.matches.length > 0) {
-      matchData.matches.forEach(match => {
+    if (allMatches && allMatches.length > 0) {
+      allMatches.forEach(match => {
         if (match.rounds && match.rounds.length > 0) {
           match.rounds.forEach(round => {
             if (round.kills && round.kills.length > 0) {
