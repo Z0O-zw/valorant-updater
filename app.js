@@ -770,7 +770,9 @@ async function saveMatchData(matchJson, sha) {
 
     if (verifyRes.ok) {
       const verifyData = await verifyRes.json();
-      const verifyContent = atob(verifyData.content.replace(/\s/g, ''));
+      // 使用与保存时相反的解码方式
+      const decodedContent = atob(verifyData.content.replace(/\s/g, ''));
+      const verifyContent = decodeURIComponent(escape(decodedContent));
 
       if (verifyContent.trim() !== '') {
         const verifyJson = JSON.parse(verifyContent);
