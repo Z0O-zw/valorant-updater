@@ -766,8 +766,14 @@ async function saveUserData(userJson, sha) {
 // ---------- 保存单个比赛文件到 src/match/ 目录 ----------
 async function saveMatchFile(matchData, matchPath) {
   try {
+    // 创建匹配数据的副本，移除 rounds 字段以减少文件大小（保留 kills 字段用于统计）
+    const matchDataCopy = { ...matchData };
+    delete matchDataCopy.rounds;
+
+    console.log(`💾 保存比赛 ${matchData.metadata?.matchid}（已移除 rounds 字段，保留 kills 字段）`);
+
     // 正确的编码方式：支持 UTF-8 字符
-    const jsonString = JSON.stringify(matchData, null, 4);
+    const jsonString = JSON.stringify(matchDataCopy, null, 4);
     const encoded = btoa(unescape(encodeURIComponent(jsonString)));
 
     // 直接创建文件，不检查是否存在（因为我们已经在外部检查过了）
@@ -961,48 +967,46 @@ async function updateLeaderboard() {
       });
     });
 
-    // 4. 统计所有比赛的击杀数据
+    // 4. 统计所有比赛的击杀数据（使用 kills 字段）
     if (allMatches && allMatches.length > 0) {
       allMatches.forEach(match => {
-        if (match.rounds && match.rounds.length > 0) {
-          match.rounds.forEach(round => {
-            if (round.kills && round.kills.length > 0) {
-              round.kills.forEach(kill => {
-                const killerPuuid = kill.killer_puuid;
-                const victimPuuid = kill.victim_puuid;
+        if (match.kills && match.kills.length > 0) {
+          match.kills.forEach(kill => {
+            const killerPuuid = kill.killer?.puuid;
+            const victimPuuid = kill.victim?.puuid;
 
-                // 找到 killer 和 victim 在 leaderboard 中的记录
-                const killerPlayer = leaderboardData.players.find(p => p.puuid === killerPuuid);
-                const victimPlayer = leaderboardData.players.find(p => p.puuid === victimPuuid);
+            // 找到 killer 和 victim 在 leaderboard 中的记录
+            const killerPlayer = leaderboardData.players.find(p => p.puuid === killerPuuid);
+            const victimPlayer = leaderboardData.players.find(p => p.puuid === victimPuuid);
 
-                if (killerPlayer) {
-                  killerPlayer.kills += 1;
-                  // 更新对位击杀数据
-                  if (killerPlayer.killsAgainst[victimPuuid] !== undefined) {
-                    killerPlayer.killsAgainst[victimPuuid] += 1;
-                  }
-                }
+            if (killerPlayer) {
+              killerPlayer.kills += 1;
+              // 更新对位击杀数据
+              if (killerPlayer.killsAgainst[victimPuuid] !== undefined) {
+                killerPlayer.killsAgainst[victimPuuid] += 1;
+              }
+            }
 
-                if (victimPlayer) {
-                  victimPlayer.deaths += 1;
-                }
+            if (victimPlayer) {
+              victimPlayer.deaths += 1;
+            }
 
-                // 处理助攻统计
-                if (kill.assistants && kill.assistants.length > 0) {
-                  kill.assistants.forEach(assistant => {
-                    const assistantPuuid = assistant.assistant_puuid;
-                    const assistantPlayer = leaderboardData.players.find(p => p.puuid === assistantPuuid);
+            // 处理助攻统计
+            if (kill.assistants && kill.assistants.length > 0) {
+              kill.assistants.forEach(assistant => {
+                const assistantPuuid = assistant.puuid;
+                const assistantPlayer = leaderboardData.players.find(p => p.puuid === assistantPuuid);
 
-                    if (assistantPlayer) {
-                      assistantPlayer.assists += 1;
-                    }
-                  });
+                if (assistantPlayer) {
+                  assistantPlayer.assists += 1;
                 }
               });
             }
           });
         }
       });
+
+      console.log("📊 已完成击杀统计，包含对位击杀数据");
     }
 
     // 5. 保存更新后的 leaderboard 数据
