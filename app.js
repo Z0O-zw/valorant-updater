@@ -485,7 +485,7 @@ async function updateUserData() {
     );
 
     // Henrik API 请求（比赛列表）
-    const matchListUrl = `${config.henrikapiProxy || '/api/henrik'}?name=SuperLulino&tag=4088&region=eu&mode=custom`;
+    const matchListUrl = `${config.henrikapiProxy || '/api/henrik'}?name=SuperLulino&tag=4088&region=eu&mode=custom&size=8`;
     fetchPromises.push(fetch(matchListUrl));
 
     // 1.2 并行执行所有请求
@@ -759,11 +759,33 @@ async function saveMatchData(matchJson, sha) {
 
   console.log("✅ match.json 已成功保存到 GitHub");
 
-  // 保存成功后自动更新 leaderboard
+  // 验证 match.json 确实被写回后再更新 leaderboard
   try {
-    await updateLeaderboard();
+    console.log("🔍 验证 match.json 是否已成功写回...");
+
+    // 重新读取文件以确认保存成功
+    const verifyRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
+      headers: { "Authorization": `token ${config.token}` }
+    });
+
+    if (verifyRes.ok) {
+      const verifyData = await verifyRes.json();
+      const verifyContent = atob(verifyData.content.replace(/\s/g, ''));
+
+      if (verifyContent.trim() !== '') {
+        const verifyJson = JSON.parse(verifyContent);
+        console.log("✅ match.json 验证成功，包含", verifyJson.matches?.length || 0, "场比赛");
+
+        // 确认写回成功后，开始更新 leaderboard
+        await updateLeaderboard();
+      } else {
+        console.error("❌ match.json 验证失败：文件为空");
+      }
+    } else {
+      console.error("❌ match.json 验证失败：无法读取文件");
+    }
   } catch (error) {
-    console.error("❌ 自动更新 leaderboard 失败:", error);
+    console.error("❌ 验证 match.json 或更新 leaderboard 失败:", error);
   }
 }
 
