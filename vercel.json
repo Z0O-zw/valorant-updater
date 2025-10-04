@@ -5,7 +5,7 @@
     }
   },
   "env": {
-    "Github_TOKEN": "@github_token",
-    "Henrik_APIKEY": "@henrik_apikey"
+    "Github_TOKEN": "@Github_TOKEN",
+    "Henrik_APIKEY": "@Henrik_APIKEY"
   }
 }
