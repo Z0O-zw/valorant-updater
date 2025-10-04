@@ -458,36 +458,45 @@ function renderSync() {
 // ---------- 确保 src/match 目录存在 ----------
 async function ensureMatchDirectoryExists() {
   try {
-    // 尝试创建一个 README 文件来确保目录存在
-    const readmePath = "src/match/README.md";
-    const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${readmePath}?ref=${config.branch}`, {
+    // 检查 src/match 目录是否存在
+    const dirRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`, {
       headers: { Authorization: `token ${config.token}` }
     });
 
-    if (!checkRes.ok) {
-      // README 不存在，创建它
-      const content = "# Match Files\n\nThis directory contains individual match JSON files.";
-      const encoded = btoa(content);
+    if (dirRes.ok) {
+      console.log("📂 src/match 目录已存在");
+      return true;
+    }
 
-      const createRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${readmePath}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `token ${config.token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: "Create match directory README",
-          content: encoded,
-          branch: config.branch
-        })
-      });
+    // 目录不存在，创建 README 文件来建立目录
+    console.log("📂 正在创建 src/match 目录...");
+    const readmePath = "src/match/README.md";
+    const content = "# Match Files\n\nThis directory contains individual match JSON files.";
+    const encoded = btoa(content);
 
-      if (createRes.ok) {
-        console.log("✅ src/match 目录已创建");
-      }
+    const createRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${readmePath}`, {
+      method: "PUT",
+      headers: {
+        "Authorization": `token ${config.token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Create match directory README",
+        content: encoded,
+        branch: config.branch
+      })
+    });
+
+    if (createRes.ok) {
+      console.log("✅ src/match 目录已创建");
+      return true;
+    } else {
+      console.error("❌ 创建 src/match 目录失败");
+      return false;
     }
   } catch (error) {
-    console.error("创建 match 目录时出错:", error);
+    console.error("检查/创建 match 目录时出错:", error);
+    return false;
   }
 }
 
@@ -500,7 +509,12 @@ async function updateUserData() {
     console.log("📥 开始检查数据更新...");
 
     // 确保 match 目录存在
-    await ensureMatchDirectoryExists();
+    const dirExists = await ensureMatchDirectoryExists();
+    if (!dirExists) {
+      console.error("❌ 无法创建 match 目录，跳过比赛数据更新");
+      showLoadingIndicator(false);
+      return;
+    }
 
     // =========================
     // 第一步：并行获取所有需要的数据
@@ -678,22 +692,22 @@ async function updateUserData() {
           // 更新 newestMatchID
           userJson.newestMatchID = latestMatchId;
 
-          // 保存每场新比赛为单独的文件
+          // 串行保存每场新比赛为单独的文件
           if (newCustomMatches.length > 0) {
-            console.log("📝 保存新比赛到 src/match/ 目录...");
+            console.log("📝 开始串行保存新比赛到 src/match/ 目录...");
 
+            // 串行保存，避免并发冲突
             for (const match of newCustomMatches) {
               const matchId = match.metadata.matchid;
               const matchPath = `src/match/${matchId}.json`;
 
-              promises.push(
-                saveMatchFile(match, matchPath)
-                  .then(() => console.log(`✅ 比赛 ${matchId} 已保存`))
-                  .catch(err => {
-                    console.error(`❌ 保存比赛 ${matchId} 失败:`, err);
-                    throw err;
-                  })
-              );
+              try {
+                await saveMatchFile(match, matchPath);
+                console.log(`✅ 比赛 ${matchId} 已保存`);
+              } catch (err) {
+                console.error(`❌ 保存比赛 ${matchId} 失败:`, err);
+                // 继续保存其他文件，不中断整个过程
+              }
             }
           }
         } else {
@@ -775,9 +789,10 @@ async function saveMatchFile(matchData, matchPath) {
     if (!res.ok) {
       const error = await res.json();
 
-      // 如果是 422 错误且提示文件已存在，则跳过
-      if (res.status === 422 && error.message?.includes('already exists')) {
-        console.log(`⚠️ 比赛文件 ${matchPath} 已存在，跳过`);
+      // 如果是文件已存在相关的错误，则跳过
+      if ((res.status === 422 && error.message?.includes('already exists')) ||
+          (res.status === 409)) {
+        console.log(`⚠️ 比赛文件 ${matchPath} 可能已存在，跳过`);
         return;
       }
 
@@ -785,10 +800,15 @@ async function saveMatchFile(matchData, matchPath) {
       throw new Error(`Failed to save match file: ${error.message || res.status}`);
     }
 
-    console.log(`✅ 比赛文件 ${matchPath} 已保存`);
+    // 保存成功
+    // console.log 将在外部调用处处理
   } catch (error) {
-    console.error(`❌ 保存比赛文件 ${matchPath} 时发生错误:`, error);
-    // 不重新抛出错误，避免中断整个批量保存过程
+    // 如果是我们手动抛出的错误，继续抛出
+    if (error.message?.includes('Failed to save match file')) {
+      throw error;
+    }
+    // 其他错误则记录但不抛出
+    console.error(`❌ 保存比赛文件 ${matchPath} 时发生网络错误:`, error);
   }
 }
 
