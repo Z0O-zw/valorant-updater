@@ -916,13 +916,38 @@ async function updateLeaderboard() {
     let allMatches = [];
     try {
       // 获取 src/match/ 目录下的文件列表
-      const dirRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`, {
+      const apiUrl = `https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`;
+      console.log(`🔗 GitHub API URL: ${apiUrl}`);
+      console.log(`📋 配置信息:`, {
+        repo: config.repo,
+        branch: config.branch,
+        hasToken: !!config.token
+      });
+
+      const dirRes = await fetch(apiUrl, {
         headers: { "Authorization": `token ${config.token}` }
+      });
+
+      console.log(`📡 GitHub API 响应:`, {
+        status: dirRes.status,
+        statusText: dirRes.statusText,
+        ok: dirRes.ok
       });
 
       if (dirRes.ok) {
         const files = await dirRes.json();
-        console.log(`📊 leaderboard更新: 找到 ${files.length} 个比赛文件`);
+        console.log(`📊 leaderboard更新: 找到 ${files.length} 个文件`);
+
+        // 显示所有文件的详细信息
+        files.forEach(file => {
+          console.log(`📁 文件详情:`, {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            endsWithJson: file.name.endsWith('.json'),
+            notReadme: file.name !== 'README.md'
+          });
+        });
 
         // 过滤出比赛文件（排除 README.md）
         const matchFiles = files.filter(file =>
