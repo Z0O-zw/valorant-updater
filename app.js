@@ -5,6 +5,7 @@ let config = {
   path: "data.json",
   token: "",
   userDataPath: "src/user.json",
+  matchDataPath: "src/match.json",
   henrikapiKey: "",
   henrikapiProxy: "/api/henrik"
 };
@@ -454,51 +455,91 @@ function renderSync() {
   `;
 }
 
-// ---------- 用户数据更新 ----------
+// ---------- 用户数据和比赛数据更新 ----------
 async function updateUserData() {
   // 显示加载指示器
   showLoadingIndicator(true);
 
   try {
-    console.log("📥 开始检查用户数据更新...");
+    console.log("📥 开始检查数据更新...");
 
-    // 1. 获取当前的 user.json
-    const userDataRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}?ref=${config.branch}`, {
-      headers: { Authorization: `token ${config.token}` }
-    });
+    // =========================
+    // 第一步：并行获取所有需要的数据
+    // =========================
 
+    // 1.1 准备所有的 fetch 请求
+    const fetchPromises = [];
+
+    // user.json 请求
+    fetchPromises.push(
+      fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}?ref=${config.branch}`, {
+        headers: { Authorization: `token ${config.token}` }
+      })
+    );
+
+    // match.json 请求
+    fetchPromises.push(
+      fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
+        headers: { Authorization: `token ${config.token}` }
+      })
+    );
+
+    // Henrik API 请求（比赛列表）
+    const matchListUrl = `${config.henrikapiProxy || '/api/henrik'}?name=SuperLulino&tag=4088&region=eu&mode=custom`;
+    fetchPromises.push(fetch(matchListUrl));
+
+    // 1.2 并行执行所有请求
+    console.log("🔄 正在并行获取数据...");
+    const [userDataRes, matchDataRes, matchRes] = await Promise.all(fetchPromises);
+
+    // =========================
+    // 第二步：解析响应数据
+    // =========================
+
+    // 2.1 解析 user.json
     if (!userDataRes.ok) {
       console.log("⚠️ user.json not found on GitHub, skipping update");
       return;
     }
-
     const userData = await userDataRes.json();
     const userJson = JSON.parse(atob(userData.content.replace(/\s/g, '')));
+    const userPuuids = userJson.players.map(p => p.puuid);
 
-    console.log("📊 当前最新 Match ID:", userJson.newestMatchID || "无");
+    // 2.2 解析 match.json（可能不存在）
+    let matchJson = { matches: [], newestMatchID: "" };
+    let matchDataSha = null;
 
-    // 2. 获取最新的比赛列表 (通过代理 API)
-    const matchListUrl = `${config.henrikapiProxy || '/api/henrik'}?name=SuperLulino&tag=4088&region=eu&mode=custom`;
-    console.log("🔍 正在查询最新比赛...");
+    if (matchDataRes.ok) {
+      const matchDataInfo = await matchDataRes.json();
+      matchDataSha = matchDataInfo.sha;
+      matchJson = JSON.parse(atob(matchDataInfo.content.replace(/\s/g, '')));
+      console.log("📊 当前 match.json 中有", matchJson.matches.length, "场比赛");
+    } else {
+      console.log("⚠️ match.json 不存在，将创建新文件");
+    }
 
-    const matchRes = await fetch(matchListUrl);
-
+    // 2.3 解析比赛列表
     if (!matchRes.ok) {
       console.log("❌ Henrik API请求失败:", matchRes.status);
       throw new Error(`Henrik API响应错误: ${matchRes.status}`);
     }
-
     const matchData = await matchRes.json();
-    const userPuuids = userJson.players.map(p => p.puuid);
 
+    console.log("📊 当前最新 Match ID:", matchJson.newestMatchID || userJson.newestMatchID || "无");
     console.log("👥 目标玩家数量:", userPuuids.length);
+    console.log("🔍 获取到", matchData.data?.length || 0, "场比赛数据");
 
-    // 3. 查找最新的自定义模式比赛
+    // =========================
+    // 第三步：一次性处理所有比赛数据
+    // =========================
+
     if (matchData.data && Array.isArray(matchData.data)) {
       let latestCustomMatch = null;
+      const newCustomMatches = [];
 
-      // 按时间从新到旧排序，找到第一个包含所有8个玩家的自定义比赛
+      // 3.1 一次遍历，收集所有需要的信息
       for (const match of matchData.data) {
+        // 只处理自定义模式
         if (match.metadata?.mode === "custom" || match.metadata?.mode_id === "custom") {
           const matchPlayers = match.players?.all_players || [];
           const matchPuuids = matchPlayers.map(p => p.puuid);
@@ -507,59 +548,105 @@ async function updateUserData() {
           const allPuuidsMatch = userPuuids.every(puuid => matchPuuids.includes(puuid));
 
           if (allPuuidsMatch && matchPuuids.length === 8) {
-            latestCustomMatch = match;
-            console.log("🎮 找到最新自定义比赛:", match.metadata.matchid);
-            break;
+            // 记录最新的比赛（第一个就是最新的）
+            if (!latestCustomMatch) {
+              latestCustomMatch = match;
+              console.log("🎮 找到最新自定义比赛:", match.metadata.matchid);
+            }
+
+            // 检查是否是新比赛（不在现有的 match.json 中）
+            const matchExists = matchJson.matches.some(m => m.metadata.matchid === match.metadata.matchid);
+            if (!matchExists) {
+              newCustomMatches.push(match);
+              console.log("🆕 发现新比赛:", match.metadata.matchid);
+            }
           }
         }
       }
 
-      // 4. 比较 Match ID 并更新
+      // =========================
+      // 第四步：根据需要更新数据
+      // =========================
+
       if (latestCustomMatch) {
         const latestMatchId = latestCustomMatch.metadata.matchid;
+        const promises = []; // 存储所有更新操作
 
-        if (latestMatchId === userJson.newestMatchID) {
-          console.log("✅ 数据已是最新，无需更新");
-          return;
+        // 4.1 检查并准备用户数据更新
+        if (latestMatchId !== userJson.newestMatchID) {
+          console.log("🔄 需要更新用户数据...");
+
+          // 更新 newestMatchID
+          userJson.newestMatchID = latestMatchId;
+
+          // 更新每个玩家的信息（基于最新比赛）
+          const matchPlayers = latestCustomMatch.players.all_players;
+          let updatedCount = 0;
+
+          userJson.players = userJson.players.map(player => {
+            const matchPlayer = matchPlayers.find(p => p.puuid === player.puuid);
+            if (matchPlayer) {
+              const oldInfo = { name: player.name, tag: player.tag, card: player.card };
+
+              player.name = matchPlayer.name;
+              player.tag = matchPlayer.tag;
+              player.card = matchPlayer.assets?.card?.small || "";
+
+              // 记录变化
+              if (oldInfo.name !== player.name || oldInfo.tag !== player.tag || oldInfo.card !== player.card) {
+                console.log(`👤 更新玩家: ${oldInfo.name}#${oldInfo.tag} → ${player.name}#${player.tag}`);
+                updatedCount++;
+              }
+            }
+            return player;
+          });
+
+          // 添加保存用户数据的 Promise
+          promises.push(
+            saveUserData(userJson, userData.sha)
+              .then(() => console.log(`✅ 用户数据更新完成! (${updatedCount} 个玩家信息更新)`))
+          );
         }
 
-        console.log("🔄 发现新比赛，开始更新用户数据...");
-        console.log("📝 新 Match ID:", latestMatchId);
+        // 4.2 检查并准备比赛数据更新
+        if (newCustomMatches.length > 0 || latestMatchId !== matchJson.newestMatchID) {
+          console.log("🔄 需要更新比赛数据...");
 
-        // 更新 newestMatchID
-        userJson.newestMatchID = latestMatchId;
+          // 更新 newestMatchID
+          matchJson.newestMatchID = latestMatchId;
 
-        // 更新每个玩家的信息（基于 puuid 匹配）
-        const matchPlayers = latestCustomMatch.players.all_players;
-        let updatedCount = 0;
-
-        userJson.players = userJson.players.map(player => {
-          const matchPlayer = matchPlayers.find(p => p.puuid === player.puuid);
-          if (matchPlayer) {
-            const oldInfo = { name: player.name, tag: player.tag, card: player.card };
-
-            player.name = matchPlayer.name;
-            player.tag = matchPlayer.tag;
-            player.card = matchPlayer.assets?.card?.small || "";
-
-            // 记录变化
-            if (oldInfo.name !== player.name || oldInfo.tag !== player.tag || oldInfo.card !== player.card) {
-              console.log(`👤 更新玩家: ${oldInfo.name}#${oldInfo.tag} → ${player.name}#${player.tag}`);
-              updatedCount++;
+          // 添加新比赛到开头
+          if (newCustomMatches.length > 0) {
+            // 反向添加，保持时间顺序
+            for (let i = newCustomMatches.length - 1; i >= 0; i--) {
+              matchJson.matches.unshift(newCustomMatches[i]);
             }
-          }
-          return player;
-        });
 
-        // 保存更新后的数据
-        await saveUserData(userJson, userData.sha);
-        console.log(`✅ 用户数据更新完成! (${updatedCount} 个玩家信息更新)`);
+            // 按时间排序（最新的在前）
+            matchJson.matches.sort((a, b) => {
+              return (b.metadata.game_start || 0) - (a.metadata.game_start || 0);
+            });
+          }
+
+          // 添加保存比赛数据的 Promise
+          promises.push(
+            saveMatchData(matchJson, matchDataSha)
+              .then(() => console.log(`✅ 比赛数据更新完成! (新增 ${newCustomMatches.length} 场比赛，总计 ${matchJson.matches.length} 场)`))
+          );
+        }
+
+        // 4.3 并行执行所有更新操作
+        if (promises.length > 0) {
+          await Promise.all(promises);
+        } else {
+          console.log("✅ 所有数据已是最新，无需更新");
+        }
       } else {
         console.log("🔍 未找到包含所有目标玩家的自定义比赛");
       }
     }
   } catch (error) {
-    console.error("❌ 更新用户数据时发生错误:", error);
+    console.error("❌ 更新数据时发生错误:", error);
     showErrorMessage("数据更新失败: " + error.message);
   } finally {
     // 隐藏加载指示器
@@ -585,6 +672,35 @@ async function saveUserData(userJson, sha) {
       branch: config.branch
     })
   });
+}
+
+// ---------- 保存比赛数据到 match.json ----------
+async function saveMatchData(matchJson, sha) {
+  // 正确的编码方式：支持 UTF-8 字符
+  const jsonString = JSON.stringify(matchJson, null, 4);
+  const encoded = btoa(unescape(encodeURIComponent(jsonString)));
+
+  const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `token ${config.token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "Update match data",
+      content: encoded,
+      sha: sha,
+      branch: config.branch
+    })
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    console.error("保存 match.json 失败:", error);
+    throw new Error(`Failed to save match data: ${error.message}`);
+  }
+
+  console.log("✅ match.json 已更新");
 }
 
 // ---------- 全局变量和函数暴露 ----------
