@@ -709,17 +709,8 @@ async function updateUserData() {
                 // 继续保存其他文件，不中断整个过程
               }
             }
-          }
-        } else {
-          console.log("ℹ️ 比赛数据无需更新");
-        }
 
-        // 4.3 并行执行所有更新操作
-        if (promises.length > 0) {
-          await Promise.all(promises);
-
-          // 如果有新比赛被保存，更新 leaderboard
-          if (newCustomMatches.length > 0) {
+            // 新比赛保存完成后，更新 leaderboard
             console.log("🏆 开始更新 leaderboard...");
             try {
               await updateLeaderboard();
@@ -727,6 +718,14 @@ async function updateUserData() {
               console.error("❌ 更新 leaderboard 失败:", error);
             }
           }
+        } else {
+          console.log("ℹ️ 比赛数据无需更新");
+        }
+
+        // 4.3 执行用户数据更新操作
+        if (promises.length > 0) {
+          await Promise.all(promises);
+          console.log("✅ 用户数据更新完成");
         } else {
           console.log("✅ 所有数据已是最新，无需更新");
         }
