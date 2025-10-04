@@ -938,6 +938,12 @@ async function updateLeaderboard() {
         const files = await dirRes.json();
         console.log(`📊 leaderboard更新: 找到 ${files.length} 个文件`);
 
+        // 打印完整的文件列表用于调试
+        console.log(`📂 src/match 目录完整文件列表:`);
+        files.forEach((file, index) => {
+          console.log(`  ${index + 1}. ${file.name} (${file.type}, ${file.size} bytes)`);
+        });
+
         // 显示所有文件的详细信息
         files.forEach(file => {
           console.log(`📁 文件详情:`, {
