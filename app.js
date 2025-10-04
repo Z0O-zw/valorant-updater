@@ -843,7 +843,16 @@ async function updateLeaderboard() {
 
       if (leaderboardRes.ok) {
         const leaderboardFile = await leaderboardRes.json();
-        leaderboardData = JSON.parse(atob(leaderboardFile.content));
+        const decodedLeaderboardContent = atob(leaderboardFile.content.replace(/\s/g, ''));
+        console.log("📄 leaderboard更新: 解码后的 leaderboard.json 内容长度:", decodedLeaderboardContent.length);
+
+        if (decodedLeaderboardContent.trim() === '') {
+          console.log("⚠️ leaderboard.json 文件为空，无法更新");
+          return;
+        }
+
+        leaderboardData = JSON.parse(decodedLeaderboardContent);
+        console.log("🏆 leaderboard更新: leaderboard.json 中有", leaderboardData.players?.length || 0, "个玩家");
       } else {
         console.log("leaderboard.json 不存在，使用默认数据");
         return;
@@ -862,7 +871,16 @@ async function updateLeaderboard() {
 
       if (matchRes.ok) {
         const matchFile = await matchRes.json();
-        matchData = JSON.parse(atob(matchFile.content));
+        const decodedMatchContent = atob(matchFile.content.replace(/\s/g, ''));
+        console.log("📄 leaderboard更新: 解码后的 match.json 内容长度:", decodedMatchContent.length);
+
+        if (decodedMatchContent.trim() === '') {
+          console.log("⚠️ match.json 文件为空，无法更新 leaderboard");
+          return;
+        }
+
+        matchData = JSON.parse(decodedMatchContent);
+        console.log("📊 leaderboard更新: match.json 中有", matchData.matches?.length || 0, "场比赛");
       } else {
         console.log("match.json 不存在，无法更新 leaderboard");
         return;
