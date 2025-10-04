@@ -726,6 +726,13 @@ async function saveMatchData(matchJson, sha) {
   }
 
   console.log("✅ match.json 已成功保存到 GitHub");
+
+  // 保存成功后自动更新 leaderboard
+  try {
+    await updateLeaderboard();
+  } catch (error) {
+    console.error("❌ 自动更新 leaderboard 失败:", error);
+  }
 }
 
 // ---------- 全局变量和函数暴露 ----------
@@ -788,6 +795,169 @@ function showErrorMessage(message) {
   setTimeout(() => {
     document.body.removeChild(errorDiv);
   }, 5000);
+}
+
+// ---------- Leaderboard 更新 ----------
+async function updateLeaderboard() {
+  try {
+    console.log("🏆 开始更新 leaderboard...");
+
+    // 1. 加载当前的 leaderboard 数据
+    let leaderboardData;
+    try {
+      const leaderboardRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json?ref=${config.branch}`, {
+        headers: { "Authorization": `token ${config.token}` }
+      });
+
+      if (leaderboardRes.ok) {
+        const leaderboardFile = await leaderboardRes.json();
+        leaderboardData = JSON.parse(atob(leaderboardFile.content));
+      } else {
+        console.log("leaderboard.json 不存在，使用默认数据");
+        return;
+      }
+    } catch (error) {
+      console.error("加载 leaderboard.json 失败:", error);
+      return;
+    }
+
+    // 2. 加载 match.json 数据
+    let matchData;
+    try {
+      const matchRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}?ref=${config.branch}`, {
+        headers: { "Authorization": `token ${config.token}` }
+      });
+
+      if (matchRes.ok) {
+        const matchFile = await matchRes.json();
+        matchData = JSON.parse(atob(matchFile.content));
+      } else {
+        console.log("match.json 不存在，无法更新 leaderboard");
+        return;
+      }
+    } catch (error) {
+      console.error("加载 match.json 失败:", error);
+      return;
+    }
+
+    // 3. 重置所有统计数据
+    leaderboardData.players.forEach(player => {
+      player.kills = 0;
+      player.deaths = 0;
+      player.assists = 0;
+      // 重置对位击杀数据
+      Object.keys(player.killsAgainst).forEach(puuid => {
+        player.killsAgainst[puuid] = 0;
+      });
+    });
+
+    // 4. 统计所有比赛的击杀数据
+    if (matchData.matches && matchData.matches.length > 0) {
+      matchData.matches.forEach(match => {
+        if (match.rounds && match.rounds.length > 0) {
+          match.rounds.forEach(round => {
+            if (round.kills && round.kills.length > 0) {
+              round.kills.forEach(kill => {
+                const killerPuuid = kill.killer_puuid;
+                const victimPuuid = kill.victim_puuid;
+
+                // 找到 killer 和 victim 在 leaderboard 中的记录
+                const killerPlayer = leaderboardData.players.find(p => p.puuid === killerPuuid);
+                const victimPlayer = leaderboardData.players.find(p => p.puuid === victimPuuid);
+
+                if (killerPlayer) {
+                  killerPlayer.kills += 1;
+                  // 更新对位击杀数据
+                  if (killerPlayer.killsAgainst[victimPuuid] !== undefined) {
+                    killerPlayer.killsAgainst[victimPuuid] += 1;
+                  }
+                }
+
+                if (victimPlayer) {
+                  victimPlayer.deaths += 1;
+                }
+
+                // 处理助攻统计
+                if (kill.assistants && kill.assistants.length > 0) {
+                  kill.assistants.forEach(assistant => {
+                    const assistantPuuid = assistant.assistant_puuid;
+                    const assistantPlayer = leaderboardData.players.find(p => p.puuid === assistantPuuid);
+
+                    if (assistantPlayer) {
+                      assistantPlayer.assists += 1;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+
+    // 5. 保存更新后的 leaderboard 数据
+    await saveLeaderboardData(leaderboardData);
+    console.log("✅ leaderboard.json 更新完成");
+
+  } catch (error) {
+    console.error("❌ 更新 leaderboard 失败:", error);
+    throw error;
+  }
+}
+
+async function saveLeaderboardData(leaderboardData) {
+  try {
+    // 获取当前文件的 SHA（用于更新）
+    let sha = null;
+    try {
+      const response = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json?ref=${config.branch}`, {
+        headers: { "Authorization": `token ${config.token}` }
+      });
+      if (response.ok) {
+        const fileData = await response.json();
+        sha = fileData.sha;
+      }
+    } catch (error) {
+      console.log("获取 leaderboard.json SHA 失败，将创建新文件");
+    }
+
+    // 准备请求体
+    const content = JSON.stringify(leaderboardData, null, 4);
+    const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
+    const requestBody = {
+      message: "Update leaderboard data",
+      content: encodedContent,
+      branch: config.branch
+    };
+
+    // 只有在文件存在时才需要 sha
+    if (sha) {
+      requestBody.sha = sha;
+    }
+
+    console.log("📝 正在保存 leaderboard.json...", sha ? "更新文件" : "创建新文件");
+
+    const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json`, {
+      method: "PUT",
+      headers: {
+        "Authorization": `token ${config.token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      console.error("❌ 保存 leaderboard.json 失败:", error);
+      throw new Error(`Failed to save leaderboard data: ${error.message || res.status}`);
+    }
+
+    console.log("✅ leaderboard.json 已成功保存到 GitHub");
+  } catch (error) {
+    console.error("❌ 保存 leaderboard.json 失败:", error);
+    throw error;
+  }
 }
 
 // ---------- 初始化 ----------
