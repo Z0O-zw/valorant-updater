@@ -455,6 +455,42 @@ function renderSync() {
   `;
 }
 
+// ---------- 确保 src/match 目录存在 ----------
+async function ensureMatchDirectoryExists() {
+  try {
+    // 尝试创建一个 README 文件来确保目录存在
+    const readmePath = "src/match/README.md";
+    const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${readmePath}?ref=${config.branch}`, {
+      headers: { Authorization: `token ${config.token}` }
+    });
+
+    if (!checkRes.ok) {
+      // README 不存在，创建它
+      const content = "# Match Files\n\nThis directory contains individual match JSON files.";
+      const encoded = btoa(content);
+
+      const createRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${readmePath}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `token ${config.token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "Create match directory README",
+          content: encoded,
+          branch: config.branch
+        })
+      });
+
+      if (createRes.ok) {
+        console.log("✅ src/match 目录已创建");
+      }
+    }
+  } catch (error) {
+    console.error("创建 match 目录时出错:", error);
+  }
+}
+
 // ---------- 用户数据和比赛数据更新 ----------
 async function updateUserData() {
   // 显示加载指示器
@@ -462,6 +498,9 @@ async function updateUserData() {
 
   try {
     console.log("📥 开始检查数据更新...");
+
+    // 确保 match 目录存在
+    await ensureMatchDirectoryExists();
 
     // =========================
     // 第一步：并行获取所有需要的数据
@@ -534,7 +573,28 @@ async function updateUserData() {
       let latestCustomMatch = null;
       const newCustomMatches = [];
 
-      // 3.1 一次遍历，收集所有需要的信息
+      // 3.1 先获取已存在的比赛文件列表
+      let existingMatchIds = new Set();
+      try {
+        const dirRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`, {
+          headers: { Authorization: `token ${config.token}` }
+        });
+
+        if (dirRes.ok) {
+          const files = await dirRes.json();
+          files.forEach(file => {
+            if (file.name.endsWith('.json') && file.name !== 'README.md') {
+              const matchId = file.name.replace('.json', '');
+              existingMatchIds.add(matchId);
+            }
+          });
+          console.log(`📂 已存在 ${existingMatchIds.size} 个比赛文件`);
+        }
+      } catch (error) {
+        console.log("📂 src/match 目录可能不存在，将创建新文件");
+      }
+
+      // 3.2 遍历比赛数据，收集所有需要的信息
       for (const match of matchData.data) {
         // 只处理自定义模式
         if (match.metadata?.mode === "custom" || match.metadata?.mode_id === "custom") {
@@ -545,20 +605,16 @@ async function updateUserData() {
           const allPuuidsMatch = userPuuids.every(puuid => matchPuuids.includes(puuid));
 
           if (allPuuidsMatch && matchPuuids.length === 8) {
+            const matchId = match.metadata.matchid;
+
             // 记录最新的比赛（第一个就是最新的）
             if (!latestCustomMatch) {
               latestCustomMatch = match;
-              console.log("🎮 找到最新自定义比赛:", match.metadata.matchid);
+              console.log("🎮 找到最新自定义比赛:", matchId);
             }
 
-            // 检查是否是新比赛（检查文件是否已存在）
-            const matchId = match.metadata.matchid;
-            const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/match/${matchId}.json?ref=${config.branch}`, {
-              headers: { Authorization: `token ${config.token}` }
-            });
-
-            if (!checkRes.ok) {
-              // 文件不存在，是新比赛
+            // 检查是否是新比赛
+            if (!existingMatchIds.has(matchId)) {
               newCustomMatches.push(match);
               console.log("🆕 发现新比赛:", matchId);
             } else {
@@ -695,54 +751,45 @@ async function saveUserData(userJson, sha) {
 
 // ---------- 保存单个比赛文件到 src/match/ 目录 ----------
 async function saveMatchFile(matchData, matchPath) {
-  // 正确的编码方式：支持 UTF-8 字符
-  const jsonString = JSON.stringify(matchData, null, 4);
-  const encoded = btoa(unescape(encodeURIComponent(jsonString)));
-
-  // 检查文件是否已存在
-  let sha = null;
   try {
-    const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${matchPath}?ref=${config.branch}`, {
-      headers: { "Authorization": `token ${config.token}` }
+    // 正确的编码方式：支持 UTF-8 字符
+    const jsonString = JSON.stringify(matchData, null, 4);
+    const encoded = btoa(unescape(encodeURIComponent(jsonString)));
+
+    // 直接创建文件，不检查是否存在（因为我们已经在外部检查过了）
+    const requestBody = {
+      message: `Save match ${matchData.metadata.matchid}`,
+      content: encoded,
+      branch: config.branch
+    };
+
+    const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${matchPath}`, {
+      method: "PUT",
+      headers: {
+        "Authorization": `token ${config.token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestBody)
     });
-    if (checkRes.ok) {
-      const fileInfo = await checkRes.json();
-      sha = fileInfo.sha;
-      console.log(`⚠️ 比赛文件 ${matchPath} 已存在，将跳过`);
-      return; // 文件已存在，跳过
+
+    if (!res.ok) {
+      const error = await res.json();
+
+      // 如果是 422 错误且提示文件已存在，则跳过
+      if (res.status === 422 && error.message?.includes('already exists')) {
+        console.log(`⚠️ 比赛文件 ${matchPath} 已存在，跳过`);
+        return;
+      }
+
+      console.error(`❌ 保存比赛文件 ${matchPath} 失败:`, error);
+      throw new Error(`Failed to save match file: ${error.message || res.status}`);
     }
+
+    console.log(`✅ 比赛文件 ${matchPath} 已保存`);
   } catch (error) {
-    // 文件不存在，继续创建
+    console.error(`❌ 保存比赛文件 ${matchPath} 时发生错误:`, error);
+    // 不重新抛出错误，避免中断整个批量保存过程
   }
-
-  // 构建请求体
-  const requestBody = {
-    message: `Save match ${matchData.metadata.matchid}`,
-    content: encoded,
-    branch: config.branch
-  };
-
-  // 只有在文件存在时才需要 sha（虽然这里应该不会发生）
-  if (sha) {
-    requestBody.sha = sha;
-  }
-
-  const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${matchPath}`, {
-    method: "PUT",
-    headers: {
-      "Authorization": `token ${config.token}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(requestBody)
-  });
-
-  if (!res.ok) {
-    const error = await res.json();
-    console.error(`❌ 保存比赛文件 ${matchPath} 失败:`, error);
-    throw new Error(`Failed to save match file: ${error.message || res.status}`);
-  }
-
-  console.log(`✅ 比赛文件 ${matchPath} 已保存`);
 }
 
 // ---------- 全局变量和函数暴露 ----------
