@@ -1,0 +1,16 @@
+# Project instructions (local only)
+CLAUDE.md
+
+# Test folder
+Test/
+
+# macOS system files
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log
+
+# Backup files
+*.bak
+*~

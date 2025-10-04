@@ -1,0 +1,65 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f8fafc;
+}
+
+nav button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: black;
+  color: white;
+}
+
+.card {
+  background: white;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.player-btn {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.player-btn.selected {
+  background: black;
+  color: white;
+}
+
+img.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ddd;
+  padding: 6px;
+  text-align: center;
+}
+
+.small {
+  font-size: 12px;
+  color: #555;
+}
