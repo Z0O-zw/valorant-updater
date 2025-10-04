@@ -551,11 +551,18 @@ async function updateUserData() {
               console.log("🎮 找到最新自定义比赛:", match.metadata.matchid);
             }
 
-            // 检查是否是新比赛（不在现有的 match.json 中）
-            const matchExists = matchJson.matches.some(m => m.metadata.matchid === match.metadata.matchid);
-            if (!matchExists) {
+            // 检查是否是新比赛（检查文件是否已存在）
+            const matchId = match.metadata.matchid;
+            const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/match/${matchId}.json?ref=${config.branch}`, {
+              headers: { Authorization: `token ${config.token}` }
+            });
+
+            if (!checkRes.ok) {
+              // 文件不存在，是新比赛
               newCustomMatches.push(match);
-              console.log("🆕 发现新比赛:", match.metadata.matchid);
+              console.log("🆕 发现新比赛:", matchId);
+            } else {
+              console.log("⏭️ 比赛已存在:", matchId);
             }
           }
         }
