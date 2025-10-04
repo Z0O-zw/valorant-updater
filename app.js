@@ -1,6 +1,6 @@
 // ---------- 配置 ----------
 const repo = "LZWuuu/valorant-updater";
-const branch = "master";
+const branch = "main";
 const path = "data.json";
 const token = "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";
 const userDataPath = "src/user.json";
