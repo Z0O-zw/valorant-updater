@@ -777,12 +777,12 @@ async function saveMatchData(matchJson, sha) {
       if (verifyContent.trim() !== '') {
         const verifyJson = JSON.parse(verifyContent);
         console.log("✅ match.json 验证成功，包含", verifyJson.matches?.length || 0, "场比赛");
-
-        // 确认写回成功后，开始更新 leaderboard
-        await updateLeaderboard();
       } else {
-        console.error("❌ match.json 验证失败：文件为空");
+        console.error("⚠️ match.json 验证警告：文件内容为空，但仍尝试更新 leaderboard");
       }
+
+      // 无论验证是否成功，都尝试更新 leaderboard
+      await updateLeaderboard();
     } else {
       console.error("❌ match.json 验证失败：无法读取文件");
     }
