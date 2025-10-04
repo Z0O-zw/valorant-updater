@@ -1,20 +1,37 @@
 // ---------- 配置 ----------
-const repo = "LZWuuu/valorant-updater";
-const branch = "main";
-const path = "data.json";
-const token = process.env.Github_TOKEN;
-const userDataPath = "src/user.json";
-const henrikapiKey = process.env.Henrik_APIKEY;
+let config = {
+  repo: "LZWuuu/valorant-updater",
+  branch: "main",
+  path: "data.json",
+  token: "",
+  userDataPath: "src/user.json",
+  henrikapiKey: ""
+};
 
 let players = [];
 let matches = [];
 let selA = [], selB = [], winner = "A";
 
+// 从 API 获取配置
+async function loadConfig() {
+  try {
+    const response = await fetch('/api/config');
+    if (response.ok) {
+      config = await response.json();
+      console.log('配置加载成功');
+    } else {
+      console.error('无法加载配置，使用默认值');
+    }
+  } catch (error) {
+    console.error('加载配置失败:', error);
+  }
+}
+
 // ---------- GitHub 读取 ----------
 async function loadDataWithToken() {
   try {
-    const url = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
-    const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.path}?ref=${config.branch}`;
+    const res = await fetch(url, { headers: { Authorization: `token ${config.token}` } });
 
     if (!res.ok) {
       console.error('GitHub API错误:', res.status, res.statusText);
@@ -58,8 +75,8 @@ async function loadDataWithToken() {
 // ---------- GitHub 写入 ----------
 async function uploadFileToGithub(token, filePath, file) {
   let sha = undefined;
-  const checkRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`, {
-    headers: { Authorization: `token ${token}` }
+  const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${filePath}?ref=${config.branch}`, {
+    headers: { Authorization: `token ${config.token}` }
   });
   if (checkRes.ok) {
     const { sha: existingSha } = await checkRes.json();
@@ -80,7 +97,7 @@ async function uploadFileToGithub(token, filePath, file) {
           message: "Upload avatar " + filePath,
           content,
           sha,
-          branch
+          branch: config.branch
         })
       });
       if (res.ok) {
@@ -524,6 +541,7 @@ window.winner = winner;
 
 // ---------- 初始化 ----------
 addEventListener('DOMContentLoaded', async () => {
+  await loadConfig(); // 首先加载配置
   await updateUserData();
   await loadDataWithToken();
   document.getElementById('tab_players')?.click();

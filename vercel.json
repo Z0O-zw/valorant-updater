@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/config.js": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "env": {
+    "Github_TOKEN": "@github_token",
+    "Henrik_APIKEY": "@henrik_apikey"
+  }
+}
