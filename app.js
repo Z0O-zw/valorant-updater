@@ -87,11 +87,13 @@ async function uploadFileToGithub(token, filePath, file) {
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
     reader.onload = async e => {
-      const content = btoa(e.target.result);
-      const res = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+      const arrayBuffer = e.target.result;
+      const bytes = new Uint8Array(arrayBuffer);
+      const content = btoa(String.fromCharCode(...bytes));
+      const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${filePath}`, {
         method: "PUT",
         headers: {
-          "Authorization": `token ${token}`,
+          "Authorization": `token ${config.token}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -107,7 +109,7 @@ async function uploadFileToGithub(token, filePath, file) {
         reject(await res.json());
       }
     };
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   });
 }
 
@@ -128,7 +130,7 @@ async function saveToGithub() {
   }
   avatarFiles = {};
 
-  const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+  const getRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.path}?ref=${config.branch}`, {
     headers: { Authorization: `token ${token}` }
   });
   if (!getRes.ok) {
@@ -139,9 +141,9 @@ async function saveToGithub() {
   const { sha } = await getRes.json();
 
   const newData = { players, matches };
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
+  const encoded = btoa(encodeURIComponent(JSON.stringify(newData, null, 2)));
 
-  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+  const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.path}`, {
     method: "PUT",
     headers: {
       "Authorization": `token ${token}`,
@@ -193,8 +195,8 @@ window.deletePlayer = deletePlayer;
 let avatarFiles = {};
 
 async function fetchAvatar(filePath) {
-  const url = `https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`;
-  const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
+  const url = `https://api.github.com/repos/${config.repo}/contents/${filePath}?ref=${config.branch}`;
+  const res = await fetch(url, { headers: { Authorization: `token ${config.token}` } });
   if (!res.ok) {
     console.error("头像请求失败:", res.status, res.statusText);
     return 'https://via.placeholder.com/40';
@@ -564,7 +566,7 @@ async function updateUserData() {
 }
 
 async function saveUserData(userJson, sha) {
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(userJson, null, 4))));
+  const encoded = btoa(encodeURIComponent(JSON.stringify(userJson, null, 4)));
 
   await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}`, {
     method: "PUT",
