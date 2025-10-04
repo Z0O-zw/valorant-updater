@@ -5,7 +5,8 @@ let config = {
   path: "data.json",
   token: "",
   userDataPath: "src/user.json",
-  henrikapiKey: ""
+  henrikapiKey: "",
+  henrikapiProxy: "/api/henrik"
 };
 
 let players = [];
@@ -472,13 +473,11 @@ async function updateUserData() {
 
     console.log("📊 当前最新 Match ID:", userJson.newestMatchID || "无");
 
-    // 2. 获取最新的比赛列表
-    const matchListUrl = `https://api.henrikdev.xyz/valorant/v3/matches/eu/SuperLulino/4088?mode=custom`;
+    // 2. 获取最新的比赛列表 (通过代理 API)
+    const matchListUrl = `${config.henrikapiProxy || '/api/henrik'}?name=SuperLulino&tag=4088&region=eu&mode=custom`;
     console.log("🔍 正在查询最新比赛...");
 
-    const matchRes = await fetch(matchListUrl, {
-      headers: { "Authorization": config.henrikapiKey }
-    });
+    const matchRes = await fetch(matchListUrl);
 
     if (!matchRes.ok) {
       console.log("❌ Henrik API请求失败:", matchRes.status);
