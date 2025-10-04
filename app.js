@@ -710,7 +710,10 @@ async function updateUserData() {
               }
             }
 
-            // 新比赛保存完成后，更新 leaderboard
+            // 新比赛保存完成后，等待 2 秒再更新 leaderboard
+            console.log("⏳ 等待 2 秒后更新 leaderboard...");
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
             console.log("🏆 开始更新 leaderboard...");
             try {
               await updateLeaderboard();
