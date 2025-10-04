@@ -2,7 +2,7 @@
 const repo = "LZWuuu/valorant-updater";
 const branch = "main";
 const path = "data.json";
-const token = "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";
+const token = "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";
 const userDataPath = "src/user.json";
 const henrikapiKey = "HDEV-576c931f-2755-4956-ada1-700b15d77703";
 
