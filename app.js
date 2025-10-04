@@ -611,12 +611,16 @@ async function updateUserData() {
         // 4.2 检查并准备比赛数据更新
         if (newCustomMatches.length > 0 || latestMatchId !== matchJson.newestMatchID) {
           console.log("🔄 需要更新比赛数据...");
+          console.log("   - 新比赛数量:", newCustomMatches.length);
+          console.log("   - 当前 matchJson.newestMatchID:", matchJson.newestMatchID);
+          console.log("   - 最新 latestMatchId:", latestMatchId);
 
           // 更新 newestMatchID
           matchJson.newestMatchID = latestMatchId;
 
           // 添加新比赛到开头
           if (newCustomMatches.length > 0) {
+            console.log("📝 添加新比赛到 match.json...");
             // 反向添加，保持时间顺序
             for (let i = newCustomMatches.length - 1; i >= 0; i--) {
               matchJson.matches.unshift(newCustomMatches[i]);
@@ -629,10 +633,17 @@ async function updateUserData() {
           }
 
           // 添加保存比赛数据的 Promise
+          console.log("📤 准备保存到 GitHub，sha:", matchDataSha ? "有" : "无");
           promises.push(
             saveMatchData(matchJson, matchDataSha)
               .then(() => console.log(`✅ 比赛数据更新完成! (新增 ${newCustomMatches.length} 场比赛，总计 ${matchJson.matches.length} 场)`))
+              .catch(err => {
+                console.error("❌ 保存比赛数据失败:", err);
+                throw err;
+              })
           );
+        } else {
+          console.log("ℹ️ 比赛数据无需更新");
         }
 
         // 4.3 并行执行所有更新操作
@@ -680,27 +691,41 @@ async function saveMatchData(matchJson, sha) {
   const jsonString = JSON.stringify(matchJson, null, 4);
   const encoded = btoa(unescape(encodeURIComponent(jsonString)));
 
+  // 构建请求体
+  const requestBody = {
+    message: "Update match data",
+    content: encoded,
+    branch: config.branch
+  };
+
+  // 只有在文件存在时才需要 sha
+  if (sha) {
+    requestBody.sha = sha;
+  }
+
+  console.log("📝 正在保存 match.json...", sha ? "更新文件" : "创建新文件");
+
   const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}`, {
     method: "PUT",
     headers: {
       "Authorization": `token ${config.token}`,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      message: "Update match data",
-      content: encoded,
-      sha: sha,
-      branch: config.branch
-    })
+    body: JSON.stringify(requestBody)
   });
 
   if (!res.ok) {
     const error = await res.json();
-    console.error("保存 match.json 失败:", error);
-    throw new Error(`Failed to save match data: ${error.message}`);
+    console.error("❌ 保存 match.json 失败:", error);
+    console.error("请求详情:", {
+      url: `https://api.github.com/repos/${config.repo}/contents/${config.matchDataPath}`,
+      sha: sha,
+      hasToken: !!config.token
+    });
+    throw new Error(`Failed to save match data: ${error.message || res.status}`);
   }
 
-  console.log("✅ match.json 已更新");
+  console.log("✅ match.json 已成功保存到 GitHub");
 }
 
 // ---------- 全局变量和函数暴露 ----------
