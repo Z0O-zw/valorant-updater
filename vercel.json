@@ -3,9 +3,5 @@
     "api/config.js": {
       "runtime": "@vercel/node"
     }
-  },
-  "env": {
-    "Github_TOKEN": "@Github_TOKEN",
-    "Henrik_APIKEY": "@Henrik_APIKEY"
   }
 }
