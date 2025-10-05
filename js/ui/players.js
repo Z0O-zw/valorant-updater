@@ -33,33 +33,30 @@ export async function render() {
   }
 
   // 合并玩家基础信息和排行榜数据
-  const playerStats = await Promise.all(
-    leaderboardData.players.map(async (stats) => {
-      const player = players.find(p => p.puuid === stats.puuid);
-      const avatar = await getPlayerAvatar(stats.puuid, player?.card);
+  const playerStats = leaderboardData.players.map((stats) => {
+    const player = players.find(p => p.puuid === stats.puuid);
 
-      // 计算统计数据
-      const kd = stats.deaths > 0 ? (stats.kills / stats.deaths).toFixed(2) : stats.kills.toFixed(2);
-      const winRate = stats.all > 0 ? ((stats.win / stats.all) * 100).toFixed(1) : '0.0';
+    // 计算统计数据
+    const kd = stats.deaths > 0 ? (stats.kills / stats.deaths).toFixed(2) : stats.kills.toFixed(2);
+    const winRate = stats.all > 0 ? ((stats.win / stats.all) * 100).toFixed(1) : '0.0';
 
-      return {
-        puuid: stats.puuid,
-        name: player?.name || 'Unknown',
-        avatar: avatar,
-        kills: stats.kills,
-        deaths: stats.deaths,
-        assists: stats.assists,
-        kd: kd,
-        headrate: stats.headrate.toFixed(1),
-        wins: stats.win,
-        winRate: winRate,
-        totalGames: stats.all
-      };
-    })
-  );
+    return {
+      puuid: stats.puuid,
+      name: player?.name || 'Unknown',
+      avatar: player?.card || '', // 直接使用游戏内头像
+      kills: stats.kills,
+      deaths: stats.deaths,
+      assists: stats.assists,
+      kd: kd,
+      headrate: stats.headrate.toFixed(1),
+      wins: stats.win,
+      winRate: winRate,
+      totalGames: stats.all
+    };
+  });
 
-  // 按击杀数排序
-  playerStats.sort((a, b) => b.kills - a.kills);
+  // 按助攻数排序（从高到低）
+  playerStats.sort((a, b) => b.assists - a.assists);
 
   let html = `
     <div class="section">
@@ -70,7 +67,6 @@ export async function render() {
   playerStats.forEach((player, index) => {
     html += `
       <div class="player-banner">
-        <div class="player-rank">#${index + 1}</div>
         <div class="player-basic">
           <img src="${player.avatar}" alt="${player.name}" class="player-avatar">
           <div class="player-name">${player.name}</div>

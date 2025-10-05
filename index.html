@@ -162,33 +162,13 @@
     .player-banner {
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: white;
+      border: 3px solid #333;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      color: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #333;
       position: relative;
-      overflow: hidden;
-    }
-
-    .player-banner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .player-rank {
-      font-size: 24px;
-      font-weight: bold;
-      margin-right: 20px;
-      min-width: 50px;
-      color: #ffd700;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .player-basic {
@@ -203,15 +183,15 @@
       height: 60px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid white;
+      border: 2px solid #333;
       margin-right: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .player-name {
       font-size: 20px;
       font-weight: bold;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      color: #333;
     }
 
     .player-stats {
@@ -235,7 +215,7 @@
 
     .stat-label {
       font-size: 12px;
-      opacity: 0.9;
+      color: #666;
       margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -244,7 +224,7 @@
     .stat-value {
       font-size: 18px;
       font-weight: bold;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      color: #333;
     }
 
     /* 响应式设计 */
