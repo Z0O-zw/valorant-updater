@@ -723,6 +723,68 @@ async function updateUserData() {
           }
         } else {
           console.log("ℹ️ 比赛数据无需更新");
+
+          // 检查 leaderboard 是否需要初始化
+          console.log("🔍 检查 leaderboard 是否需要初始化...");
+          try {
+            const leaderboardRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json?ref=${config.branch}`, {
+              headers: { "Authorization": `token ${config.token}` }
+            });
+
+            if (leaderboardRes.ok) {
+              const leaderboardFile = await leaderboardRes.json();
+              const content = atob(leaderboardFile.content.replace(/\s/g, ''));
+
+              // 检查内容是否为空或解析错误
+              let needsUpdate = false;
+              try {
+                const leaderboardData = JSON.parse(content);
+
+                // 检查是否有玩家数据
+                if (!leaderboardData.players || leaderboardData.players.length === 0) {
+                  console.log("⚠️ Leaderboard 没有玩家数据，需要初始化");
+                  needsUpdate = true;
+                } else {
+                  // 检查是否有未初始化的玩家（所有统计都为0）
+                  const uninitializedPlayers = leaderboardData.players.filter(player => {
+                    const hasNoStats = (player.totalKills === 0 || player.totalKills === undefined) &&
+                                      (player.totalDeaths === 0 || player.totalDeaths === undefined);
+                    const hasNoKillMap = !player.killMap || Object.keys(player.killMap).length === 0;
+                    return hasNoStats && hasNoKillMap;
+                  });
+
+                  if (uninitializedPlayers.length > 0) {
+                    console.log(`⚠️ 发现 ${uninitializedPlayers.length} 个未初始化的玩家，需要更新 leaderboard`);
+                    needsUpdate = true;
+                  }
+                }
+
+                // 如果需要更新，调用 updateLeaderboard
+                if (needsUpdate) {
+                  console.log("🏆 开始初始化 leaderboard...");
+                  try {
+                    await updateLeaderboard();
+                    console.log("✅ Leaderboard 初始化完成");
+                  } catch (error) {
+                    console.error("❌ 初始化 leaderboard 失败:", error);
+                  }
+                }
+              } catch (parseError) {
+                console.log("⚠️ Leaderboard 数据解析失败，需要重新初始化");
+                console.log("🏆 开始初始化 leaderboard...");
+                try {
+                  await updateLeaderboard();
+                  console.log("✅ Leaderboard 初始化完成");
+                } catch (error) {
+                  console.error("❌ 初始化 leaderboard 失败:", error);
+                }
+              }
+            } else {
+              console.log("⚠️ Leaderboard 文件不存在或无法访问");
+            }
+          } catch (error) {
+            console.log("⚠️ 无法检查 leaderboard 状态:", error);
+          }
         }
 
         // 4.3 执行用户数据更新操作
@@ -918,17 +980,34 @@ async function updateLeaderboard() {
     // 2. 加载 src/match/ 目录下的所有比赛文件
     let allMatches = [];
     try {
-      // 获取 src/match/ 目录下的文件列表
-      const apiUrl = `https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`;
+      // 清理配置值，确保没有多余的空格
+      const cleanRepo = (config.repo || "Z0O-zw/valorant-updater").trim();
+      const cleanBranch = (config.branch || "main").trim();
+
+      // 使用数组 join 构建 URL，避免拼接错误
+      const baseUrl = "https://api.github.com";
+      const pathParts = ["repos", cleanRepo, "contents", "src", "match"];
+      const apiUrl = `${baseUrl}/${pathParts.join("/")}?ref=${cleanBranch}`;
+
       console.log(`🔗 GitHub API URL: ${apiUrl}`);
       console.log(`📋 配置信息:`, {
-        repo: config.repo,
-        branch: config.branch,
-        hasToken: !!config.token
+        repo: cleanRepo,
+        branch: cleanBranch,
+        hasToken: !!config.token,
+        urlLength: apiUrl.length,
+        hasSpaces: apiUrl.includes(" ") || apiUrl.includes("%20%20")
       });
 
+      // 验证 URL 是否正确
+      if (apiUrl.includes(" ") || apiUrl.includes("%20%20")) {
+        console.error("⚠️ URL 包含异常空格，可能导致请求失败");
+      }
+
       const dirRes = await fetch(apiUrl, {
-        headers: { "Authorization": `token ${config.token}` }
+        headers: {
+          "Authorization": `token ${config.token}`,
+          "Accept": "application/vnd.github.v3+json"
+        }
       });
 
       console.log(`📡 GitHub API 响应:`, {
