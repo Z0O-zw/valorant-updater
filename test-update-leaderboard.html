@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>测试更新 Leaderboard</title>
+</head>
+<body>
+  <h1>测试更新 Leaderboard</h1>
+  <button onclick="testUpdate()">更新 Leaderboard</button>
+  <pre id="log"></pre>
+
+  <script type="module">
+    import { loadConfig } from './js/config.js';
+    import { updateLeaderboard } from './js/data/leaderboard.js';
+
+    window.testUpdate = async function() {
+      const log = document.getElementById('log');
+      log.textContent = '开始更新...\n';
+
+      try {
+        // 加载配置
+        await loadConfig();
+        log.textContent += '配置加载完成\n';
+
+        // 更新 leaderboard
+        await updateLeaderboard();
+        log.textContent += '✅ Leaderboard 更新完成\n';
+
+      } catch (error) {
+        log.textContent += `❌ 错误: ${error.message}\n`;
+        console.error('详细错误:', error);
+      }
+    }
+  </script>
+</body>
+</html>
