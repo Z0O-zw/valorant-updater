@@ -151,6 +151,15 @@ export async function updateUserData() {
             }
           }
 
+          // 补充保存后更新 newestMatchID
+          console.log("📝 更新 newestMatchID 到 user.json...");
+          try {
+            await saveUserData(userJson, userData.sha);
+            console.log("✅ newestMatchID 已更新到 user.json");
+          } catch (error) {
+            console.error("❌ 更新 newestMatchID 失败:", error);
+          }
+
           // 补充保存后更新 leaderboard
           console.log("🏆 补充保存后更新 leaderboard...");
           try {
@@ -289,6 +298,15 @@ export async function updateUserData() {
               } catch (err) {
                 console.error(`❌ 保存比赛 ${matchId} 失败:`, err);
               }
+            }
+
+            // 保存新比赛后更新 newestMatchID 到 user.json
+            console.log("📝 更新 newestMatchID 到 user.json...");
+            try {
+              await saveUserData(userJson, userData.sha);
+              console.log("✅ newestMatchID 已更新到 user.json");
+            } catch (error) {
+              console.error("❌ 更新 newestMatchID 失败:", error);
             }
 
             console.log("⏳ 等待 2 秒后更新 leaderboard...");
