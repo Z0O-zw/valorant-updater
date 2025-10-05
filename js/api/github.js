@@ -1,10 +1,10 @@
 // GitHub API 操作模块
 import { config } from '../config.js';
 
-// 从 GitHub 读取数据
-export async function loadDataWithToken() {
+// 从 GitHub 读取用户数据
+export async function loadUserData() {
   try {
-    const url = `https://api.github.com/repos/${config.repo}/contents/${config.path}?ref=${config.branch}`;
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}?ref=${config.branch}`;
     const res = await fetch(url, { headers: { Authorization: `token ${config.token}` } });
 
     if (!res.ok) {
@@ -12,17 +12,17 @@ export async function loadDataWithToken() {
       if (res.status === 401) {
         alert('GitHub Token无效或已过期，请检查token权限');
       } else if (res.status === 404) {
-        console.log('data.json文件不存在，使用默认数据');
-        return { players: [], matches: [] };
+        console.log('user.json文件不存在，使用默认数据');
+        return { players: [] };
       }
-      return { players: [], matches: [] };
+      return { players: [] };
     }
 
     const data = await res.json();
 
     if (!data.content) {
       console.error('GitHub API没有返回content字段');
-      return { players: [], matches: [] };
+      return { players: [] };
     }
 
     const cleanedContent = data.content.replace(/\s/g, '');
@@ -31,8 +31,25 @@ export async function loadDataWithToken() {
     const parsed = JSON.parse(jsonStr);
 
     return {
-      players: Array.isArray(parsed.players) ? parsed.players : [],
-      matches: Array.isArray(parsed.matches) ? parsed.matches : []
+      players: Array.isArray(parsed.players) ? parsed.players : []
+    };
+  } catch (error) {
+    console.error('加载用户数据失败:', error);
+    return { players: [] };
+  }
+}
+
+// 兼容性函数：从 GitHub 读取数据（保持向后兼容）
+export async function loadDataWithToken() {
+  try {
+    // 尝试加载用户数据
+    const userData = await loadUserData();
+
+    // 对于 matches，我们现在使用独立的文件存储，这里返回空数组
+    // 实际的比赛数据通过 leaderboard 更新流程处理
+    return {
+      players: userData.players,
+      matches: [] // 比赛数据现在分别存储在 src/match/ 目录下
     };
   } catch (error) {
     console.error('加载数据失败:', error);
