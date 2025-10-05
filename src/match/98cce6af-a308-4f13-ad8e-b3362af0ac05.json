@@ -1,0 +1,3339 @@
+{
+    "is_available": true,
+    "metadata": {
+        "map": "Sunset",
+        "game_version": "release-11.07-shipping-7-3836447",
+        "game_length": 660,
+        "game_start": 1759347960,
+        "game_start_patched": "Wednesday, October 01, 2025 07:46 PM",
+        "rounds_played": 16,
+        "mode": "Custom Game",
+        "mode_id": "custom",
+        "queue": "Standard",
+        "season_id": "5adc33fa-4f30-2899-f131-6fba64c5dd3a",
+        "platform": "pc",
+        "matchid": "98cce6af-a308-4f13-ad8e-b3362af0ac05",
+        "premier_info": {
+            "tournament_id": null,
+            "matchup_id": null
+        },
+        "region": "eu",
+        "cluster": "London"
+    },
+    "players": {
+        "all_players": [
+            {
+                "puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                "name": "JDG",
+                "tag": "0212",
+                "team": "Blue",
+                "level": 157,
+                "character": "Yoru",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "bb6ae873-43ec-efb4-3ea6-93ac00a82d4e",
+                "player_title": "ae12f316-4d71-564e-ac02-57bf8df83335",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 138,
+                    "seconds": 8280,
+                    "milliseconds": 8280000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 6,
+                    "q_cast": 2,
+                    "c_cast": 2
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/bb6ae873-43ec-efb4-3ea6-93ac00a82d4e/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/bb6ae873-43ec-efb4-3ea6-93ac00a82d4e/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/bb6ae873-43ec-efb4-3ea6-93ac00a82d4e/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 879,
+                    "kills": 3,
+                    "deaths": 5,
+                    "assists": 2,
+                    "bodyshots": 4,
+                    "headshots": 1,
+                    "legshots": 2
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 10050,
+                        "average": 628.125
+                    },
+                    "loadout_value": {
+                        "overall": 12100,
+                        "average": 756.25
+                    }
+                },
+                "damage_made": 507,
+                "damage_received": 926
+            },
+            {
+                "puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                "name": "niludog",
+                "tag": "7562",
+                "team": "Red",
+                "level": 259,
+                "character": "KAY/O",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "dc9f1429-4f65-b77d-65a7-5f85dda4687c",
+                "player_title": "3bd26312-4c0a-d247-c479-06a4a518f841",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 4,
+                    "seconds": 240,
+                    "milliseconds": 240000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.22621.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 10,
+                    "q_cast": 6,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/dc9f1429-4f65-b77d-65a7-5f85dda4687c/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/dc9f1429-4f65-b77d-65a7-5f85dda4687c/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/dc9f1429-4f65-b77d-65a7-5f85dda4687c/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 719,
+                    "kills": 3,
+                    "deaths": 3,
+                    "assists": 3,
+                    "bodyshots": 11,
+                    "headshots": 2,
+                    "legshots": 3
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 8000,
+                        "average": 500
+                    },
+                    "loadout_value": {
+                        "overall": 14500,
+                        "average": 906.25
+                    }
+                },
+                "damage_made": 647,
+                "damage_received": 444
+            },
+            {
+                "puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                "name": "Zzzz",
+                "tag": "1530",
+                "team": "Red",
+                "level": 77,
+                "character": "Phoenix",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "7ae0ca6c-44fc-9fe2-9361-9abaecee53bb",
+                "player_title": "bd7d7561-45e2-8f5d-2fce-d59dd78658bb",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 131,
+                    "seconds": 7860,
+                    "milliseconds": 7860000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 4,
+                    "q_cast": 1,
+                    "c_cast": 0
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/7ae0ca6c-44fc-9fe2-9361-9abaecee53bb/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/7ae0ca6c-44fc-9fe2-9361-9abaecee53bb/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/7ae0ca6c-44fc-9fe2-9361-9abaecee53bb/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 1267,
+                    "kills": 5,
+                    "deaths": 3,
+                    "assists": 1,
+                    "bodyshots": 9,
+                    "headshots": 7,
+                    "legshots": 0
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 7550,
+                        "average": 471.875
+                    },
+                    "loadout_value": {
+                        "overall": 16950,
+                        "average": 1059.375
+                    }
+                },
+                "damage_made": 670,
+                "damage_received": 444
+            },
+            {
+                "puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                "name": "DonaldJohnTrump",
+                "tag": "MAGA1",
+                "team": "Red",
+                "level": 155,
+                "character": "Omen",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "cd3bab1a-412a-807b-bb5c-a48be2fea2a1",
+                "player_title": "b40e328b-4d8e-4a02-904d-f595c56d2ca9",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 136,
+                    "seconds": 8160,
+                    "milliseconds": 8160000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.19045.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 10,
+                    "q_cast": 2,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/cd3bab1a-412a-807b-bb5c-a48be2fea2a1/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/cd3bab1a-412a-807b-bb5c-a48be2fea2a1/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/cd3bab1a-412a-807b-bb5c-a48be2fea2a1/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 1888,
+                    "kills": 7,
+                    "deaths": 3,
+                    "assists": 1,
+                    "bodyshots": 17,
+                    "headshots": 3,
+                    "legshots": 2
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 8100,
+                        "average": 506.25
+                    },
+                    "loadout_value": {
+                        "overall": 12150,
+                        "average": 759.375
+                    }
+                },
+                "damage_made": 1161,
+                "damage_received": 519
+            },
+            {
+                "puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                "name": "MrLvT",
+                "tag": "777",
+                "team": "Red",
+                "level": 44,
+                "character": "Chamber",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "edfb9497-48ca-c3d9-cb0a-109cdedf533c",
+                "player_title": "ed96f7bd-4eed-de28-8c93-40bd313a3157",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 138,
+                    "seconds": 8280,
+                    "milliseconds": 8280000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.22631.1.768.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 6,
+                    "q_cast": 1,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/edfb9497-48ca-c3d9-cb0a-109cdedf533c/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/edfb9497-48ca-c3d9-cb0a-109cdedf533c/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/edfb9497-48ca-c3d9-cb0a-109cdedf533c/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 220,
+                    "kills": 0,
+                    "deaths": 4,
+                    "assists": 1,
+                    "bodyshots": 3,
+                    "headshots": 0,
+                    "legshots": 0
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 9400,
+                        "average": 587.5
+                    },
+                    "loadout_value": {
+                        "overall": 13800,
+                        "average": 862.5
+                    }
+                },
+                "damage_made": 235,
+                "damage_received": 741
+            },
+            {
+                "puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                "name": "SuperLulino",
+                "tag": "4088",
+                "team": "Blue",
+                "level": 144,
+                "character": "Phoenix",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "ab85a05e-4155-944e-bc9c-edbd56c9c557",
+                "player_title": "899e7754-4c86-8c16-a94e-f2bb6c0d808f",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 11,
+                    "seconds": 660,
+                    "milliseconds": 660000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.768.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 7,
+                    "q_cast": 1,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/ab85a05e-4155-944e-bc9c-edbd56c9c557/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/ab85a05e-4155-944e-bc9c-edbd56c9c557/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/ab85a05e-4155-944e-bc9c-edbd56c9c557/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 1569,
+                    "kills": 6,
+                    "deaths": 3,
+                    "assists": 0,
+                    "bodyshots": 24,
+                    "headshots": 1,
+                    "legshots": 1
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 10350,
+                        "average": 646.875
+                    },
+                    "loadout_value": {
+                        "overall": 15600,
+                        "average": 975
+                    }
+                },
+                "damage_made": 871,
+                "damage_received": 662
+            },
+            {
+                "puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                "name": "かのちなつ",
+                "tag": "JDRB",
+                "team": "Blue",
+                "level": 126,
+                "character": "Sova",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "915fbfc2-409c-2288-204e-aeb49a71557e",
+                "player_title": "7a6bbce5-4708-42d0-2152-98963ebdcf2c",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 138,
+                    "seconds": 8280,
+                    "milliseconds": 8280000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 5,
+                    "q_cast": 3,
+                    "c_cast": 0
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/915fbfc2-409c-2288-204e-aeb49a71557e/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/915fbfc2-409c-2288-204e-aeb49a71557e/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/915fbfc2-409c-2288-204e-aeb49a71557e/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 570,
+                    "kills": 3,
+                    "deaths": 3,
+                    "assists": 1,
+                    "bodyshots": 3,
+                    "headshots": 2,
+                    "legshots": 0
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 3750,
+                        "average": 234.375
+                    },
+                    "loadout_value": {
+                        "overall": 5650,
+                        "average": 353.125
+                    }
+                },
+                "damage_made": 297,
+                "damage_received": 431
+            },
+            {
+                "puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                "name": "Lulino",
+                "tag": "7777",
+                "team": "Blue",
+                "level": 128,
+                "character": "Clove",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "2a280896-4e81-c319-ffd3-6b8873042647",
+                "player_title": "bd7d7561-45e2-8f5d-2fce-d59dd78658bb",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 9,
+                    "seconds": 540,
+                    "milliseconds": 540000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.768.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 17,
+                    "q_cast": 1,
+                    "c_cast": 1
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/2a280896-4e81-c319-ffd3-6b8873042647/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/2a280896-4e81-c319-ffd3-6b8873042647/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/2a280896-4e81-c319-ffd3-6b8873042647/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 583,
+                    "kills": 1,
+                    "deaths": 4,
+                    "assists": 4,
+                    "bodyshots": 12,
+                    "headshots": 0,
+                    "legshots": 3
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 9600,
+                        "average": 600
+                    },
+                    "loadout_value": {
+                        "overall": 11700,
+                        "average": 731.25
+                    }
+                },
+                "damage_made": 476,
+                "damage_received": 697
+            }
+        ],
+        "red": [
+            {
+                "puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                "name": "niludog",
+                "tag": "7562",
+                "team": "Red",
+                "level": 259,
+                "character": "KAY/O",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "dc9f1429-4f65-b77d-65a7-5f85dda4687c",
+                "player_title": "3bd26312-4c0a-d247-c479-06a4a518f841",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 4,
+                    "seconds": 240,
+                    "milliseconds": 240000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.22621.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 10,
+                    "q_cast": 6,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/dc9f1429-4f65-b77d-65a7-5f85dda4687c/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/dc9f1429-4f65-b77d-65a7-5f85dda4687c/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/dc9f1429-4f65-b77d-65a7-5f85dda4687c/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/601dbbe7-43ce-be57-2a40-4abd24953621/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 719,
+                    "kills": 3,
+                    "deaths": 3,
+                    "assists": 3,
+                    "bodyshots": 11,
+                    "headshots": 2,
+                    "legshots": 3
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 8000,
+                        "average": 500
+                    },
+                    "loadout_value": {
+                        "overall": 14500,
+                        "average": 906.25
+                    }
+                },
+                "damage_made": 647,
+                "damage_received": 444
+            },
+            {
+                "puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                "name": "Zzzz",
+                "tag": "1530",
+                "team": "Red",
+                "level": 77,
+                "character": "Phoenix",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "7ae0ca6c-44fc-9fe2-9361-9abaecee53bb",
+                "player_title": "bd7d7561-45e2-8f5d-2fce-d59dd78658bb",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 131,
+                    "seconds": 7860,
+                    "milliseconds": 7860000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 4,
+                    "q_cast": 1,
+                    "c_cast": 0
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/7ae0ca6c-44fc-9fe2-9361-9abaecee53bb/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/7ae0ca6c-44fc-9fe2-9361-9abaecee53bb/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/7ae0ca6c-44fc-9fe2-9361-9abaecee53bb/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 1267,
+                    "kills": 5,
+                    "deaths": 3,
+                    "assists": 1,
+                    "bodyshots": 9,
+                    "headshots": 7,
+                    "legshots": 0
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 7550,
+                        "average": 471.875
+                    },
+                    "loadout_value": {
+                        "overall": 16950,
+                        "average": 1059.375
+                    }
+                },
+                "damage_made": 670,
+                "damage_received": 444
+            },
+            {
+                "puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                "name": "DonaldJohnTrump",
+                "tag": "MAGA1",
+                "team": "Red",
+                "level": 155,
+                "character": "Omen",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "cd3bab1a-412a-807b-bb5c-a48be2fea2a1",
+                "player_title": "b40e328b-4d8e-4a02-904d-f595c56d2ca9",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 136,
+                    "seconds": 8160,
+                    "milliseconds": 8160000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.19045.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 10,
+                    "q_cast": 2,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/cd3bab1a-412a-807b-bb5c-a48be2fea2a1/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/cd3bab1a-412a-807b-bb5c-a48be2fea2a1/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/cd3bab1a-412a-807b-bb5c-a48be2fea2a1/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 1888,
+                    "kills": 7,
+                    "deaths": 3,
+                    "assists": 1,
+                    "bodyshots": 17,
+                    "headshots": 3,
+                    "legshots": 2
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 8100,
+                        "average": 506.25
+                    },
+                    "loadout_value": {
+                        "overall": 12150,
+                        "average": 759.375
+                    }
+                },
+                "damage_made": 1161,
+                "damage_received": 519
+            },
+            {
+                "puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                "name": "MrLvT",
+                "tag": "777",
+                "team": "Red",
+                "level": 44,
+                "character": "Chamber",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "edfb9497-48ca-c3d9-cb0a-109cdedf533c",
+                "player_title": "ed96f7bd-4eed-de28-8c93-40bd313a3157",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 138,
+                    "seconds": 8280,
+                    "milliseconds": 8280000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.22631.1.768.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 6,
+                    "q_cast": 1,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/edfb9497-48ca-c3d9-cb0a-109cdedf533c/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/edfb9497-48ca-c3d9-cb0a-109cdedf533c/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/edfb9497-48ca-c3d9-cb0a-109cdedf533c/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 220,
+                    "kills": 0,
+                    "deaths": 4,
+                    "assists": 1,
+                    "bodyshots": 3,
+                    "headshots": 0,
+                    "legshots": 0
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 9400,
+                        "average": 587.5
+                    },
+                    "loadout_value": {
+                        "overall": 13800,
+                        "average": 862.5
+                    }
+                },
+                "damage_made": 235,
+                "damage_received": 741
+            }
+        ],
+        "blue": [
+            {
+                "puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                "name": "JDG",
+                "tag": "0212",
+                "team": "Blue",
+                "level": 157,
+                "character": "Yoru",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "bb6ae873-43ec-efb4-3ea6-93ac00a82d4e",
+                "player_title": "ae12f316-4d71-564e-ac02-57bf8df83335",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 138,
+                    "seconds": 8280,
+                    "milliseconds": 8280000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 6,
+                    "q_cast": 2,
+                    "c_cast": 2
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/bb6ae873-43ec-efb4-3ea6-93ac00a82d4e/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/bb6ae873-43ec-efb4-3ea6-93ac00a82d4e/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/bb6ae873-43ec-efb4-3ea6-93ac00a82d4e/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/7f94d92c-4234-0a36-9646-3a87eb8b5c89/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 879,
+                    "kills": 3,
+                    "deaths": 5,
+                    "assists": 2,
+                    "bodyshots": 4,
+                    "headshots": 1,
+                    "legshots": 2
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 10050,
+                        "average": 628.125
+                    },
+                    "loadout_value": {
+                        "overall": 12100,
+                        "average": 756.25
+                    }
+                },
+                "damage_made": 507,
+                "damage_received": 926
+            },
+            {
+                "puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                "name": "SuperLulino",
+                "tag": "4088",
+                "team": "Blue",
+                "level": 144,
+                "character": "Phoenix",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "ab85a05e-4155-944e-bc9c-edbd56c9c557",
+                "player_title": "899e7754-4c86-8c16-a94e-f2bb6c0d808f",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 11,
+                    "seconds": 660,
+                    "milliseconds": 660000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.768.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 1,
+                    "e_cast": 7,
+                    "q_cast": 1,
+                    "c_cast": 3
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/ab85a05e-4155-944e-bc9c-edbd56c9c557/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/ab85a05e-4155-944e-bc9c-edbd56c9c557/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/ab85a05e-4155-944e-bc9c-edbd56c9c557/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/eb93336a-449b-9c1b-0a54-a891f7921d69/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 1569,
+                    "kills": 6,
+                    "deaths": 3,
+                    "assists": 0,
+                    "bodyshots": 24,
+                    "headshots": 1,
+                    "legshots": 1
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 10350,
+                        "average": 646.875
+                    },
+                    "loadout_value": {
+                        "overall": 15600,
+                        "average": 975
+                    }
+                },
+                "damage_made": 871,
+                "damage_received": 662
+            },
+            {
+                "puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                "name": "かのちなつ",
+                "tag": "JDRB",
+                "team": "Blue",
+                "level": 126,
+                "character": "Sova",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "915fbfc2-409c-2288-204e-aeb49a71557e",
+                "player_title": "7a6bbce5-4708-42d0-2152-98963ebdcf2c",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 138,
+                    "seconds": 8280,
+                    "milliseconds": 8280000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.256.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 5,
+                    "q_cast": 3,
+                    "c_cast": 0
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/915fbfc2-409c-2288-204e-aeb49a71557e/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/915fbfc2-409c-2288-204e-aeb49a71557e/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/915fbfc2-409c-2288-204e-aeb49a71557e/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 570,
+                    "kills": 3,
+                    "deaths": 3,
+                    "assists": 1,
+                    "bodyshots": 3,
+                    "headshots": 2,
+                    "legshots": 0
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 3750,
+                        "average": 234.375
+                    },
+                    "loadout_value": {
+                        "overall": 5650,
+                        "average": 353.125
+                    }
+                },
+                "damage_made": 297,
+                "damage_received": 431
+            },
+            {
+                "puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                "name": "Lulino",
+                "tag": "7777",
+                "team": "Blue",
+                "level": 128,
+                "character": "Clove",
+                "currenttier": 0,
+                "currenttier_patched": "Unrated",
+                "player_card": "2a280896-4e81-c319-ffd3-6b8873042647",
+                "player_title": "bd7d7561-45e2-8f5d-2fce-d59dd78658bb",
+                "party_id": "73bd600b-21dd-43bb-8d74-db5dd903ddbe",
+                "session_playtime": {
+                    "minutes": 9,
+                    "seconds": 540,
+                    "milliseconds": 540000
+                },
+                "behavior": {
+                    "afk_rounds": 0,
+                    "friendly_fire": {
+                        "incoming": 0,
+                        "outgoing": 0
+                    },
+                    "rounds_in_spawn": 0
+                },
+                "platform": {
+                    "type": "pc",
+                    "os": {
+                        "name": "Windows",
+                        "version": "10.0.26100.1.768.64bit"
+                    }
+                },
+                "ability_casts": {
+                    "x_cast": 0,
+                    "e_cast": 17,
+                    "q_cast": 1,
+                    "c_cast": 1
+                },
+                "assets": {
+                    "card": {
+                        "small": "https://media.valorant-api.com/playercards/2a280896-4e81-c319-ffd3-6b8873042647/smallart.png",
+                        "large": "https://media.valorant-api.com/playercards/2a280896-4e81-c319-ffd3-6b8873042647/largeart.png",
+                        "wide": "https://media.valorant-api.com/playercards/2a280896-4e81-c319-ffd3-6b8873042647/wideart.png"
+                    },
+                    "agent": {
+                        "small": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/displayicon.png",
+                        "bust": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/fullportrait.png",
+                        "full": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/fullportrait.png",
+                        "killfeed": "https://media.valorant-api.com/agents/1dbf2edd-4729-0984-3115-daa5eed44993/killfeedportrait.png"
+                    }
+                },
+                "stats": {
+                    "score": 583,
+                    "kills": 1,
+                    "deaths": 4,
+                    "assists": 4,
+                    "bodyshots": 12,
+                    "headshots": 0,
+                    "legshots": 3
+                },
+                "economy": {
+                    "spent": {
+                        "overall": 9600,
+                        "average": 600
+                    },
+                    "loadout_value": {
+                        "overall": 11700,
+                        "average": 731.25
+                    }
+                },
+                "damage_made": 476,
+                "damage_received": 697
+            }
+        ]
+    },
+    "observers": [],
+    "coaches": [],
+    "teams": {
+        "red": {
+            "has_won": false,
+            "rounds_won": 3,
+            "rounds_lost": 2,
+            "roster": null
+        },
+        "blue": {
+            "has_won": true,
+            "rounds_won": 2,
+            "rounds_lost": 3,
+            "roster": null
+        }
+    },
+    "kills": [
+        {
+            "kill_time_in_round": 8370,
+            "kill_time_in_match": 63384,
+            "round": 0,
+            "killer_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "killer_display_name": "JDG#0212",
+            "killer_team": "Blue",
+            "victim_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "victim_display_name": "Zzzz#1530",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -1166,
+                "y": -3483
+            },
+            "damage_weapon_id": "e336c6b8-418d-9340-d77f-7a9e4cfe0702",
+            "damage_weapon_name": "Sheriff",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -979,
+                        "y": -21
+                    },
+                    "view_radians": 6.2593126
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1838,
+                        "y": -4421
+                    },
+                    "view_radians": 0.95125985
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 4241,
+                        "y": 1418
+                    },
+                    "view_radians": 2.8870478
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1042,
+                        "y": -1842
+                    },
+                    "view_radians": 0.23428766
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1461,
+                        "y": -3449
+                    },
+                    "view_radians": 4.882732
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 90,
+                        "y": -2652
+                    },
+                    "view_radians": 4.6772738
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -46,
+                        "y": 5072
+                    },
+                    "view_radians": 5.305626
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 54071,
+            "kill_time_in_match": 109085,
+            "round": 0,
+            "killer_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "killer_display_name": "JDG#0212",
+            "killer_team": "Blue",
+            "victim_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+            "victim_display_name": "niludog#7562",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -609,
+                "y": -4751
+            },
+            "damage_weapon_id": "e336c6b8-418d-9340-d77f-7a9e4cfe0702",
+            "damage_weapon_name": "Sheriff",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -199,
+                        "y": -4615
+                    },
+                    "view_radians": 0.5231645
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1531,
+                        "y": -3700
+                    },
+                    "view_radians": 3.6086898
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1393,
+                        "y": -619
+                    },
+                    "view_radians": 4.583439
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -382,
+                        "y": -5345
+                    },
+                    "view_radians": 0.9674625
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1725,
+                        "y": -1772
+                    },
+                    "view_radians": 3.3283472
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -3381,
+                        "y": -294
+                    },
+                    "view_radians": 5.732399
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 59305,
+            "kill_time_in_match": 114319,
+            "round": 0,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "victim_display_name": "JDG#0212",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 2206,
+                "y": -4002
+            },
+            "damage_weapon_id": "1baa85b4-4c70-1284-64bb-6481dfc3bb4e",
+            "damage_weapon_name": "Ghost",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/1baa85b4-4c70-1284-64bb-6481dfc3bb4e/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/1baa85b4-4c70-1284-64bb-6481dfc3bb4e/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -267,
+                        "y": -4936
+                    },
+                    "view_radians": 0.6922699
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -2342,
+                        "y": -2393
+                    },
+                    "view_radians": 5.45872
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 1410,
+                        "y": -5298
+                    },
+                    "view_radians": 1.0039904
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1046,
+                        "y": -2720
+                    },
+                    "view_radians": 4.6374774
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -2640,
+                        "y": -2249
+                    },
+                    "view_radians": 5.343622
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "assistant_display_name": "MrLvT#777",
+                    "assistant_team": "Red"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 68903,
+            "kill_time_in_match": 123917,
+            "round": 0,
+            "killer_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+            "killer_display_name": "Lulino#7777",
+            "killer_team": "Blue",
+            "victim_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+            "victim_display_name": "MrLvT#777",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": 1304,
+                "y": -5249
+            },
+            "damage_weapon_id": "29a0cfab-485b-f5d5-779a-b59f85e204a8",
+            "damage_weapon_name": "Classic",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1611,
+                        "y": -5115
+                    },
+                    "view_radians": 6.2297835
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -507,
+                        "y": -5790
+                    },
+                    "view_radians": 1.5646604
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1223,
+                        "y": -5540
+                    },
+                    "view_radians": 0.83411837
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1347,
+                        "y": -4574
+                    },
+                    "view_radians": 6.212375
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "assistant_display_name": "JDG#0212",
+                    "assistant_team": "Blue"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 72808,
+            "kill_time_in_match": 127822,
+            "round": 0,
+            "killer_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+            "killer_display_name": "かのちなつ#JDRB",
+            "killer_team": "Blue",
+            "victim_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "victim_display_name": "DonaldJohnTrump#MAGA1",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -210,
+                "y": -5735
+            },
+            "damage_weapon_id": "1baa85b4-4c70-1284-64bb-6481dfc3bb4e",
+            "damage_weapon_name": "Ghost",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/1baa85b4-4c70-1284-64bb-6481dfc3bb4e/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/1baa85b4-4c70-1284-64bb-6481dfc3bb4e/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1200,
+                        "y": -4944
+                    },
+                    "view_radians": 5.9867115
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -228,
+                        "y": -5159
+                    },
+                    "view_radians": 4.7330976
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -85,
+                        "y": -4480
+                    },
+                    "view_radians": 1.0789772
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "assistant_display_name": "JDG#0212",
+                    "assistant_team": "Blue"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 11360,
+            "kill_time_in_match": 185565,
+            "round": 1,
+            "killer_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "killer_display_name": "Zzzz#1530",
+            "killer_team": "Red",
+            "victim_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "victim_display_name": "JDG#0212",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": -1803,
+                "y": -4114
+            },
+            "damage_weapon_id": "910be174-449b-c412-ab22-d0873436b21b",
+            "damage_weapon_name": "Bucky",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/910be174-449b-c412-ab22-d0873436b21b/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/910be174-449b-c412-ab22-d0873436b21b/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1373,
+                        "y": -3698
+                    },
+                    "view_radians": 3.8908465
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -31,
+                        "y": -1157
+                    },
+                    "view_radians": 0.61725575
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2768,
+                        "y": 524
+                    },
+                    "view_radians": 3.9510133
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 1355,
+                        "y": 195
+                    },
+                    "view_radians": 5.82655
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -184,
+                        "y": 1143
+                    },
+                    "view_radians": 5.749101
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 3204,
+                        "y": -2627
+                    },
+                    "view_radians": 1.5239198
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 451,
+                        "y": 3834
+                    },
+                    "view_radians": 3.4927783
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 14017,
+            "kill_time_in_match": 188222,
+            "round": 1,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+            "victim_display_name": "Lulino#7777",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 2224,
+                "y": 147
+            },
+            "damage_weapon_id": "29a0cfab-485b-f5d5-779a-b59f85e204a8",
+            "damage_weapon_name": "Classic",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1674,
+                        "y": -3943
+                    },
+                    "view_radians": 4.2312346
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -31,
+                        "y": -1157
+                    },
+                    "view_radians": 0.5960474
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 1947,
+                        "y": 163
+                    },
+                    "view_radians": 6.241576
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 558,
+                        "y": 877
+                    },
+                    "view_radians": 4.8562956
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2513,
+                        "y": -1407
+                    },
+                    "view_radians": 1.7566956
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 318,
+                        "y": 3024
+                    },
+                    "view_radians": 4.77921
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 16077,
+            "kill_time_in_match": 190282,
+            "round": 1,
+            "killer_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+            "killer_display_name": "かのちなつ#JDRB",
+            "killer_team": "Blue",
+            "victim_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "victim_display_name": "DonaldJohnTrump#MAGA1",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": 2699,
+                "y": 251
+            },
+            "damage_weapon_id": "462080d1-4035-2937-7c09-27aa2a5c27a7",
+            "damage_weapon_name": "Spectre",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/462080d1-4035-2937-7c09-27aa2a5c27a7/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/462080d1-4035-2937-7c09-27aa2a5c27a7/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1426,
+                        "y": -3753
+                    },
+                    "view_radians": 0.39751595
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 266,
+                        "y": -763
+                    },
+                    "view_radians": 0.39912263
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 982,
+                        "y": 383
+                    },
+                    "view_radians": 5.6835904
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2297,
+                        "y": -719
+                    },
+                    "view_radians": 1.2026409
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1343,
+                        "y": 2700
+                    },
+                    "view_radians": 6.238798
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "assistant_display_name": "Lulino#7777",
+                    "assistant_team": "Blue"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 45498,
+            "kill_time_in_match": 219703,
+            "round": 1,
+            "killer_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "killer_display_name": "Zzzz#1530",
+            "killer_team": "Red",
+            "victim_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+            "victim_display_name": "かのちなつ#JDRB",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 1010,
+                "y": -3157
+            },
+            "damage_weapon_id": "910be174-449b-c412-ab22-d0873436b21b",
+            "damage_weapon_name": "Bucky",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/910be174-449b-c412-ab22-d0873436b21b/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/910be174-449b-c412-ab22-d0873436b21b/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 361,
+                        "y": -3156
+                    },
+                    "view_radians": 6.2746525
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 362,
+                        "y": -1157
+                    },
+                    "view_radians": 0.59738964
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 348,
+                        "y": -4498
+                    },
+                    "view_radians": 0.2693095
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 3594,
+                        "y": 1242
+                    },
+                    "view_radians": 2.197811
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "assistant_display_name": "niludog#7562",
+                    "assistant_team": "Red"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 63751,
+            "kill_time_in_match": 237956,
+            "round": 1,
+            "killer_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "killer_display_name": "SuperLulino#4088",
+            "killer_team": "Blue",
+            "victim_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "victim_display_name": "Zzzz#1530",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": 2824,
+                "y": -2928
+            },
+            "damage_weapon_id": "f7e1b454-4ad4-1063-ec0a-159e56b58941",
+            "damage_weapon_name": "Stinger",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/f7e1b454-4ad4-1063-ec0a-159e56b58941/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/f7e1b454-4ad4-1063-ec0a-159e56b58941/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1526,
+                        "y": -3697
+                    },
+                    "view_radians": 5.128416
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 2479,
+                        "y": -2842
+                    },
+                    "view_radians": 0.036719665
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 3107,
+                        "y": -2807
+                    },
+                    "view_radians": 3.5740793
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 66405,
+            "kill_time_in_match": 240610,
+            "round": 1,
+            "killer_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+            "killer_display_name": "niludog#7562",
+            "killer_team": "Red",
+            "victim_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "victim_display_name": "SuperLulino#4088",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 3104,
+                "y": -2572
+            },
+            "damage_weapon_id": "462080d1-4035-2937-7c09-27aa2a5c27a7",
+            "damage_weapon_name": "Spectre",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/462080d1-4035-2937-7c09-27aa2a5c27a7/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/462080d1-4035-2937-7c09-27aa2a5c27a7/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1716,
+                        "y": -4485
+                    },
+                    "view_radians": 6.0481987
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 3003,
+                        "y": -3265
+                    },
+                    "view_radians": 1.5126009
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 23553,
+            "kill_time_in_match": 301164,
+            "round": 2,
+            "killer_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "killer_display_name": "SuperLulino#4088",
+            "killer_team": "Blue",
+            "victim_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "victim_display_name": "DonaldJohnTrump#MAGA1",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -155,
+                "y": 2939
+            },
+            "damage_weapon_id": "f7e1b454-4ad4-1063-ec0a-159e56b58941",
+            "damage_weapon_name": "Stinger",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/f7e1b454-4ad4-1063-ec0a-159e56b58941/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/f7e1b454-4ad4-1063-ec0a-159e56b58941/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1736,
+                        "y": -3286
+                    },
+                    "view_radians": 5.6141834
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1350,
+                        "y": 3246
+                    },
+                    "view_radians": 0.5945134
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2958,
+                        "y": 1788
+                    },
+                    "view_radians": 2.5926192
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1233,
+                        "y": 3062
+                    },
+                    "view_radians": 1.3424629
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1268,
+                        "y": 3235
+                    },
+                    "view_radians": 0.63219184
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1460,
+                        "y": 608
+                    },
+                    "view_radians": 1.054987
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 408,
+                        "y": 4359
+                    },
+                    "view_radians": 4.343371
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "assistant_display_name": "Lulino#7777",
+                    "assistant_team": "Blue"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 58931,
+            "kill_time_in_match": 336542,
+            "round": 2,
+            "killer_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "killer_display_name": "Zzzz#1530",
+            "killer_team": "Red",
+            "victim_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "victim_display_name": "JDG#0212",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 3097,
+                "y": -2109
+            },
+            "damage_weapon_id": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+            "damage_weapon_name": "Vandal",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 3044,
+                        "y": -3011
+                    },
+                    "view_radians": 1.5024383
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1404,
+                        "y": 2988
+                    },
+                    "view_radians": 0.9305511
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 462,
+                        "y": 2442
+                    },
+                    "view_radians": 1.9852588
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -21,
+                        "y": 859
+                    },
+                    "view_radians": 6.1550846
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1620,
+                        "y": 676
+                    },
+                    "view_radians": 0.41872096
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1208,
+                        "y": 2538
+                    },
+                    "view_radians": 3.1100502
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 61694,
+            "kill_time_in_match": 339305,
+            "round": 2,
+            "killer_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+            "killer_display_name": "かのちなつ#JDRB",
+            "killer_team": "Blue",
+            "victim_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+            "victim_display_name": "niludog#7562",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": 515,
+                "y": 1119
+            },
+            "damage_weapon_id": "29a0cfab-485b-f5d5-779a-b59f85e204a8",
+            "damage_weapon_name": "Classic",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 3277,
+                        "y": -2627
+                    },
+                    "view_radians": 1.9994254
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1621,
+                        "y": 3387
+                    },
+                    "view_radians": 0.037129
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1149,
+                        "y": 2740
+                    },
+                    "view_radians": 2.4010634
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1478,
+                        "y": 956
+                    },
+                    "view_radians": 0.08245147
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 464,
+                        "y": 2437
+                    },
+                    "view_radians": 2.1479394
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 76672,
+            "kill_time_in_match": 354283,
+            "round": 2,
+            "killer_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "killer_display_name": "Zzzz#1530",
+            "killer_team": "Red",
+            "victim_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+            "victim_display_name": "かのちなつ#JDRB",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 94,
+                "y": 1256
+            },
+            "damage_weapon_id": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+            "damage_weapon_name": "Vandal",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 2570,
+                        "y": -533
+                    },
+                    "view_radians": 2.5122771
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1214,
+                        "y": 1550
+                    },
+                    "view_radians": 5.698211
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1559,
+                        "y": 4114
+                    },
+                    "view_radians": 4.8647447
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -746,
+                        "y": 3923
+                    },
+                    "view_radians": 3.9784691
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "assistant_display_name": "niludog#7562",
+                    "assistant_team": "Red"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 80239,
+            "kill_time_in_match": 357850,
+            "round": 2,
+            "killer_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "killer_display_name": "SuperLulino#4088",
+            "killer_team": "Blue",
+            "victim_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+            "victim_display_name": "MrLvT#777",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -565,
+                "y": 973
+            },
+            "damage_weapon_id": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
+            "damage_weapon_name": "Phantom",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 2459,
+                        "y": -387
+                    },
+                    "view_radians": 2.6937783
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1321,
+                        "y": 3651
+                    },
+                    "view_radians": 4.913697
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1584,
+                        "y": 3782
+                    },
+                    "view_radians": 5.066547
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "assistant_display_name": "Lulino#7777",
+                    "assistant_team": "Blue"
+                },
+                {
+                    "assistant_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "assistant_display_name": "かのちなつ#JDRB",
+                    "assistant_team": "Blue"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 94375,
+            "kill_time_in_match": 371986,
+            "round": 2,
+            "killer_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "killer_display_name": "Zzzz#1530",
+            "killer_team": "Red",
+            "victim_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+            "victim_display_name": "Lulino#7777",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": -2978,
+                "y": 2399
+            },
+            "damage_weapon_id": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+            "damage_weapon_name": "Vandal",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1671,
+                        "y": 2063
+                    },
+                    "view_radians": 2.9101534
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2212,
+                        "y": 4179
+                    },
+                    "view_radians": 5.107293
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "assistant_display_name": "DonaldJohnTrump#MAGA1",
+                    "assistant_team": "Red"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 16256,
+            "kill_time_in_match": 430847,
+            "round": 3,
+            "killer_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "killer_display_name": "JDG#0212",
+            "killer_team": "Blue",
+            "victim_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+            "victim_display_name": "MrLvT#777",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -298,
+                "y": -4678
+            },
+            "damage_weapon_id": "4ade7faa-4cf1-8376-95ef-39884480959b",
+            "damage_weapon_name": "Guardian",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/4ade7faa-4cf1-8376-95ef-39884480959b/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/4ade7faa-4cf1-8376-95ef-39884480959b/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 532,
+                        "y": -5224
+                    },
+                    "view_radians": 0.41196972
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1270,
+                        "y": -3683
+                    },
+                    "view_radians": 3.706481
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2755,
+                        "y": -780
+                    },
+                    "view_radians": 2.3491805
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 1295,
+                        "y": 120
+                    },
+                    "view_radians": 6.1924887
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1409,
+                        "y": -4841
+                    },
+                    "view_radians": 0.12968574
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2849,
+                        "y": 2323
+                    },
+                    "view_radians": 4.7209215
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 0
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "assistant_display_name": "Lulino#7777",
+                    "assistant_team": "Blue"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 24194,
+            "kill_time_in_match": 438785,
+            "round": 3,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+            "victim_display_name": "Lulino#7777",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 2866,
+                "y": -105
+            },
+            "damage_weapon_id": "e336c6b8-418d-9340-d77f-7a9e4cfe0702",
+            "damage_weapon_name": "Sheriff",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1286,
+                        "y": -3897
+                    },
+                    "view_radians": 2.1526003
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2802,
+                        "y": -3516
+                    },
+                    "view_radians": 4.193075
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 3093,
+                        "y": -660
+                    },
+                    "view_radians": 1.9594687
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 750,
+                        "y": -4373
+                    },
+                    "view_radians": 3.210526
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2853,
+                        "y": -6
+                    },
+                    "view_radians": 4.198408
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 0
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 24194,
+            "kill_time_in_match": 438785,
+            "round": 3,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "victim_display_name": "SuperLulino#4088",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 2853,
+                "y": -6
+            },
+            "damage_weapon_id": "e336c6b8-418d-9340-d77f-7a9e4cfe0702",
+            "damage_weapon_name": "Sheriff",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/e336c6b8-418d-9340-d77f-7a9e4cfe0702/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1286,
+                        "y": -3897
+                    },
+                    "view_radians": 2.1526003
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2802,
+                        "y": -3516
+                    },
+                    "view_radians": 4.193075
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 3093,
+                        "y": -660
+                    },
+                    "view_radians": 1.9594687
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 750,
+                        "y": -4373
+                    },
+                    "view_radians": 3.210526
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 0
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 34696,
+            "kill_time_in_match": 449287,
+            "round": 3,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+            "victim_display_name": "かのちなつ#JDRB",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 5700,
+                "y": 0
+            },
+            "damage_weapon_id": "",
+            "damage_weapon_name": null,
+            "damage_weapon_assets": {
+                "display_icon": null,
+                "killfeed_icon": null
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -2303,
+                        "y": -1979
+                    },
+                    "view_radians": 0.7226008
+                },
+                {
+                    "player_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+                    "player_display_name": "JDG#0212",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2702,
+                        "y": -4710
+                    },
+                    "view_radians": 2.3657818
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 5780,
+                        "y": 25
+                    },
+                    "view_radians": 3.3921108
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1371,
+                        "y": -4566
+                    },
+                    "view_radians": 0.6121542
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 56826,
+            "kill_time_in_match": 471417,
+            "round": 3,
+            "killer_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+            "killer_display_name": "niludog#7562",
+            "killer_team": "Red",
+            "victim_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "victim_display_name": "JDG#0212",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 903,
+                "y": -5079
+            },
+            "damage_weapon_id": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+            "damage_weapon_name": "Vandal",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 289,
+                        "y": -1869
+                    },
+                    "view_radians": 4.5790677
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 4442,
+                        "y": -757
+                    },
+                    "view_radians": 0.5965268
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1429,
+                        "y": -4711
+                    },
+                    "view_radians": 6.1249933
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 32674,
+            "kill_time_in_match": 541092,
+            "round": 4,
+            "killer_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+            "killer_display_name": "niludog#7562",
+            "killer_team": "Red",
+            "victim_puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
+            "victim_display_name": "JDG#0212",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": -814,
+                "y": -266
+            },
+            "damage_weapon_id": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+            "damage_weapon_name": "Vandal",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "player_display_name": "Zzzz#1530",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1633,
+                        "y": -587
+                    },
+                    "view_radians": 0.39785004
+                },
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 543,
+                        "y": -2283
+                    },
+                    "view_radians": 1.2696568
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1924,
+                        "y": -210
+                    },
+                    "view_radians": 3.1482937
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -4052,
+                        "y": 1189
+                    },
+                    "view_radians": 5.9473643
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1280,
+                        "y": -364
+                    },
+                    "view_radians": 0.21389444
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -415,
+                        "y": 897
+                    },
+                    "view_radians": 3.2370698
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+                    "assistant_display_name": "Zzzz#1530",
+                    "assistant_team": "Red"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 35386,
+            "kill_time_in_match": 543804,
+            "round": 4,
+            "killer_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "killer_display_name": "SuperLulino#4088",
+            "killer_team": "Blue",
+            "victim_puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
+            "victim_display_name": "Zzzz#1530",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -1639,
+                "y": -737
+            },
+            "damage_weapon_id": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
+            "damage_weapon_name": "Phantom",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+                    "player_display_name": "MrLvT#777",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 461,
+                        "y": -2025
+                    },
+                    "view_radians": 0.4943253
+                },
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 2318,
+                        "y": -164
+                    },
+                    "view_radians": 3.232481
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -4052,
+                        "y": 1299
+                    },
+                    "view_radians": 0.13747256
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1417,
+                        "y": -1282
+                    },
+                    "view_radians": 1.9223655
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1374,
+                        "y": 1150
+                    },
+                    "view_radians": 4.56877
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 47329,
+            "kill_time_in_match": 555747,
+            "round": 4,
+            "killer_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "killer_display_name": "SuperLulino#4088",
+            "killer_team": "Blue",
+            "victim_puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
+            "victim_display_name": "MrLvT#777",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": 374,
+                "y": -373
+            },
+            "damage_weapon_id": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
+            "damage_weapon_name": "Phantom",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 1826,
+                        "y": -3042
+                    },
+                    "view_radians": 3.2177165
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -749,
+                        "y": 2040
+                    },
+                    "view_radians": 4.2611966
+                },
+                {
+                    "player_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "player_display_name": "niludog#7562",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -2381,
+                        "y": -1380
+                    },
+                    "view_radians": 4.7819934
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1714,
+                        "y": -161
+                    },
+                    "view_radians": 6.1866403
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 51989,
+            "kill_time_in_match": 560407,
+            "round": 4,
+            "killer_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "killer_display_name": "SuperLulino#4088",
+            "killer_team": "Blue",
+            "victim_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+            "victim_display_name": "niludog#7562",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": -2011,
+                "y": -1242
+            },
+            "damage_weapon_id": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+            "damage_weapon_name": "Vandal",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 583,
+                        "y": -3060
+                    },
+                    "view_radians": 1.7179626
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1534,
+                        "y": 1426
+                    },
+                    "view_radians": 4.8634863
+                },
+                {
+                    "player_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+                    "player_display_name": "SuperLulino#4088",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": -1104,
+                        "y": -1272
+                    },
+                    "view_radians": 3.1001751
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 52507,
+            "kill_time_in_match": 560925,
+            "round": 4,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
+            "victim_display_name": "SuperLulino#4088",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": -1103,
+                "y": -1265
+            },
+            "damage_weapon_id": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
+            "damage_weapon_name": "Phantom",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+                    "player_display_name": "Lulino#7777",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 555,
+                        "y": -2937
+                    },
+                    "view_radians": 1.710005
+                },
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": -1534,
+                        "y": 1426
+                    },
+                    "view_radians": 4.865691
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": [
+                {
+                    "assistant_puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
+                    "assistant_display_name": "niludog#7562",
+                    "assistant_team": "Red"
+                }
+            ]
+        },
+        {
+            "kill_time_in_round": 132202,
+            "kill_time_in_match": 640620,
+            "round": 4,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
+            "victim_display_name": "Lulino#7777",
+            "victim_team": "Blue",
+            "victim_death_location": {
+                "x": 2051,
+                "y": 4590
+            },
+            "damage_weapon_id": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
+            "damage_weapon_name": "Phantom",
+            "damage_weapon_assets": {
+                "display_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/displayicon.png",
+                "killfeed_icon": "https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/killstreamicon.png"
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+                    "player_display_name": "DonaldJohnTrump#MAGA1",
+                    "player_team": "Red",
+                    "location": {
+                        "x": 2693,
+                        "y": 3682
+                    },
+                    "view_radians": 2.1671314
+                },
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        },
+        {
+            "kill_time_in_round": 139075,
+            "kill_time_in_match": 647493,
+            "round": 4,
+            "killer_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "killer_display_name": "DonaldJohnTrump#MAGA1",
+            "killer_team": "Red",
+            "victim_puuid": "390fc46f-0eb1-53a6-bcae-c58e06cfaef2",
+            "victim_display_name": "DonaldJohnTrump#MAGA1",
+            "victim_team": "Red",
+            "victim_death_location": {
+                "x": 1940,
+                "y": 2740
+            },
+            "damage_weapon_id": "",
+            "damage_weapon_name": null,
+            "damage_weapon_assets": {
+                "display_icon": null,
+                "killfeed_icon": null
+            },
+            "secondary_fire_mode": false,
+            "player_locations_on_kill": [
+                {
+                    "player_puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
+                    "player_display_name": "かのちなつ#JDRB",
+                    "player_team": "Blue",
+                    "location": {
+                        "x": 5700,
+                        "y": 400
+                    },
+                    "view_radians": 3.1415915
+                }
+            ],
+            "assistants": []
+        }
+    ]
+}
