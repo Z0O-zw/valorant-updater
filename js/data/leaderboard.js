@@ -147,6 +147,10 @@ export async function updateLeaderboard() {
     });
 
     // 遍历所有比赛统计击杀
+    let totalKillEvents = 0;
+    let validKillEvents = 0;
+    let outsiderKills = 0; // 击杀不在玩家列表中的目标
+
     allMatches.forEach(match => {
       if (!match.kills || !Array.isArray(match.kills)) {
         console.log(`⚠️ 比赛 ${match.metadata?.matchid} 没有击杀数据`);
@@ -154,6 +158,16 @@ export async function updateLeaderboard() {
       }
 
       match.kills.forEach(kill => {
+        totalKillEvents++;
+        const killerInList = leaderboardData.players.find(p => p.puuid === kill.killer_puuid);
+        const victimInList = leaderboardData.players.find(p => p.puuid === kill.victim_puuid);
+
+        if (killerInList) {
+          validKillEvents++;
+          if (!victimInList && kill.victim_puuid !== kill.killer_puuid) {
+            outsiderKills++;
+          }
+        }
         const killerPuuid = kill.killer_puuid;
         const victimPuuid = kill.victim_puuid;
         const assistants = kill.assistants || []; // 助攻者列表
@@ -164,11 +178,15 @@ export async function updateLeaderboard() {
           killer.kills = (killer.kills || 0) + 1;
 
           // 更新对位击杀统计（使用原有字段名 killsAgainst）
+          // 只有当被击杀者也在玩家列表中时才统计对位击杀
           if (victimPuuid && victimPuuid !== killerPuuid) {
-            if (!killer.killsAgainst) {
-              killer.killsAgainst = {};
+            const victimExists = leaderboardData.players.find(p => p.puuid === victimPuuid);
+            if (victimExists) {
+              if (!killer.killsAgainst) {
+                killer.killsAgainst = {};
+              }
+              killer.killsAgainst[victimPuuid] = (killer.killsAgainst[victimPuuid] || 0) + 1;
             }
-            killer.killsAgainst[victimPuuid] = (killer.killsAgainst[victimPuuid] || 0) + 1;
           }
         }
 
@@ -191,10 +209,25 @@ export async function updateLeaderboard() {
       });
     });
 
-    // 4. 输出统计结果
+    // 输出击杀事件统计
+    console.log(`📈 击杀事件统计:`);
+    console.log(`  - 总击杀事件: ${totalKillEvents}`);
+    console.log(`  - 有效击杀事件: ${validKillEvents}`);
+    console.log(`  - 击杀局外人: ${outsiderKills}`);
+
+    // 4. 输出统计结果和验证
     console.log("📊 统计结果:");
     leaderboardData.players.forEach(player => {
+      // 计算 killsAgainst 的总和
+      const killsAgainstSum = Object.values(player.killsAgainst || {}).reduce((sum, kills) => sum + kills, 0);
+      const difference = player.kills - killsAgainstSum;
+
       console.log(`  ${player.puuid}: ${player.kills} 击杀 / ${player.deaths} 死亡 / ${player.assists} 助攻`);
+      console.log(`    - killsAgainst 总和: ${killsAgainstSum}, 差值: ${difference}`);
+
+      if (difference !== 0) {
+        console.warn(`    ⚠️ 击杀统计不一致！总击杀(${player.kills}) != killsAgainst总和(${killsAgainstSum})`);
+      }
     });
 
     // 5. 保存更新后的 leaderboard 数据
