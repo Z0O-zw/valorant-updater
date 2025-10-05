@@ -2,7 +2,7 @@
 import { config } from '../config.js';
 
 // 获取比赛列表
-export async function fetchMatchList(name = 'SuperLulino', tag = '4088', region = 'eu', mode = 'custom', size = 20) {
+export async function fetchMatchList(name = 'SuperLulino', tag = '4088', region = 'eu', mode = 'custom', size = 8) {
   try {
     const params = new URLSearchParams({
       name,
