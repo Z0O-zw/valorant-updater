@@ -182,10 +182,10 @@ export async function updateUserData() {
                   needsUpdate = true;
                 } else {
                   const uninitializedPlayers = leaderboardData.players.filter(player => {
-                    const hasNoStats = (player.totalKills === 0 || player.totalKills === undefined) &&
-                                      (player.totalDeaths === 0 || player.totalDeaths === undefined);
-                    const hasNoKillMap = !player.killMap || Object.keys(player.killMap).length === 0;
-                    return hasNoStats && hasNoKillMap;
+                    const hasNoStats = (player.kills === 0 || player.kills === undefined) &&
+                                      (player.deaths === 0 || player.deaths === undefined);
+                    const hasNoKillsAgainst = !player.killsAgainst || Object.keys(player.killsAgainst).length === 0;
+                    return hasNoStats && hasNoKillsAgainst;
                   });
 
                   if (uninitializedPlayers.length > 0) {
@@ -324,10 +324,10 @@ export async function updateUserData() {
                   needsUpdate = true;
                 } else {
                   const uninitializedPlayers = leaderboardData.players.filter(player => {
-                    const hasNoStats = (player.totalKills === 0 || player.totalKills === undefined) &&
-                                      (player.totalDeaths === 0 || player.totalDeaths === undefined);
-                    const hasNoKillMap = !player.killMap || Object.keys(player.killMap).length === 0;
-                    return hasNoStats && hasNoKillMap;
+                    const hasNoStats = (player.kills === 0 || player.kills === undefined) &&
+                                      (player.deaths === 0 || player.deaths === undefined);
+                    const hasNoKillsAgainst = !player.killsAgainst || Object.keys(player.killsAgainst).length === 0;
+                    return hasNoStats && hasNoKillsAgainst;
                   });
 
                   if (uninitializedPlayers.length > 0) {

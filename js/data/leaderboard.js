@@ -131,18 +131,19 @@ export async function updateLeaderboard() {
     // 3. 统计击杀数据
     console.log("📊 开始统计击杀数据...");
 
-    // 初始化所有玩家的统计数据
+    // 初始化所有玩家的统计数据（保持原有字段结构）
     leaderboardData.players.forEach(player => {
-      player.totalKills = 0;
-      player.totalDeaths = 0;
-      player.killMap = {};
+      // 重置统计数据，保持原有字段名
+      player.kills = 0;
+      player.deaths = 0;
+      player.assists = 0; // 重置助攻数据
 
-      // 为每个玩家初始化对其他所有玩家的击杀记录
-      leaderboardData.players.forEach(otherPlayer => {
-        if (player.puuid !== otherPlayer.puuid) {
-          player.killMap[otherPlayer.puuid] = 0;
-        }
-      });
+      // 重置 killsAgainst 对象中的所有值（保持原有字段名）
+      if (player.killsAgainst) {
+        Object.keys(player.killsAgainst).forEach(puuid => {
+          player.killsAgainst[puuid] = 0;
+        });
+      }
     });
 
     // 遍历所有比赛统计击杀
@@ -155,33 +156,45 @@ export async function updateLeaderboard() {
       match.kills.forEach(kill => {
         const killerPuuid = kill.killer_puuid;
         const victimPuuid = kill.victim_puuid;
+        const assistants = kill.assistants || []; // 助攻者列表
 
-        // 更新击杀者统计
+        // 更新击杀者统计（使用原有字段名）
         const killer = leaderboardData.players.find(p => p.puuid === killerPuuid);
         if (killer) {
-          killer.totalKills = (killer.totalKills || 0) + 1;
+          killer.kills = (killer.kills || 0) + 1;
 
-          // 更新对位击杀统计
+          // 更新对位击杀统计（使用原有字段名 killsAgainst）
           if (victimPuuid && victimPuuid !== killerPuuid) {
-            if (!killer.killMap) {
-              killer.killMap = {};
+            if (!killer.killsAgainst) {
+              killer.killsAgainst = {};
             }
-            killer.killMap[victimPuuid] = (killer.killMap[victimPuuid] || 0) + 1;
+            killer.killsAgainst[victimPuuid] = (killer.killsAgainst[victimPuuid] || 0) + 1;
           }
         }
 
-        // 更新被击杀者统计
+        // 更新被击杀者统计（使用原有字段名）
         const victim = leaderboardData.players.find(p => p.puuid === victimPuuid);
         if (victim) {
-          victim.totalDeaths = (victim.totalDeaths || 0) + 1;
+          victim.deaths = (victim.deaths || 0) + 1;
         }
+
+        // 更新助攻者统计
+        assistants.forEach(assistant => {
+          const assistantPuuid = assistant.assistant_puuid;
+          if (assistantPuuid) {
+            const assistantPlayer = leaderboardData.players.find(p => p.puuid === assistantPuuid);
+            if (assistantPlayer) {
+              assistantPlayer.assists = (assistantPlayer.assists || 0) + 1;
+            }
+          }
+        });
       });
     });
 
     // 4. 输出统计结果
     console.log("📊 统计结果:");
     leaderboardData.players.forEach(player => {
-      console.log(`  ${player.name}#${player.tag}: ${player.totalKills} 击杀 / ${player.totalDeaths} 死亡`);
+      console.log(`  ${player.puuid}: ${player.kills} 击杀 / ${player.deaths} 死亡 / ${player.assists} 助攻`);
     });
 
     // 5. 保存更新后的 leaderboard 数据
