@@ -1,171 +1,129 @@
-// 玩家管理界面模块
+// 选手榜单界面模块
 import { config } from '../config.js';
-import { uploadFileToGithub, saveToGithub } from '../api/github.js';
-import { getMatches } from '../data/match.js';
+import { getPlayerAvatar } from '../utils/avatar.js';
 
 // 玩家数据
 export let players = [];
-let avatarFiles = {};
+let leaderboardData = null;
 
 // 设置玩家数据
 export function setPlayers(newPlayers) {
   players = newPlayers;
 }
 
-// 添加玩家
-function addPlayer() {
-  const name = prompt("玩家昵称:");
-  if (!name || !name.trim()) return;
-  players.push({ name: name.trim(), avatar: "" });
-  render();
+// 设置排行榜数据
+export function setLeaderboardData(data) {
+  leaderboardData = data;
 }
 
-// 删除玩家
-function deletePlayer(index) {
-  if (!confirm(`确定删除玩家 ${players[index].name}？`)) return;
-  players.splice(index, 1);
-  delete avatarFiles[index];
-  render();
-}
 
-// 获取头像
-async function fetchAvatar(filePath) {
-  if (!filePath) return "";
-  try {
-    const url = `https://api.github.com/repos/${config.repo}/contents/${filePath}?ref=${config.branch}`;
-    const res = await fetch(url, { headers: { Authorization: `token ${config.token}` } });
-    if (res.ok) {
-      const data = await res.json();
-      return `data:image/png;base64,${data.content}`;
-    }
-  } catch (error) {
-    console.error("加载头像失败:", error);
-  }
-  return "";
-}
-
-// 上传头像
-function uploadAvatar(idx, file) {
-  if (!file) return;
-  if (!file.type.startsWith("image/")) {
-    alert("请选择图片文件");
-    return;
-  }
-  avatarFiles[idx] = file;
-  const reader = new FileReader();
-  reader.onload = e => {
-    players[idx].avatar = e.target.result;
-    render();
-  };
-  reader.readAsDataURL(file);
-}
-
-// 保存到 GitHub
-async function save() {
-  try {
-    // 上传所有新头像
-    const promises = [];
-    for (const [idx, file] of Object.entries(avatarFiles)) {
-      if (file && players[idx]) {
-        const timestamp = Date.now();
-        const fileName = `${timestamp}_${file.name}`;
-        const filePath = `src/avatars/${fileName}`;
-        promises.push(
-          uploadFileToGithub(config.token, filePath, file).then(result => {
-            players[idx].avatarPath = filePath;
-          }).catch(error => {
-            console.error(`上传头像失败 (${fileName}):`, error);
-          })
-        );
-      }
-    }
-
-    if (promises.length > 0) {
-      await Promise.all(promises);
-      console.log("头像上传完成");
-    }
-
-    // 保存数据
-    await saveToGithub(players, getMatches());
-    avatarFiles = {};
-    alert("保存成功！");
-  } catch (error) {
-    console.error("保存失败:", error);
-    alert("保存失败，请查看控制台了解详情");
-  }
-}
-
-// 渲染玩家管理界面
-export function render() {
+// 渲染选手榜单界面
+export async function render() {
   const content = document.getElementById('content');
   if (!content) return;
 
-  let html = `
-    <div class="section">
-      <h2>选手管理</h2>
-      <button onclick="window.uiPlayers.add()">➕ 添加选手</button>
-      <button onclick="window.uiPlayers.save()">💾 保存到GitHub</button>
-      <table>
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>昵称</th>
-            <th>头像</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-  `;
-
-  for (let i = 0; i < players.length; i++) {
-    const player = players[i];
-    html += `
-      <tr>
-        <td>${i + 1}</td>
-        <td><input type="text" value="${player.name}" onchange="window.uiPlayers.updateName(${i}, this.value)"></td>
-        <td>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            ${player.avatar ? `<img src="${player.avatar}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">` : '<span style="color: #666;">无头像</span>'}
-            <input type="file" accept="image/*" onchange="window.uiPlayers.uploadAvatar(${i}, this.files[0])">
-          </div>
-        </td>
-        <td><button onclick="window.uiPlayers.deletePlayer(${i})">🗑️ 删除</button></td>
-      </tr>
+  if (!leaderboardData || !leaderboardData.players) {
+    content.innerHTML = `
+      <div class="section">
+        <h2>选手榜单</h2>
+        <p>正在加载排行榜数据...</p>
+      </div>
     `;
+    return;
   }
 
+  // 合并玩家基础信息和排行榜数据
+  const playerStats = await Promise.all(
+    leaderboardData.players.map(async (stats) => {
+      const player = players.find(p => p.puuid === stats.puuid);
+      const avatar = await getPlayerAvatar(stats.puuid, player?.card);
+
+      // 计算统计数据
+      const kd = stats.deaths > 0 ? (stats.kills / stats.deaths).toFixed(2) : stats.kills.toFixed(2);
+      const winRate = stats.all > 0 ? ((stats.win / stats.all) * 100).toFixed(1) : '0.0';
+
+      return {
+        puuid: stats.puuid,
+        name: player?.name || 'Unknown',
+        avatar: avatar,
+        kills: stats.kills,
+        deaths: stats.deaths,
+        assists: stats.assists,
+        kd: kd,
+        headrate: stats.headrate.toFixed(1),
+        wins: stats.win,
+        winRate: winRate,
+        totalGames: stats.all
+      };
+    })
+  );
+
+  // 按击杀数排序
+  playerStats.sort((a, b) => b.kills - a.kills);
+
+  let html = `
+    <div class="section">
+      <h2>🏆 选手榜单</h2>
+      <div class="leaderboard-container">
+  `;
+
+  playerStats.forEach((player, index) => {
+    html += `
+      <div class="player-banner">
+        <div class="player-rank">#${index + 1}</div>
+        <div class="player-basic">
+          <img src="${player.avatar}" alt="${player.name}" class="player-avatar">
+          <div class="player-name">${player.name}</div>
+        </div>
+        <div class="player-stats">
+          <div class="stat-group">
+            <div class="stat-item">
+              <span class="stat-label">击杀</span>
+              <span class="stat-value">${player.kills}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">死亡</span>
+              <span class="stat-value">${player.deaths}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">助攻</span>
+              <span class="stat-value">${player.assists}</span>
+            </div>
+          </div>
+          <div class="stat-group">
+            <div class="stat-item">
+              <span class="stat-label">K/D</span>
+              <span class="stat-value">${player.kd}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">爆头率</span>
+              <span class="stat-value">${player.headrate}%</span>
+            </div>
+          </div>
+          <div class="stat-group">
+            <div class="stat-item">
+              <span class="stat-label">胜利</span>
+              <span class="stat-value">${player.wins}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">胜率</span>
+              <span class="stat-value">${player.winRate}%</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">总场次</span>
+              <span class="stat-value">${player.totalGames}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
   html += `
-        </tbody>
-      </table>
+      </div>
     </div>
   `;
 
   content.innerHTML = html;
-
-  // 异步加载已保存的头像
-  players.forEach(async (player, idx) => {
-    if (player.avatarPath && !player.avatar) {
-      const avatarUrl = await fetchAvatar(player.avatarPath);
-      if (avatarUrl) {
-        player.avatar = avatarUrl;
-        render();
-      }
-    }
-  });
 }
 
-// 更新玩家名称
-function updateName(index, value) {
-  players[index].name = value;
-}
-
-// 导出给全局使用
-if (typeof window !== 'undefined') {
-  window.uiPlayers = {
-    add: addPlayer,
-    deletePlayer,
-    uploadAvatar,
-    save,
-    updateName
-  };
-}

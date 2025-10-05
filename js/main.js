@@ -2,7 +2,7 @@
 import { loadConfig } from './config.js';
 import { loadDataWithToken } from './api/github.js';
 import { updateUserData } from './data/user.js';
-import { setPlayers } from './ui/players.js';
+import { setPlayers, setLeaderboardData } from './ui/players.js';
 import { setMatches } from './data/match.js';
 import { showTab } from './ui/common.js';
 
@@ -23,6 +23,7 @@ async function init() {
     const data = await loadDataWithToken();
     setPlayers(data.players);
     setMatches(data.matches);
+    setLeaderboardData(data.leaderboard);
     console.log('✅ 数据加载完成');
 
     // 4. 显示默认标签页
