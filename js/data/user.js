@@ -74,10 +74,22 @@ export async function updateUserData() {
 
     console.log(`📊 获取到 ${matchData.data.length} 场比赛记录`);
 
+    // 调试：显示每场比赛的模式信息
+    console.log("🔍 比赛模式详情:");
+    matchData.data.forEach((match, index) => {
+      console.log(`  ${index + 1}. Mode: "${match?.metadata?.mode}", Mode_ID: "${match?.metadata?.mode_id}"`);
+    });
+
     // 4. 处理比赛数据
-    const customMatches = matchData.data.filter(match =>
-      match?.metadata?.mode?.toLowerCase() === "custom"
-    );
+    const customMatches = matchData.data.filter(match => {
+      const mode = match?.metadata?.mode;
+      const modeId = match?.metadata?.mode_id;
+      // 检查 mode 或 mode_id 是否为 custom（原始逻辑）
+      return (mode === "custom" || mode === "Custom" ||
+              modeId === "custom" || modeId === "Custom" ||
+              mode?.toLowerCase() === "custom" ||
+              modeId?.toLowerCase() === "custom");
+    });
     console.log(`🎯 找到 ${customMatches.length} 场 custom 模式比赛`);
 
     if (customMatches.length > 0) {

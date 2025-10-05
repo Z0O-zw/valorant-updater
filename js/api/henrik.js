@@ -9,7 +9,7 @@ export async function fetchMatchList(name = 'SuperLulino', tag = '4088', region 
       tag,
       region,
       mode,
-      size: size.toString()
+      size: size // 保持为整数，不转换为字符串
     });
 
     const response = await fetch(`${config.henrikapiProxy}?${params}`);
