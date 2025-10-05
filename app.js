@@ -1,6 +1,6 @@
 // ---------- 配置 ----------
 let config = {
-  repo: "LZWuuu/valorant-updater",
+  repo: "Z0O-zw/valorant-updater",
   branch: "main",
   path: "data.json",
   token: "",
