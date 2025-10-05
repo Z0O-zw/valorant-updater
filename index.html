@@ -21,7 +21,136 @@
 
   <div id="content"></div>
 
-  <script src="app.js"></script>
+  <!-- 模块化脚本 -->
+  <script type="module" src="js/main.js"></script>
+
+  <!-- 添加模块化样式 -->
+  <style>
+    .action-btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .action-btn:hover {
+      background: #0056b3;
+    }
+
+    .action-btn small {
+      display: block;
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+
+    .players-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .player-btn {
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .player-btn.selected {
+      border-color: #007bff;
+      background: #e7f3ff;
+    }
+
+    .match-setup {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .team-selection h3 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    .winner-selection {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .winner-selection label {
+      margin: 0 20px;
+    }
+
+    .match-actions {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .match-actions button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    .stats-overview, .team-combinations, .worst-combinations {
+      margin: 20px 0;
+    }
+
+    .preview-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .stat-item {
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .stat-label {
+      display: block;
+      font-weight: bold;
+      color: #666;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 18px;
+      color: #007bff;
+      margin-top: 5px;
+    }
+
+    .sync-log {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f8f9fa;
+    }
+
+    #log-content {
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
 
 </body>
 

@@ -1,0 +1,43 @@
+// 主入口文件
+import { loadConfig } from './config.js';
+import { loadDataWithToken } from './api/github.js';
+import { updateUserData } from './data/user.js';
+import { setPlayers } from './ui/players.js';
+import { setMatches } from './data/match.js';
+import { showTab } from './ui/common.js';
+
+// 全局初始化函数
+async function init() {
+  try {
+    console.log('🚀 应用初始化开始...');
+
+    // 1. 加载配置
+    await loadConfig();
+    console.log('✅ 配置加载完成');
+
+    // 2. 更新用户数据
+    await updateUserData();
+    console.log('✅ 用户数据更新完成');
+
+    // 3. 加载现有数据
+    const data = await loadDataWithToken();
+    setPlayers(data.players);
+    setMatches(data.matches);
+    console.log('✅ 数据加载完成');
+
+    // 4. 显示默认标签页
+    showTab('players');
+    console.log('✅ 应用初始化完成');
+
+  } catch (error) {
+    console.error('❌ 应用初始化失败:', error);
+  }
+}
+
+// DOM 加载完成后初始化
+document.addEventListener('DOMContentLoaded', init);
+
+// 导出 showTab 给全局使用
+if (typeof window !== 'undefined') {
+  window.showTab = showTab;
+}
