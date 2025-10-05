@@ -109,6 +109,124 @@ export async function updateUserData() {
       // 4.1 检查并准备用户数据更新
       if (latestMatchId === userJson.newestMatchID) {
         console.log("✅ 比赛 ID 未变化，数据已是最新");
+
+        // 即使没有新比赛，也检查是否需要补充保存历史比赛文件
+        console.log("🔍 检查是否需要补充保存历史比赛文件...");
+        let missingMatches = [];
+
+        for (const match of customMatches) {
+          const matchId = match.metadata?.matchid;
+          if (matchId) {
+            // 检查该比赛文件是否已存在
+            try {
+              const matchPath = `src/match/${matchId}.json`;
+              const checkRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/${matchPath}?ref=${config.branch}`, {
+                headers: { "Authorization": `token ${config.token}` }
+              });
+
+              if (!checkRes.ok) {
+                console.log(`📄 比赛文件不存在: ${matchId}`);
+                missingMatches.push(match);
+              }
+            } catch (error) {
+              console.log(`📄 检查比赛文件失败: ${matchId}`);
+              missingMatches.push(match);
+            }
+          }
+        }
+
+        if (missingMatches.length > 0) {
+          console.log(`📝 需要补充保存 ${missingMatches.length} 个比赛文件`);
+
+          // 保存缺失的比赛文件
+          for (const match of missingMatches) {
+            const matchId = match.metadata.matchid;
+            const matchPath = `src/match/${matchId}.json`;
+
+            try {
+              await saveMatchFile(match, matchPath);
+              console.log(`✅ 补充保存比赛 ${matchId}`);
+            } catch (err) {
+              console.error(`❌ 补充保存比赛 ${matchId} 失败:`, err);
+            }
+          }
+
+          // 补充保存后更新 leaderboard
+          console.log("🏆 补充保存后更新 leaderboard...");
+          try {
+            await updateLeaderboard();
+            console.log("✅ Leaderboard 更新完成");
+          } catch (error) {
+            console.error("❌ 更新 leaderboard 失败:", error);
+          }
+        } else {
+          console.log("ℹ️ 所有比赛文件都已存在");
+
+          // 检查 leaderboard 是否需要初始化
+          console.log("🔍 检查 leaderboard 是否需要初始化...");
+          try {
+            const leaderboardRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json?ref=${config.branch}`, {
+              headers: { "Authorization": `token ${config.token}` }
+            });
+
+            if (leaderboardRes.ok) {
+              const leaderboardFile = await leaderboardRes.json();
+              const content = atob(leaderboardFile.content.replace(/\s/g, ''));
+
+              let needsUpdate = false;
+              try {
+                const leaderboardData = JSON.parse(content);
+
+                if (!leaderboardData.players || leaderboardData.players.length === 0) {
+                  console.log("⚠️ Leaderboard 没有玩家数据，需要初始化");
+                  needsUpdate = true;
+                } else {
+                  const uninitializedPlayers = leaderboardData.players.filter(player => {
+                    const hasNoStats = (player.totalKills === 0 || player.totalKills === undefined) &&
+                                      (player.totalDeaths === 0 || player.totalDeaths === undefined);
+                    const hasNoKillMap = !player.killMap || Object.keys(player.killMap).length === 0;
+                    return hasNoStats && hasNoKillMap;
+                  });
+
+                  if (uninitializedPlayers.length > 0) {
+                    console.log(`⚠️ 发现 ${uninitializedPlayers.length} 个未初始化的玩家，需要更新 leaderboard`);
+                    needsUpdate = true;
+                  }
+                }
+
+                if (needsUpdate) {
+                  console.log("🏆 开始初始化 leaderboard...");
+                  try {
+                    await updateLeaderboard();
+                    console.log("✅ Leaderboard 初始化完成");
+                  } catch (error) {
+                    console.error("❌ 初始化 leaderboard 失败:", error);
+                  }
+                } else {
+                  console.log("ℹ️ Leaderboard 已正确初始化");
+                }
+              } catch (parseError) {
+                console.log("⚠️ Leaderboard 数据解析失败，需要重新初始化");
+                try {
+                  await updateLeaderboard();
+                  console.log("✅ Leaderboard 重新初始化完成");
+                } catch (error) {
+                  console.error("❌ 重新初始化 leaderboard 失败:", error);
+                }
+              }
+            } else {
+              console.log("⚠️ Leaderboard 文件不存在，需要创建");
+              try {
+                await updateLeaderboard();
+                console.log("✅ Leaderboard 创建完成");
+              } catch (error) {
+                console.error("❌ 创建 leaderboard 失败:", error);
+              }
+            }
+          } catch (error) {
+            console.log("⚠️ 无法检查 leaderboard 状态:", error);
+          }
+        }
       } else {
         console.log("🔄 发现新比赛，需要更新用户数据");
         console.log("   - 旧 ID:", userJson.newestMatchID);
