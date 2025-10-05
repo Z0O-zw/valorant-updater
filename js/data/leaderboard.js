@@ -150,6 +150,7 @@ export async function updateLeaderboard() {
     let totalKillEvents = 0;
     let validKillEvents = 0;
     let outsiderKills = 0; // 击杀不在玩家列表中的目标
+    let suicides = 0; // 自杀事件
 
     allMatches.forEach(match => {
       if (!match.kills || !Array.isArray(match.kills)) {
@@ -163,9 +164,13 @@ export async function updateLeaderboard() {
         const victimInList = leaderboardData.players.find(p => p.puuid === kill.victim_puuid);
 
         if (killerInList) {
-          validKillEvents++;
-          if (!victimInList && kill.victim_puuid !== kill.killer_puuid) {
-            outsiderKills++;
+          if (kill.killer_puuid === kill.victim_puuid) {
+            suicides++;
+          } else {
+            validKillEvents++;
+            if (!victimInList) {
+              outsiderKills++;
+            }
           }
         }
         const killerPuuid = kill.killer_puuid;
@@ -175,18 +180,23 @@ export async function updateLeaderboard() {
         // 更新击杀者统计（使用原有字段名）
         const killer = leaderboardData.players.find(p => p.puuid === killerPuuid);
         if (killer) {
-          killer.kills = (killer.kills || 0) + 1;
+          // 排除自杀情况：只有当击杀者和被击杀者不是同一人时才统计
+          if (killerPuuid !== victimPuuid) {
+            killer.kills = (killer.kills || 0) + 1;
 
-          // 更新对位击杀统计（使用原有字段名 killsAgainst）
-          // 只有当被击杀者也在玩家列表中时才统计对位击杀
-          if (victimPuuid && victimPuuid !== killerPuuid) {
-            const victimExists = leaderboardData.players.find(p => p.puuid === victimPuuid);
-            if (victimExists) {
-              if (!killer.killsAgainst) {
-                killer.killsAgainst = {};
+            // 更新对位击杀统计（使用原有字段名 killsAgainst）
+            // 只有当被击杀者也在玩家列表中时才统计对位击杀
+            if (victimPuuid) {
+              const victimExists = leaderboardData.players.find(p => p.puuid === victimPuuid);
+              if (victimExists) {
+                if (!killer.killsAgainst) {
+                  killer.killsAgainst = {};
+                }
+                killer.killsAgainst[victimPuuid] = (killer.killsAgainst[victimPuuid] || 0) + 1;
               }
-              killer.killsAgainst[victimPuuid] = (killer.killsAgainst[victimPuuid] || 0) + 1;
             }
+          } else {
+            console.log(`  ⚠️ 自杀事件：${killerPuuid} (不计入统计)`);
           }
         }
 
@@ -213,6 +223,7 @@ export async function updateLeaderboard() {
     console.log(`📈 击杀事件统计:`);
     console.log(`  - 总击杀事件: ${totalKillEvents}`);
     console.log(`  - 有效击杀事件: ${validKillEvents}`);
+    console.log(`  - 自杀事件: ${suicides} (不计入 kills)`);
     console.log(`  - 击杀局外人: ${outsiderKills}`);
 
     // 4. 输出统计结果和验证
