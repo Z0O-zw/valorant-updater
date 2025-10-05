@@ -144,6 +144,10 @@ export async function updateLeaderboard() {
       player.legshots = 0;
       player.headrate = 0;
 
+      // 重置胜负统计
+      player.win = 0;
+      player.all = 0;
+
       // 重置 killsAgainst 对象中的所有值
       if (player.killsAgainst) {
         Object.keys(player.killsAgainst).forEach(puuid => {
@@ -255,7 +259,55 @@ export async function updateLeaderboard() {
     console.log(`  - 自杀事件: ${suicides} (不计入 kills)`);
     console.log(`  - 击杀局外人: ${outsiderKills}`);
 
-    // 4. 计算爆头率
+    // 4. 统计胜负场次
+    console.log("📊 统计胜负场次...");
+
+    const excludedMatchId = "98cce6af-a308-4f13-ad8e-b3362af0ac05";
+
+    allMatches.forEach(match => {
+      const matchId = match.metadata?.matchid;
+
+      // 排除特定的比赛
+      if (matchId === excludedMatchId) {
+        console.log(`⏭️ 跳过比赛: ${matchId} (已排除)`);
+        return;
+      }
+
+      console.log(`🏆 处理胜负统计: ${matchId}`);
+
+      // 获取队伍胜负信息
+      const redWon = match.teams?.red?.has_won === true;
+      const blueWon = match.teams?.blue?.has_won === true;
+
+      if (!redWon && !blueWon) {
+        console.log(`⚠️ 比赛 ${matchId} 没有明确的胜负结果`);
+        return;
+      }
+
+      // 统计每个玩家的胜负
+      if (match.players && match.players.all_players) {
+        match.players.all_players.forEach(player => {
+          const playerPuuid = player.puuid;
+          const playerTeam = player.team; // "Red" 或 "Blue"
+
+          const leaderboardPlayer = leaderboardData.players.find(p => p.puuid === playerPuuid);
+          if (leaderboardPlayer) {
+            // 增加总场次
+            leaderboardPlayer.all += 1;
+
+            // 判断是否获胜
+            const playerWon = (playerTeam === "Red" && redWon) || (playerTeam === "Blue" && blueWon);
+            if (playerWon) {
+              leaderboardPlayer.win += 1;
+            }
+
+            console.log(`  玩家 ${playerPuuid} (${playerTeam}队): ${playerWon ? '胜利' : '失败'}`);
+          }
+        });
+      }
+    });
+
+    // 5. 计算爆头率
     console.log("📊 计算爆头率...");
     leaderboardData.players.forEach(player => {
       const totalShots = player.headshots + player.bodyshots + player.legshots;
@@ -266,17 +318,19 @@ export async function updateLeaderboard() {
       }
     });
 
-    // 5. 输出统计结果和验证
+    // 6. 输出统计结果和验证
     console.log("📊 统计结果:");
     leaderboardData.players.forEach(player => {
       // 计算 killsAgainst 的总和
       const killsAgainstSum = Object.values(player.killsAgainst || {}).reduce((sum, kills) => sum + kills, 0);
       const assistsWithSum = Object.values(player.assistsWith || {}).reduce((sum, assists) => sum + assists, 0);
       const difference = player.kills - killsAgainstSum;
+      const winRate = player.all > 0 ? Math.round((player.win / player.all) * 1000) / 10 : 0;
 
       console.log(`  ${player.puuid}:`);
       console.log(`    - 基础数据: ${player.kills} 击杀 / ${player.deaths} 死亡 / ${player.assists} 助攻`);
       console.log(`    - 命中数据: ${player.headshots} 爆头 / ${player.bodyshots} 身体 / ${player.legshots} 腿部 (爆头率: ${player.headrate}%)`);
+      console.log(`    - 胜负数据: ${player.win} 胜 / ${player.all} 总场次 (胜率: ${winRate}%)`);
       console.log(`    - killsAgainst 总和: ${killsAgainstSum}, 差值: ${difference}`);
       console.log(`    - assistsWith 总和: ${assistsWithSum}`);
 
@@ -285,7 +339,7 @@ export async function updateLeaderboard() {
       }
     });
 
-    // 6. 保存更新后的 leaderboard 数据
+    // 7. 保存更新后的 leaderboard 数据
     await saveLeaderboardData(leaderboardData);
     console.log("✅ leaderboard.json 更新完成");
 
