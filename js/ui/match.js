@@ -285,18 +285,56 @@ function calculateTeamRecommendation() {
   console.log('α队成员:', bestCombination.redTeam.map(p => p.name));
   console.log('Ω队成员:', bestCombination.blueTeam.map(p => p.name));
 
+  // 检查是否与上次组队重复
+  if (lastTeamConfig) {
+    const alphaRepeats = bestCombination.redTeam.filter(p => lastTeamConfig.redTeam.includes(p.puuid));
+    const omegaRepeats = bestCombination.blueTeam.filter(p => lastTeamConfig.blueTeam.includes(p.puuid));
+    console.log('与上次重复情况:');
+    console.log('α队重复成员:', alphaRepeats.map(p => p.name));
+    console.log('Ω队重复成员:', omegaRepeats.map(p => p.name));
+    console.log('重复度评分:', bestCombination.score.diversity);
+  }
+
   // 输出协作矩阵中的关键数据
   console.log('协作关系分析:');
   const matrix = collaborationMatrix;
+
+  // α队内协作
+  let alphaCollabTotal = 0;
   bestCombination.redTeam.forEach(p1 => {
     bestCombination.redTeam.forEach(p2 => {
       if (p1.puuid !== p2.puuid) {
         const count = (matrix[p1.puuid]?.[p2.puuid] || 0) + (matrix[p2.puuid]?.[p1.puuid] || 0);
         if (count > 0) {
           console.log(`  α队内: ${p1.name} ↔ ${p2.name}: ${count}次协作`);
+          alphaCollabTotal += count;
         }
       }
     });
+  });
+
+  // Ω队内协作
+  let omegaCollabTotal = 0;
+  bestCombination.blueTeam.forEach(p1 => {
+    bestCombination.blueTeam.forEach(p2 => {
+      if (p1.puuid !== p2.puuid) {
+        const count = (matrix[p1.puuid]?.[p2.puuid] || 0) + (matrix[p2.puuid]?.[p1.puuid] || 0);
+        if (count > 0) {
+          console.log(`  Ω队内: ${p1.name} ↔ ${p2.name}: ${count}次协作`);
+          omegaCollabTotal += count;
+        }
+      }
+    });
+  });
+
+  console.log('协作统计:', { alphaCollabTotal, omegaCollabTotal });
+
+  // 输出前3个最佳组合进行对比
+  console.log('前3个最佳组合对比:');
+  scoredCombinations.slice(0, 3).forEach((combo, index) => {
+    console.log(`第${index + 1}名: total=${combo.score.total.toFixed(3)}, kd=${combo.score.kdBalance.toFixed(3)}, collab=${combo.score.collaboration.toFixed(3)}, diversity=${combo.score.diversity.toFixed(3)}`);
+    console.log(`  α队: ${combo.redTeam.map(p => p.name).join(', ')}`);
+    console.log(`  Ω队: ${combo.blueTeam.map(p => p.name).join(', ')}`);
   });
 
   return {
@@ -449,8 +487,8 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
     diversity = 1 - (alphaSameCount + omegaSameCount) / 8;
   }
 
-  // 综合评分
-  const total = (1 - kdBalance) * 0.1 + collaboration * 0.8 + diversity * 0.1;
+  // 综合评分 - 调整权重让避免重复更重要
+  const total = (1 - kdBalance) * 0.2 + collaboration * 0.5 + diversity * 0.3;
 
   return {
     kdBalance,
