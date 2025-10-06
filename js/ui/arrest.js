@@ -1,7 +1,7 @@
 // 逮捕榜界面模块
 
 import { players } from './players.js';
-import { matches } from '../data/match.js';
+import { getMatches } from '../data/match.js';
 
 // 渲染逮捕榜界面
 export async function render() {
@@ -68,6 +68,7 @@ function calculateArrestData(playerPuuid) {
   const killCounts = {};
   const deathCounts = {};
 
+  const matches = getMatches();
   console.log('=== 逮捕榜数据计算调试 ===');
   console.log('目标玩家PUUID:', playerPuuid);
   console.log('比赛数据数量:', matches ? matches.length : 0);
