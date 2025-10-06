@@ -146,7 +146,7 @@ function renderMatchCard(matchInfo, index) {
           <div class="team-label red-label">红队</div>
           <div class="team-members">
             ${matchInfo.redTeam.map(player => `
-              <div class="team-player" style="background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)), url('${player.agentKillfeed}'); background-size: 40%; background-position: right center; background-repeat: no-repeat;">
+              <div class="team-player" style="background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)), url('${player.agentKillfeed}'); background-size: auto 100%; background-position: right center; background-repeat: no-repeat;">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
                 <div class="player-info">
                   <span class="player-name">${player.name}</span>
@@ -164,7 +164,7 @@ function renderMatchCard(matchInfo, index) {
           <div class="team-label blue-label">蓝队</div>
           <div class="team-members">
             ${matchInfo.blueTeam.map(player => `
-              <div class="team-player" style="background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)), url('${player.agentKillfeed}'); background-size: 40%; background-position: right center; background-repeat: no-repeat;">
+              <div class="team-player" style="background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)), url('${player.agentKillfeed}'); background-size: auto 100%; background-position: right center; background-repeat: no-repeat;">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
                 <div class="player-info">
                   <span class="player-name">${player.name}</span>
