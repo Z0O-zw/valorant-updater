@@ -69,27 +69,14 @@ function calculateArrestData(playerPuuid) {
   const deathCounts = {};
 
   const matches = getMatches();
-  console.log('=== 逮捕榜数据计算调试 ===');
-  console.log('目标玩家PUUID:', playerPuuid);
-  console.log('比赛数据数量:', matches ? matches.length : 0);
 
   if (!matches || matches.length === 0) {
-    console.log('没有比赛数据');
     return { kills: [], deaths: [] };
   }
 
-  let totalKills = 0;
-  matches.forEach((match, matchIndex) => {
-    console.log(`比赛 ${matchIndex + 1}:`, match);
-
+  matches.forEach(match => {
     // 检查是否有击杀数据数组
-    if (!match.kills || !Array.isArray(match.kills)) {
-      console.log(`比赛 ${matchIndex + 1} 没有击杀数据或格式错误`);
-      return;
-    }
-
-    console.log(`比赛 ${matchIndex + 1} 击杀数据数量:`, match.kills.length);
-    totalKills += match.kills.length;
+    if (!match.kills || !Array.isArray(match.kills)) return;
 
     match.kills.forEach(kill => {
       const killerPuuid = kill.killer_puuid;
@@ -98,20 +85,14 @@ function calculateArrestData(playerPuuid) {
       // 记录该玩家击杀其他人的次数
       if (killerPuuid === playerPuuid && victimPuuid !== playerPuuid) {
         killCounts[victimPuuid] = (killCounts[victimPuuid] || 0) + 1;
-        console.log(`${getPlayerName(playerPuuid)} 击杀了 ${getPlayerName(victimPuuid)}`);
       }
 
       // 记录该玩家被其他人击杀的次数
       if (victimPuuid === playerPuuid && killerPuuid !== playerPuuid) {
         deathCounts[killerPuuid] = (deathCounts[killerPuuid] || 0) + 1;
-        console.log(`${getPlayerName(playerPuuid)} 被 ${getPlayerName(killerPuuid)} 击杀`);
       }
     });
   });
-
-  console.log('总击杀数据:', totalKills);
-  console.log('该玩家击杀统计:', killCounts);
-  console.log('该玩家被击杀统计:', deathCounts);
 
   // 转换为排序数组
   const kills = Object.entries(killCounts)
@@ -129,9 +110,6 @@ function calculateArrestData(playerPuuid) {
       count
     }))
     .sort((a, b) => b.count - a.count);
-
-  console.log('最终击杀榜单:', kills);
-  console.log('最终被击杀榜单:', deaths);
 
   return { kills, deaths };
 }

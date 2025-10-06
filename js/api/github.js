@@ -61,6 +61,45 @@ export async function loadLeaderboardData() {
   }
 }
 
+// 加载所有比赛数据
+export async function loadAllMatchData() {
+  try {
+    const dirUrl = `https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`;
+    const response = await fetch(dirUrl, {
+      headers: { "Authorization": `token ${config.token}` }
+    });
+
+    if (!response.ok) {
+      console.log('比赛数据目录不存在或无法访问');
+      return [];
+    }
+
+    const files = await response.json();
+    const matchFiles = files.filter(file => file.name.endsWith('.json') && file.name !== 'README.md');
+
+    console.log(`发现 ${matchFiles.length} 个比赛文件`);
+
+    const matches = [];
+    for (const file of matchFiles) {
+      try {
+        const fileResponse = await fetch(file.download_url);
+        if (fileResponse.ok) {
+          const matchData = await fileResponse.json();
+          matches.push(matchData);
+        }
+      } catch (error) {
+        console.error(`加载比赛文件 ${file.name} 失败:`, error);
+      }
+    }
+
+    console.log(`成功加载 ${matches.length} 个比赛数据`);
+    return matches;
+  } catch (error) {
+    console.error('加载比赛数据失败:', error);
+    return [];
+  }
+}
+
 // 兼容性函数：从 GitHub 读取数据（保持向后兼容）
 export async function loadDataWithToken() {
   try {
@@ -70,11 +109,12 @@ export async function loadDataWithToken() {
     // 加载排行榜数据
     const leaderboardData = await loadLeaderboardData();
 
-    // 对于 matches，我们现在使用独立的文件存储，这里返回空数组
-    // 实际的比赛数据通过 leaderboard 更新流程处理
+    // 加载所有比赛数据
+    const matchData = await loadAllMatchData();
+
     return {
       players: userData.players,
-      matches: [], // 比赛数据现在分别存储在 src/match/ 目录下
+      matches: matchData,
       leaderboard: leaderboardData
     };
   } catch (error) {
