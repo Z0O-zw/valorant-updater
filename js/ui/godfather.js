@@ -38,7 +38,7 @@ export async function render() {
     contentHtml += `
       <div class="godfather-tab-content ${activeClass}" id="godfather-${player.puuid}">
         <div class="godfather-section">
-          <h3>${player.name} 协助榜单</h3>
+          <h3>${player.name} 协助他人榜单</h3>
           <div class="godfather-list">
             ${renderAssistList(assistData.assists)}
           </div>
@@ -83,11 +83,11 @@ function calculateAssistData(playerPuuid) {
       const victimPuuid = kill.victim_puuid;
       const assistants = kill.assistants || [];
 
-      // 计算该玩家协助击杀其他人的次数
+      // 计算该玩家协助其他人的次数
       assistants.forEach(assistant => {
         if (assistant.assistant_puuid === playerPuuid && killerPuuid !== playerPuuid) {
-          // 该玩家协助击杀了受害者
-          assistCounts[victimPuuid] = (assistCounts[victimPuuid] || 0) + 1;
+          // 该玩家协助了击杀者
+          assistCounts[killerPuuid] = (assistCounts[killerPuuid] || 0) + 1;
         }
       });
 
@@ -139,7 +139,7 @@ function renderAssistList(assists) {
     <div class="godfather-item">
       <span class="rank">#${index + 1}</span>
       <span class="player-name">${assist.name}</span>
-      <span class="count">${assist.count} 次协助</span>
+      <span class="count">协助 ${assist.count} 次</span>
     </div>
   `).join('');
 }
@@ -154,7 +154,7 @@ function renderAssistedList(assisted) {
     <div class="godfather-item">
       <span class="rank">#${index + 1}</span>
       <span class="player-name">${assist.name}</span>
-      <span class="count">协助 ${assist.count} 次</span>
+      <span class="count">协助了 ${assist.count} 次</span>
     </div>
   `).join('');
 }
