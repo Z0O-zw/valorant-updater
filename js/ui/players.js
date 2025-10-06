@@ -33,16 +33,6 @@ export async function render() {
   }
 
   // 合并玩家基础信息和排行榜数据
-  console.log('📊 Leaderboard 数据示例:', leaderboardData.players[0]);
-  console.log('📊 具体字段值:', {
-    headrate: leaderboardData.players[0]?.headrate,
-    win: leaderboardData.players[0]?.win,
-    all: leaderboardData.players[0]?.all,
-    headshots: leaderboardData.players[0]?.headshots,
-    bodyshots: leaderboardData.players[0]?.bodyshots,
-    legshots: leaderboardData.players[0]?.legshots
-  });
-
   const playerStats = leaderboardData.players.map((stats) => {
     const player = players.find(p => p.puuid === stats.puuid);
 

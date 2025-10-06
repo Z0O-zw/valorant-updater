@@ -8,6 +8,7 @@ import { showLoadingIndicator, showErrorMessage } from '../ui/common.js';
 // 更新用户数据
 export async function updateUserData() {
   let hasNewMatches = false;
+  let updatedLeaderboardData = null;
 
   try {
     console.log("🔄 开始更新用户数据...");
@@ -165,7 +166,7 @@ export async function updateUserData() {
           // 补充保存后更新 leaderboard
           console.log("🏆 补充保存后更新 leaderboard...");
           try {
-            await updateLeaderboard();
+            updatedLeaderboardData = await updateLeaderboard();
             console.log("✅ Leaderboard 更新完成");
           } catch (error) {
             console.error("❌ 更新 leaderboard 失败:", error);
@@ -404,5 +405,5 @@ export async function updateUserData() {
     showLoadingIndicator(false);
   }
 
-  return { hasNewMatches };
+  return { hasNewMatches, updatedLeaderboardData };
 }

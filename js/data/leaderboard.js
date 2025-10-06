@@ -186,18 +186,6 @@ export async function updateLeaderboard() {
             leaderboardPlayer.headshots += (stats.headshots || 0);
             leaderboardPlayer.legshots += (stats.legshots || 0);
 
-            // 调试：仅在第一个玩家第一次处理时输出
-            if (playerPuuid === leaderboardData.players[0].puuid && !leaderboardPlayer._debugged) {
-              console.log(`    📊 示例统计 (${playerPuuid.substring(0, 8)}...):`, {
-                'stats.bodyshots': stats.bodyshots,
-                'stats.headshots': stats.headshots,
-                'stats.legshots': stats.legshots,
-                '累计bodyshots': leaderboardPlayer.bodyshots,
-                '累计headshots': leaderboardPlayer.headshots,
-                '累计legshots': leaderboardPlayer.legshots
-              });
-              leaderboardPlayer._debugged = true;
-            }
           }
         });
       } else {
@@ -355,6 +343,9 @@ export async function updateLeaderboard() {
     // 7. 保存更新后的 leaderboard 数据
     await saveLeaderboardData(leaderboardData);
     console.log("✅ leaderboard.json 更新完成");
+
+    // 返回更新后的数据
+    return leaderboardData;
 
   } catch (error) {
     console.error("❌ 更新 leaderboard 失败:", error);

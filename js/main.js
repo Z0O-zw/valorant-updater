@@ -29,10 +29,17 @@ async function init() {
     const data = await loadDataWithToken();
     setPlayers(data.players);
     setMatches(data.matches);
-    setLeaderboardData(data.leaderboard);
+
+    // 如果刚更新了 leaderboard，使用新数据；否则使用从 GitHub 加载的数据
+    if (updateResult && updateResult.updatedLeaderboardData) {
+      console.log('🎯 使用刚更新的 leaderboard 数据');
+      setLeaderboardData(updateResult.updatedLeaderboardData);
+    } else {
+      setLeaderboardData(data.leaderboard);
+    }
     console.log('✅ 数据加载完成');
 
-    // 4. 显示默认标签页
+    // 5. 显示默认标签页
     showTab('players');
     console.log('✅ 应用初始化完成');
 
