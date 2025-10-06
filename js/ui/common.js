@@ -26,22 +26,10 @@ export function showLoadingIndicator(show) {
     if (!indicator) {
       indicator = document.createElement('div');
       indicator.id = 'loading-indicator';
+      indicator.className = 'loading-indicator';
       indicator.innerHTML = `
-        <div style="
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background: rgba(0, 0, 0, 0.8);
-          color: white;
-          padding: 20px;
-          border-radius: 10px;
-          z-index: 10000;
-          text-align: center;
-        ">
-          <div>🔄 正在更新数据...</div>
-          <div style="margin-top: 10px;">请稍候</div>
-        </div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在初始化应用...</div>
       `;
       document.body.appendChild(indicator);
     }
