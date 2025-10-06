@@ -185,6 +185,19 @@ export async function updateLeaderboard() {
             leaderboardPlayer.bodyshots += (stats.bodyshots || 0);
             leaderboardPlayer.headshots += (stats.headshots || 0);
             leaderboardPlayer.legshots += (stats.legshots || 0);
+
+            // 调试：仅在第一个玩家第一次处理时输出
+            if (playerPuuid === leaderboardData.players[0].puuid && !leaderboardPlayer._debugged) {
+              console.log(`    📊 示例统计 (${playerPuuid.substring(0, 8)}...):`, {
+                'stats.bodyshots': stats.bodyshots,
+                'stats.headshots': stats.headshots,
+                'stats.legshots': stats.legshots,
+                '累计bodyshots': leaderboardPlayer.bodyshots,
+                '累计headshots': leaderboardPlayer.headshots,
+                '累计legshots': leaderboardPlayer.legshots
+              });
+              leaderboardPlayer._debugged = true;
+            }
           }
         });
       } else {

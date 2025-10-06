@@ -7,6 +7,8 @@ import { showLoadingIndicator, showErrorMessage } from '../ui/common.js';
 
 // 更新用户数据
 export async function updateUserData() {
+  let hasNewMatches = false;
+
   try {
     console.log("🔄 开始更新用户数据...");
     showLoadingIndicator(true);
@@ -240,6 +242,7 @@ export async function updateUserData() {
         console.log("🔄 发现新比赛，需要更新用户数据");
         console.log("   - 旧 ID:", userJson.newestMatchID);
         console.log("   - 新 ID:", latestMatchId);
+        hasNewMatches = true;
 
         // 找出需要保存的新比赛
         const newCustomMatches = [];
@@ -400,4 +403,6 @@ export async function updateUserData() {
   } finally {
     showLoadingIndicator(false);
   }
+
+  return { hasNewMatches };
 }

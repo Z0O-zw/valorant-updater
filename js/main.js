@@ -15,11 +15,17 @@ async function init() {
     await loadConfig();
     console.log('✅ 配置加载完成');
 
-    // 2. 更新用户数据
-    await updateUserData();
+    // 2. 更新用户数据（包括 leaderboard）
+    const updateResult = await updateUserData();
     console.log('✅ 用户数据更新完成');
 
-    // 3. 加载现有数据
+    // 3. 加载数据（如果刚更新过，延迟一下避免缓存问题）
+    if (updateResult && updateResult.hasNewMatches) {
+      console.log('⏳ 等待 GitHub 数据同步...');
+      await new Promise(resolve => setTimeout(resolve, 2000)); // 等待2秒
+    }
+
+    // 4. 加载现有数据
     const data = await loadDataWithToken();
     setPlayers(data.players);
     setMatches(data.matches);
