@@ -39,7 +39,7 @@ async function init() {
     console.log('✅ 数据加载完成');
 
     // 5. 显示默认标签页
-    showTab('players');
+    showTab('match');
     console.log('✅ 应用初始化完成');
 
   } catch (error) {
