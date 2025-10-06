@@ -275,6 +275,14 @@ export async function ensureMatchDirectoryExists() {
 export async function saveUserData(userJson, sha) {
   const key = perf.start('GitHub保存', 'saveUserData');
   try {
+    console.log('📝 正在保存用户数据到GitHub:', {
+      repo: config.repo,
+      path: config.userDataPath,
+      branch: config.branch,
+      hasSha: !!sha,
+      newestMatchID: userJson.newestMatchID
+    });
+
     const content = JSON.stringify(userJson, null, 4);
     const encodedContent = btoa(unescape(encodeURIComponent(content)));
 
@@ -288,7 +296,10 @@ export async function saveUserData(userJson, sha) {
       requestBody.sha = sha;
     }
 
-    const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}`, {
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}`;
+    console.log('🔗 GitHub API URL:', url);
+
+    const res = await fetch(url, {
       method: "PUT",
       headers: {
         "Authorization": `token ${config.token}`,
@@ -299,13 +310,18 @@ export async function saveUserData(userJson, sha) {
 
     if (!res.ok) {
       const error = await res.json();
-      console.error("保存用户数据失败:", error);
+      console.error("❌ 保存用户数据失败:", {
+        status: res.status,
+        error: error,
+        url: url
+      });
       throw new Error(`Failed to save user data: ${error.message || res.status}`);
     }
 
+    console.log('✅ 用户数据已成功保存到GitHub');
     perf.end(key);
   } catch (error) {
-    console.error("保存用户数据失败:", error);
+    console.error("❌ 保存用户数据异常:", error);
     perf.end(key);
     throw error;
   }
@@ -315,6 +331,12 @@ export async function saveUserData(userJson, sha) {
 export async function saveMatchFile(matchData, matchPath) {
   const key = perf.start('GitHub保存', `saveMatchFile - ${matchData.metadata?.matchid}`);
   try {
+    console.log('📝 正在保存比赛文件到GitHub:', {
+      matchId: matchData.metadata?.matchid,
+      path: matchPath,
+      repo: config.repo
+    });
+
     const matchDataCopy = { ...matchData };
     delete matchDataCopy.rounds;
 

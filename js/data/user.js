@@ -81,14 +81,53 @@ export async function updateUserData() {
     const customMatches = matchData.data.filter(match => {
       const mode = match?.metadata?.mode;
       const modeId = match?.metadata?.mode_id;
-      // 检查 mode 或 mode_id 是否为 custom（原始逻辑）
-      return (mode === "custom" || mode === "Custom" ||
-              modeId === "custom" || modeId === "Custom" ||
-              mode?.toLowerCase() === "custom" ||
-              modeId?.toLowerCase() === "custom");
+
+      // 首先检查 mode 是否为 custom
+      const isCustomMode = (mode === "custom" || mode === "Custom" ||
+                           modeId === "custom" || modeId === "Custom" ||
+                           mode?.toLowerCase() === "custom" ||
+                           modeId?.toLowerCase() === "custom");
+
+      if (!isCustomMode) {
+        return false;
+      }
+
+      // 获取比赛中的玩家
+      const matchPlayers = match.players?.all_players || [];
+      const matchPlayerPuuids = matchPlayers.map(p => p.puuid);
+
+      // 获取user.json中的玩家puuid列表
+      const userPlayerPuuids = userJson.players.map(p => p.puuid);
+
+      // 检查所有比赛玩家是否都在user.json的8个人中
+      const allPlayersInUserList = matchPlayerPuuids.every(puuid => userPlayerPuuids.includes(puuid));
+
+      if (!allPlayersInUserList) {
+        return false;
+      }
+
+      // 支持8人比赛（原逻辑）和6人比赛（新增）
+      const playerCount = matchPlayerPuuids.length;
+      const isValidPlayerCount = playerCount === 8 || playerCount === 6;
+
+      // 如果是6人比赛，记录日志
+      if (playerCount === 6 && isValidPlayerCount) {
+        console.log(`✅ 发现6人custom比赛: ${match.metadata?.matchid}`);
+      }
+
+      return isValidPlayerCount;
     });
 
+    console.log(`🎯 比赛筛选结果: 总共${matchData.data.length}场比赛，筛选出${customMatches.length}场custom比赛`);
+
     if (customMatches.length > 0) {
+      // 统计筛选出的比赛信息
+      const matchStats = customMatches.map(match => ({
+        matchId: match.metadata?.matchid,
+        playerCount: match.players?.all_players?.length || 0,
+        mode: match.metadata?.mode
+      }));
+      console.log('筛选出的比赛详情:', matchStats);
       const latestMatch = customMatches[0];
       const latestMatchId = latestMatch.metadata?.matchid;
       const matchPlayers = latestMatch.players?.all_players || [];
