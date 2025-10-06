@@ -33,8 +33,11 @@ async function init() {
     // 如果刚更新了 leaderboard，使用新数据；否则使用从 GitHub 加载的数据
     if (updateResult && updateResult.updatedLeaderboardData) {
       console.log('🎯 使用刚更新的 leaderboard 数据');
+      console.log('🎯 新数据示例:', updateResult.updatedLeaderboardData.players[0]);
       setLeaderboardData(updateResult.updatedLeaderboardData);
     } else {
+      console.log('📊 使用从 GitHub 加载的数据');
+      console.log('📊 GitHub数据示例:', data.leaderboard?.players?.[0]);
       setLeaderboardData(data.leaderboard);
     }
     console.log('✅ 数据加载完成');

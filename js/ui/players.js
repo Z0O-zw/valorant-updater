@@ -1,6 +1,4 @@
 // 选手榜单界面模块
-import { config } from '../config.js';
-import { getPlayerAvatar } from '../utils/avatar.js';
 
 // 玩家数据
 export let players = [];
@@ -14,6 +12,7 @@ export function setPlayers(newPlayers) {
 // 设置排行榜数据
 export function setLeaderboardData(data) {
   leaderboardData = data;
+  console.log('🔄 setLeaderboardData 被调用，数据示例:', data?.players?.[0]);
 }
 
 
@@ -21,6 +20,8 @@ export function setLeaderboardData(data) {
 export async function render() {
   const content = document.getElementById('content');
   if (!content) return;
+
+  console.log('🎨 render() 被调用，当前 leaderboardData:', leaderboardData?.players?.[0]);
 
   if (!leaderboardData || !leaderboardData.players) {
     content.innerHTML = `
@@ -64,7 +65,7 @@ export async function render() {
       <div class="leaderboard-container">
   `;
 
-  playerStats.forEach((player, index) => {
+  playerStats.forEach((player) => {
     html += `
       <div class="player-banner">
         <div class="player-basic">
