@@ -407,12 +407,12 @@ function generateTeamCombinations(playerList) {
 function evaluateTeamCombination(combination, playerStats, collaborationMatrix, lastTeamConfig) {
   const { redTeam, blueTeam } = combination;
 
-  // 1. K/D平衡度评分
+  // 1. K/D平衡度评分 (kdBalance 越大越不平衡)
   const redKD = redTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
   const blueKD = blueTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
   const kdBalance = Math.abs(redKD - blueKD) / Math.max(redKD, blueKD, 0.1);
 
-  // 2. 协作差异度评分（队内协作越少越好）
+  // 2. 协作差异度评分（collaboration 越大队内配合历史越少）
   const redCollaboration = calculateTeamCollaboration(redTeam, collaborationMatrix);
   const blueCollaboration = calculateTeamCollaboration(blueTeam, collaborationMatrix);
   const collaboration = 1 / (1 + redCollaboration + blueCollaboration);
@@ -426,7 +426,7 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   }
 
   // 综合评分
-  const total = (1 - kdBalance) * 0.1 + collaboration * 0.8 + diversity * 0.1;
+  const total = (1 - kdBalance) * 0.1 + collaboration * 1.8 + diversity * 0.1;
 
   return {
     kdBalance,
