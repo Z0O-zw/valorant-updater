@@ -387,16 +387,15 @@ function generateTeamCombinations(playerList) {
 
   const combinations = [];
 
-  // 生成所有4人组合作为红队
-  for (let i = 0; i < playerList.length; i++) {
+  // 确保第一个玩家总是在红队，避免重复组合
+  // 从剩余7个玩家中选3个与第一个玩家组成红队
+  for (let i = 1; i < playerList.length; i++) {
     for (let j = i + 1; j < playerList.length; j++) {
       for (let k = j + 1; k < playerList.length; k++) {
-        for (let l = k + 1; l < playerList.length; l++) {
-          const redTeam = [playerList[i], playerList[j], playerList[k], playerList[l]];
-          const blueTeam = playerList.filter(p => !redTeam.some(rp => rp.puuid === p.puuid));
+        const redTeam = [playerList[0], playerList[i], playerList[j], playerList[k]];
+        const blueTeam = playerList.filter(p => !redTeam.some(rp => rp.puuid === p.puuid));
 
-          combinations.push({ redTeam, blueTeam });
-        }
+        combinations.push({ redTeam, blueTeam });
       }
     }
   }
@@ -427,7 +426,7 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   }
 
   // 综合评分
-  const total = (1 - kdBalance) * 0.1 + (1-collaboration) * 0.8 + diversity * 0.1;
+  const total = (1 - kdBalance) * 0 + collaboration * 1 + diversity * 0;
 
   return {
     kdBalance,
