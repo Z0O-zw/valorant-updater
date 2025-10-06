@@ -1,13 +1,15 @@
 // 排行榜数据管理模块
 import { config } from '../config.js';
 import { saveLeaderboardData } from '../api/github.js';
+import { perf } from '../utils/performance.js';
 
 // 更新排行榜
 export async function updateLeaderboard() {
+  const mainKey = perf.start('排行榜更新', 'updateLeaderboard主函数');
   try {
-    console.log("🏆 开始更新 leaderboard...");
 
     // 1. 加载当前的 leaderboard 数据
+    const loadLeaderboardKey = perf.start('数据加载', '排行榜数据');
     let leaderboardData;
     try {
       const leaderboardRes = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json?ref=${config.branch}`, {
@@ -17,25 +19,25 @@ export async function updateLeaderboard() {
       if (leaderboardRes.ok) {
         const leaderboardFile = await leaderboardRes.json();
         const decodedLeaderboardContent = atob(leaderboardFile.content.replace(/\s/g, ''));
-        console.log("📄 leaderboard更新: 解码后的 leaderboard.json 内容长度:", decodedLeaderboardContent.length);
 
         if (decodedLeaderboardContent.trim() === '') {
-          console.log("⚠️ leaderboard.json 文件为空，无法更新");
           return;
         }
 
         leaderboardData = JSON.parse(decodedLeaderboardContent);
-        console.log("🏆 leaderboard更新: leaderboard.json 中有", leaderboardData.players?.length || 0, "个玩家");
       } else {
-        console.log("leaderboard.json 不存在，使用默认数据");
+        perf.end(loadLeaderboardKey);
         return;
       }
     } catch (error) {
       console.error("加载 leaderboard.json 失败:", error);
+      perf.end(loadLeaderboardKey);
       return;
     }
+    perf.end(loadLeaderboardKey);
 
     // 2. 加载 src/match/ 目录下的所有比赛文件
+    const loadMatchesKey = perf.start('数据加载', '所有比赛数据');
     let allMatches = [];
     try {
       // 清理配置值，确保没有多余的空格
@@ -47,18 +49,10 @@ export async function updateLeaderboard() {
       const pathParts = ["repos", cleanRepo, "contents", "src", "match"];
       const apiUrl = `${baseUrl}/${pathParts.join("/")}?ref=${cleanBranch}`;
 
-      console.log(`🔗 GitHub API URL: ${apiUrl}`);
-      console.log(`📋 配置信息:`, {
-        repo: cleanRepo,
-        branch: cleanBranch,
-        hasToken: !!config.token,
-        urlLength: apiUrl.length,
-        hasSpaces: apiUrl.includes(" ") || apiUrl.includes("%20%20")
-      });
 
       // 验证 URL 是否正确
       if (apiUrl.includes(" ") || apiUrl.includes("%20%20")) {
-        console.error("⚠️ URL 包含异常空格，可能导致请求失败");
+        console.error("URL 包含异常空格，可能导致请求失败");
       }
 
       const dirRes = await fetch(apiUrl, {
@@ -68,22 +62,15 @@ export async function updateLeaderboard() {
         }
       });
 
-      console.log(`📡 GitHub API 响应:`, {
-        status: dirRes.status,
-        statusText: dirRes.statusText,
-        remaining: dirRes.headers.get('X-RateLimit-Remaining'),
-        limit: dirRes.headers.get('X-RateLimit-Limit')
-      });
 
       if (!dirRes.ok) {
-        console.error(`❌ 无法读取 match 目录: ${dirRes.status} ${dirRes.statusText}`);
+        console.error(`无法读取 match 目录: ${dirRes.status} ${dirRes.statusText}`);
         const errorBody = await dirRes.text();
         console.error("错误详情:", errorBody);
         return;
       }
 
       const dirContent = await dirRes.json();
-      console.log(`📁 找到 ${dirContent.length} 个文件/目录`);
 
       // 过滤出 JSON 文件
       const matchFiles = dirContent.filter(file =>
@@ -92,12 +79,10 @@ export async function updateLeaderboard() {
         file.name !== 'README.md'
       );
 
-      console.log(`📊 找到 ${matchFiles.length} 个比赛文件`);
 
       // 串行读取每个比赛文件（避免并发请求过多）
       for (const fileInfo of matchFiles) {
         try {
-          console.log(`📖 正在读取: ${fileInfo.name}`);
           const fileRes = await fetch(fileInfo.url, {
             headers: {
               "Authorization": `token ${config.token}`,
@@ -110,26 +95,26 @@ export async function updateLeaderboard() {
             const decodedContent = atob(fileData.content.replace(/\s/g, ''));
             const matchData = JSON.parse(decodedContent);
             allMatches.push(matchData);
-            console.log(`  ✅ 成功读取比赛: ${matchData.metadata?.matchid || fileInfo.name}`);
           } else {
-            console.error(`  ❌ 无法读取文件 ${fileInfo.name}: ${fileRes.status}`);
+            console.error(`无法读取文件 ${fileInfo.name}: ${fileRes.status}`);
           }
 
           // 添加小延迟，避免触发 API 速率限制
           await new Promise(resolve => setTimeout(resolve, 100));
         } catch (error) {
-          console.error(`  ❌ 读取文件 ${fileInfo.name} 失败:`, error);
+          console.error(`读取文件 ${fileInfo.name} 失败:`, error);
         }
       }
 
-      console.log(`✅ 成功加载 ${allMatches.length} 场比赛数据`);
     } catch (error) {
       console.error("加载比赛数据失败:", error);
+      perf.end(loadMatchesKey);
       return;
     }
+    perf.end(loadMatchesKey);
 
     // 3. 统计击杀数据
-    console.log("📊 开始统计击杀数据...");
+    const statsKey = perf.start('数据计算', '统计计算');
 
     // 初始化所有玩家的统计数据（包含新字段）
     leaderboardData.players.forEach(player => {
@@ -164,11 +149,9 @@ export async function updateLeaderboard() {
     });
 
     // 遍历所有比赛统计数据
-    console.log("📊 开始从 players.stats 统计基础数据...");
 
     allMatches.forEach(match => {
       const matchId = match.metadata?.matchid;
-      console.log(`🔍 处理比赛: ${matchId}`);
 
       // 1. 从 players.all_players.stats 统计基础数据
       if (match.players && match.players.all_players) {
@@ -189,12 +172,10 @@ export async function updateLeaderboard() {
           }
         });
       } else {
-        console.log(`⚠️ 比赛 ${matchId} 没有 players.all_players 数据`);
       }
     });
 
     // 遍历所有比赛统计 killsAgainst 和 assistsWith（从 kills 事件）
-    console.log("📊 开始从 kills 事件统计 killsAgainst 和 assistsWith...");
 
     let totalKillEvents = 0;
     let validKillEvents = 0;
@@ -203,7 +184,6 @@ export async function updateLeaderboard() {
 
     allMatches.forEach(match => {
       if (!match.kills || !Array.isArray(match.kills)) {
-        console.log(`⚠️ 比赛 ${match.metadata?.matchid} 没有击杀事件数据`);
         return;
       }
 
@@ -253,15 +233,10 @@ export async function updateLeaderboard() {
       });
     });
 
-    // 输出击杀事件统计
-    console.log(`📈 击杀事件统计:`);
-    console.log(`  - 总击杀事件: ${totalKillEvents}`);
-    console.log(`  - 有效击杀事件: ${validKillEvents}`);
-    console.log(`  - 自杀事件: ${suicides} (不计入 kills)`);
-    console.log(`  - 击杀局外人: ${outsiderKills}`);
+    // 输出击杀事件统计（调试用）
+    // console.log(`总击杀事件: ${totalKillEvents}, 有效击杀事件: ${validKillEvents}, 自杀事件: ${suicides}, 击杀局外人: ${outsiderKills}`);
 
     // 4. 统计胜负场次
-    console.log("📊 统计胜负场次...");
 
     const excludedMatchId = "98cce6af-a308-4f13-ad8e-b3362af0ac05";
 
@@ -270,18 +245,15 @@ export async function updateLeaderboard() {
 
       // 排除特定的比赛
       if (matchId === excludedMatchId) {
-        console.log(`⏭️ 跳过比赛: ${matchId} (已排除)`);
         return;
       }
 
-      console.log(`🏆 处理胜负统计: ${matchId}`);
 
       // 获取队伍胜负信息
       const redWon = match.teams?.red?.has_won === true;
       const blueWon = match.teams?.blue?.has_won === true;
 
       if (!redWon && !blueWon) {
-        console.log(`⚠️ 比赛 ${matchId} 没有明确的胜负结果`);
         return;
       }
 
@@ -302,14 +274,12 @@ export async function updateLeaderboard() {
               leaderboardPlayer.win += 1;
             }
 
-            console.log(`  玩家 ${playerPuuid} (${playerTeam}队): ${playerWon ? '胜利' : '失败'}`);
           }
         });
       }
     });
 
     // 5. 计算爆头率
-    console.log("📊 计算爆头率...");
     leaderboardData.players.forEach(player => {
       const totalShots = player.headshots + player.bodyshots + player.legshots;
       if (totalShots > 0) {
@@ -319,36 +289,27 @@ export async function updateLeaderboard() {
       }
     });
 
-    // 6. 输出统计结果和验证
-    console.log("📊 统计结果:");
+    // 6. 验证统计结果
     leaderboardData.players.forEach(player => {
-      // 计算 killsAgainst 的总和
       const killsAgainstSum = Object.values(player.killsAgainst || {}).reduce((sum, kills) => sum + kills, 0);
-      const assistsWithSum = Object.values(player.assistsWith || {}).reduce((sum, assists) => sum + assists, 0);
       const difference = player.kills - killsAgainstSum;
-      const winRate = player.all > 0 ? Math.round((player.win / player.all) * 1000) / 10 : 0;
-
-      console.log(`  ${player.puuid}:`);
-      console.log(`    - 基础数据: ${player.kills} 击杀 / ${player.deaths} 死亡 / ${player.assists} 助攻`);
-      console.log(`    - 命中数据: ${player.headshots} 爆头 / ${player.bodyshots} 身体 / ${player.legshots} 腿部 (爆头率: ${player.headrate}%)`);
-      console.log(`    - 胜负数据: ${player.win} 胜 / ${player.all} 总场次 (胜率: ${winRate}%)`);
-      console.log(`    - killsAgainst 总和: ${killsAgainstSum}, 差值: ${difference}`);
-      console.log(`    - assistsWith 总和: ${assistsWithSum}`);
 
       if (difference !== 0) {
-        console.warn(`    ⚠️ 击杀统计不一致！总击杀(${player.kills}) != killsAgainst总和(${killsAgainstSum})`);
+        console.warn(`击杀统计不一致！总击杀(${player.kills}) != killsAgainst总和(${killsAgainstSum})`);
       }
     });
+    perf.end(statsKey);
 
     // 7. 保存更新后的 leaderboard 数据
     await saveLeaderboardData(leaderboardData);
-    console.log("✅ leaderboard.json 更新完成");
 
     // 返回更新后的数据
+    perf.end(mainKey);
     return leaderboardData;
 
   } catch (error) {
-    console.error("❌ 更新 leaderboard 失败:", error);
+    console.error("更新 leaderboard 失败:", error);
+    perf.end(mainKey);
     throw error;
   }
 }

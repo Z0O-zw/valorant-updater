@@ -5,28 +5,37 @@ import { updateUserData } from './data/user.js';
 import { setPlayers, setLeaderboardData } from './ui/players.js';
 import { setMatches } from './data/match.js';
 import { showTab } from './ui/common.js';
+import { perf } from './utils/performance.js';
 
 // 全局初始化函数
 async function init() {
+  const initKey = perf.start('应用初始化', '完整流程');
+
   try {
-    console.log('🚀 应用初始化开始...');
 
     // 1. 加载配置
+    const configKey = perf.start('配置加载');
     await loadConfig();
-    console.log('✅ 配置加载完成');
+    perf.end(configKey);
 
     // 2. 更新用户数据（包括 leaderboard）
+    const updateKey = perf.start('用户数据更新');
     const updateResult = await updateUserData();
-    console.log('✅ 用户数据更新完成');
+    perf.end(updateKey);
 
     // 3. 加载数据（如果刚更新过，延迟一下避免缓存问题）
     if (updateResult && updateResult.hasNewMatches) {
-      console.log('⏳ 等待 GitHub 数据同步...');
+      const delayKey = perf.start('数据同步等待', '2秒延迟');
       await new Promise(resolve => setTimeout(resolve, 2000)); // 等待2秒
+      perf.end(delayKey);
     }
 
     // 4. 加载现有数据
+    const loadKey = perf.start('GitHub数据加载');
     const data = await loadDataWithToken();
+    perf.end(loadKey);
+
+    const uiKey = perf.start('UI数据设置');
     setPlayers(data.players);
     setMatches(data.matches);
 
@@ -36,14 +45,21 @@ async function init() {
     } else {
       setLeaderboardData(data.leaderboard);
     }
-    console.log('✅ 数据加载完成');
+    perf.end(uiKey);
 
     // 5. 显示默认标签页
+    const renderKey = perf.start('页面渲染');
     showTab('match');
-    console.log('✅ 应用初始化完成');
+    perf.end(renderKey);
+
+    perf.end(initKey);
+
+    // 生成性能报告
+    setTimeout(() => perf.generateReport(), 100);
 
   } catch (error) {
-    console.error('❌ 应用初始化失败:', error);
+    perf.end(initKey);
+    console.error('应用初始化失败:', error);
   }
 }
 

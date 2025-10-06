@@ -16,9 +16,7 @@ export async function loadConfig() {
     const response = await fetch('/api/config');
     if (response.ok) {
       Object.assign(config, await response.json());
-      console.log('配置加载成功');
     } else {
-      console.error('无法加载配置，使用默认值');
     }
   } catch (error) {
     console.error('加载配置失败:', error);

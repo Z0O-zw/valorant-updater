@@ -45,7 +45,6 @@ async function getCustomAvatar(puuid) {
       }
     }
   } catch (error) {
-    console.log(`没有找到 ${puuid} 的自定义头像`);
   }
 
   return null;

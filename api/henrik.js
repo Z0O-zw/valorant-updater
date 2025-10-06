@@ -2,6 +2,10 @@
 // 用于避免 CORS 问题，在服务器端调用 Henrik API
 
 export default async function handler(req, res) {
+  // 记录开始时间
+  const startTime = performance.now();
+  const requestId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
   // 只允许 GET 请求
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -27,7 +31,7 @@ export default async function handler(req, res) {
       henrikapiUrl += '?' + queryParams.join('&');
     }
 
-    console.log('请求 Henrik API:', henrikapiUrl);
+    console.log(`📊 [${requestId}] Henrik API 请求: ${henrikapiUrl}`);
 
     // 调用 Henrik API
     const response = await fetch(henrikapiUrl, {
@@ -46,6 +50,10 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
+    // 计算耗时
+    const duration = Math.round((performance.now() - startTime) * 100) / 100;
+    console.log(`⏱️ [${requestId}] Henrik API请求: ${duration}ms`);
+
     // 添加 CORS 头部，允许前端访问
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -55,7 +63,9 @@ export default async function handler(req, res) {
     res.status(200).json(data);
 
   } catch (error) {
-    console.error('代理请求失败:', error);
+    // 计算失败时的耗时
+    const duration = Math.round((performance.now() - startTime) * 100) / 100;
+    console.error(`❌ [${requestId}] Henrik API请求失败: ${duration}ms`, error);
     res.status(500).json({
       error: 'Internal server error',
       message: error.message

@@ -1,8 +1,10 @@
 // GitHub API 操作模块
 import { config } from '../config.js';
+import { perf } from '../utils/performance.js';
 
 // 从 GitHub 读取用户数据
 export async function loadUserData() {
+  const key = perf.start('GitHub读取', 'user.json');
   try {
     const url = `https://api.github.com/repos/${config.repo}/contents/${config.userDataPath}?ref=${config.branch}`;
     const res = await fetch(url, { headers: { Authorization: `token ${config.token}` } });
@@ -12,7 +14,6 @@ export async function loadUserData() {
       if (res.status === 401) {
         alert('GitHub Token无效或已过期，请检查token权限');
       } else if (res.status === 404) {
-        console.log('user.json文件不存在，使用默认数据');
         return { players: [] };
       }
       return { players: [] };
@@ -30,23 +31,26 @@ export async function loadUserData() {
     const jsonStr = new TextDecoder("utf-8").decode(bytes);
     const parsed = JSON.parse(jsonStr);
 
-    return {
+    const result = {
       players: Array.isArray(parsed.players) ? parsed.players : []
     };
+    perf.end(key);
+    return result;
   } catch (error) {
     console.error('加载用户数据失败:', error);
+    perf.end(key);
     return { players: [] };
   }
 }
 
 // 从 GitHub 读取排行榜数据
 export async function loadLeaderboardData() {
+  const key = perf.start('GitHub读取', 'leaderboard.json');
   try {
     const url = `https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json?ref=${config.branch}`;
     const res = await fetch(url, { headers: { Authorization: `token ${config.token}` } });
 
     if (!res.ok) {
-      console.log('leaderboard.json文件不存在或无法访问');
       return null;
     }
 
@@ -54,15 +58,19 @@ export async function loadLeaderboardData() {
     const cleanedContent = data.content.replace(/\s/g, '');
     const bytes = Uint8Array.from(atob(cleanedContent), c => c.charCodeAt(0));
     const jsonStr = new TextDecoder("utf-8").decode(bytes);
-    return JSON.parse(jsonStr);
+    const result = JSON.parse(jsonStr);
+    perf.end(key);
+    return result;
   } catch (error) {
     console.error('加载排行榜数据失败:', error);
+    perf.end(key);
     return null;
   }
 }
 
 // 加载所有比赛数据
 export async function loadAllMatchData() {
+  const key = perf.start('GitHub读取', '所有比赛数据');
   try {
     const dirUrl = `https://api.github.com/repos/${config.repo}/contents/src/match?ref=${config.branch}`;
     const response = await fetch(dirUrl, {
@@ -70,14 +78,12 @@ export async function loadAllMatchData() {
     });
 
     if (!response.ok) {
-      console.log('比赛数据目录不存在或无法访问');
       return [];
     }
 
     const files = await response.json();
     const matchFiles = files.filter(file => file.name.endsWith('.json') && file.name !== 'README.md');
 
-    console.log(`发现 ${matchFiles.length} 个比赛文件`);
 
     const matches = [];
     for (const file of matchFiles) {
@@ -92,10 +98,11 @@ export async function loadAllMatchData() {
       }
     }
 
-    console.log(`成功加载 ${matches.length} 个比赛数据`);
+    perf.end(key);
     return matches;
   } catch (error) {
     console.error('加载比赛数据失败:', error);
+    perf.end(key);
     return [];
   }
 }
@@ -168,6 +175,7 @@ export async function uploadFileToGithub(token, filePath, file) {
 
 // 保存数据到 GitHub
 export async function saveToGithub(players, matches) {
+  const key = perf.start('GitHub保存', 'saveToGithub');
   const blob = new Blob([JSON.stringify({ players, matches }, null, 2)], { type: "application/json" });
   try {
     let sha = undefined;
@@ -197,6 +205,7 @@ export async function saveToGithub(players, matches) {
           })
         });
         if (res.ok) {
+          perf.end(key);
           resolve();
         } else {
           const error = await res.json();
@@ -204,6 +213,7 @@ export async function saveToGithub(players, matches) {
           if (error.message && error.message.includes("must be 100 MB or smaller")) {
             alert("文件太大（超过100MB），无法保存到GitHub。请减少数据量。");
           }
+          perf.end(key);
           reject(error);
         }
       };
@@ -212,6 +222,7 @@ export async function saveToGithub(players, matches) {
   } catch (error) {
     console.error('保存失败:', error);
     alert('保存失败，请检查网络连接和GitHub Token权限');
+    perf.end(key);
     throw error;
   }
 }
@@ -225,7 +236,6 @@ export async function ensureMatchDirectoryExists() {
     });
 
     if (checkRes.status === 404) {
-      console.log("📂 正在创建 src/match 目录...");
       const readmePath = "src/match/README.md";
       const content = "# Match Files\n\nThis directory contains individual match JSON files.";
       const encoded = btoa(content);
@@ -244,27 +254,26 @@ export async function ensureMatchDirectoryExists() {
       });
 
       if (createRes.ok) {
-        console.log("✅ 目录创建成功");
         return true;
       } else {
-        console.error("❌ 创建目录失败:", await createRes.json());
+        console.error("创建目录失败:", await createRes.json());
         return false;
       }
     } else if (checkRes.ok) {
-      console.log("✅ src/match 目录已存在");
       return true;
     } else {
-      console.error("❌ 检查目录失败:", checkRes.status);
+      console.error("检查目录失败:", checkRes.status);
       return false;
     }
   } catch (error) {
-    console.error("❌ 确保目录存在时出错:", error);
+    console.error("确保目录存在时出错:", error);
     return false;
   }
 }
 
 // 保存用户数据
 export async function saveUserData(userJson, sha) {
+  const key = perf.start('GitHub保存', 'saveUserData');
   try {
     const content = JSON.stringify(userJson, null, 4);
     const encodedContent = btoa(unescape(encodeURIComponent(content)));
@@ -294,20 +303,21 @@ export async function saveUserData(userJson, sha) {
       throw new Error(`Failed to save user data: ${error.message || res.status}`);
     }
 
-    console.log("✅ 用户数据已保存到 GitHub");
+    perf.end(key);
   } catch (error) {
     console.error("保存用户数据失败:", error);
+    perf.end(key);
     throw error;
   }
 }
 
 // 保存单个比赛文件
 export async function saveMatchFile(matchData, matchPath) {
+  const key = perf.start('GitHub保存', `saveMatchFile - ${matchData.metadata?.matchid}`);
   try {
     const matchDataCopy = { ...matchData };
     delete matchDataCopy.rounds;
 
-    console.log(`💾 保存比赛 ${matchData.metadata?.matchid}（已移除 rounds 字段，保留 kills 字段）`);
 
     const jsonString = JSON.stringify(matchDataCopy, null, 4);
     const encodedContent = btoa(unescape(encodeURIComponent(jsonString)));
@@ -322,7 +332,6 @@ export async function saveMatchFile(matchData, matchPath) {
         sha = fileData.sha;
       }
     } catch (error) {
-      console.log("文件不存在，将创建新文件");
     }
 
     const requestBody = {
@@ -349,15 +358,19 @@ export async function saveMatchFile(matchData, matchPath) {
       throw new Error(`Failed to save match: ${error.message || res.status}`);
     }
 
-    return await res.json();
+    const result = await res.json();
+    perf.end(key);
+    return result;
   } catch (error) {
     console.error(`保存比赛文件失败 (${matchPath}):`, error);
+    perf.end(key);
     throw error;
   }
 }
 
 // 保存排行榜数据
 export async function saveLeaderboardData(leaderboardData) {
+  const key = perf.start('GitHub保存', 'saveLeaderboardData');
   try {
     let sha = null;
     try {
@@ -369,7 +382,6 @@ export async function saveLeaderboardData(leaderboardData) {
         sha = fileData.sha;
       }
     } catch (error) {
-      console.log("获取 leaderboard.json SHA 失败，将创建新文件");
     }
 
     const content = JSON.stringify(leaderboardData, null, 4);
@@ -385,7 +397,6 @@ export async function saveLeaderboardData(leaderboardData) {
       requestBody.sha = sha;
     }
 
-    console.log("📝 正在保存 leaderboard.json...", sha ? "更新文件" : "创建新文件");
 
     const res = await fetch(`https://api.github.com/repos/${config.repo}/contents/src/leaderboard.json`, {
       method: "PUT",
@@ -398,13 +409,14 @@ export async function saveLeaderboardData(leaderboardData) {
 
     if (!res.ok) {
       const error = await res.json();
-      console.error("❌ 保存 leaderboard.json 失败:", error);
+      console.error("保存 leaderboard.json 失败:", error);
       throw new Error(`Failed to save leaderboard data: ${error.message || res.status}`);
     }
 
-    console.log("✅ leaderboard.json 已成功保存到 GitHub");
+    perf.end(key);
   } catch (error) {
-    console.error("❌ 保存 leaderboard.json 失败:", error);
+    console.error("保存 leaderboard.json 失败:", error);
+    perf.end(key);
     throw error;
   }
 }
