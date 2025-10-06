@@ -79,13 +79,13 @@ function parseMatchInfo(match) {
   }
 
   // 解析队伍组成和计算KDA
-  const redTeam = playersData.filter(p => p.team === 'Red').map(player => ({
+  const alphaTeam = playersData.filter(p => p.team === 'Red').map(player => ({
     ...player,
     kda: calculatePlayerKDA(player, match),
     agentKillfeed: player.assets?.agent?.killfeed || ''
   }));
 
-  const blueTeam = playersData.filter(p => p.team === 'Blue').map(player => ({
+  const omegaTeam = playersData.filter(p => p.team === 'Blue').map(player => ({
     ...player,
     kda: calculatePlayerKDA(player, match),
     agentKillfeed: player.assets?.agent?.killfeed || ''
@@ -93,23 +93,23 @@ function parseMatchInfo(match) {
 
   // 确定获胜方和大比分
   let winningTeam = null;
-  let redScore = 0;
-  let blueScore = 0;
+  let alphaScore = 0;
+  let omegaScore = 0;
 
   if (teams.red && teams.blue) {
-    winningTeam = teams.red.has_won ? 'Red' : teams.blue.has_won ? 'Blue' : null;
-    redScore = teams.red.rounds_won || 0;
-    blueScore = teams.blue.rounds_won || 0;
+    winningTeam = teams.red.has_won ? 'Alpha' : teams.blue.has_won ? 'Omega' : null;
+    alphaScore = teams.red.rounds_won || 0;
+    omegaScore = teams.blue.rounds_won || 0;
   }
 
   return {
     map,
     date: dateStr,
-    redTeam,
-    blueTeam,
+    alphaTeam,
+    omegaTeam,
     winningTeam,
-    redScore,
-    blueScore,
+    alphaScore,
+    omegaScore,
     matchId: metadata.matchid
   };
 }
@@ -137,9 +137,9 @@ function renderMatchCard(matchInfo, index) {
           <span class="map-name">${matchInfo.map}</span>
         </div>
         <div class="match-score">
-          <span class="score ${matchInfo.winningTeam === 'Red' ? 'winning-score' : ''}">${matchInfo.redScore}</span>
+          <span class="score ${matchInfo.winningTeam === 'Alpha' ? 'winning-score' : ''}">${matchInfo.alphaScore}</span>
           <span class="score-separator">:</span>
-          <span class="score ${matchInfo.winningTeam === 'Blue' ? 'winning-score' : ''}">${matchInfo.blueScore}</span>
+          <span class="score ${matchInfo.winningTeam === 'Omega' ? 'winning-score' : ''}">${matchInfo.omegaScore}</span>
         </div>
         <div class="match-date">
           <span class="date-text">${matchInfo.date}</span>
@@ -147,10 +147,10 @@ function renderMatchCard(matchInfo, index) {
       </div>
 
       <div class="match-teams">
-        <div class="team ${matchInfo.winningTeam === 'Red' ? 'winning-team' : 'losing-team'}">
-          <div class="team-label red-label">红队</div>
+        <div class="team ${matchInfo.winningTeam === 'Alpha' ? 'winning-team' : 'losing-team'}">
+          <div class="team-label red-label">α队</div>
           <div class="team-members">
-            ${matchInfo.redTeam.map(player => `
+            ${matchInfo.alphaTeam.map(player => `
               <div class="team-player" style="background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)), url('${player.agentKillfeed}'); background-size: auto 100%; background-position: right center; background-repeat: no-repeat;">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
                 <div class="player-info">
@@ -160,15 +160,15 @@ function renderMatchCard(matchInfo, index) {
               </div>
             `).join('')}
           </div>
-          ${matchInfo.winningTeam === 'Red' ? '<div class="victory-badge">胜利</div>' : ''}
+          ${matchInfo.winningTeam === 'Alpha' ? '<div class="victory-badge">胜利</div>' : ''}
         </div>
 
         <div class="vs-separator">VS</div>
 
-        <div class="team ${matchInfo.winningTeam === 'Blue' ? 'winning-team' : 'losing-team'}">
-          <div class="team-label blue-label">蓝队</div>
+        <div class="team ${matchInfo.winningTeam === 'Omega' ? 'winning-team' : 'losing-team'}">
+          <div class="team-label blue-label">Ω队</div>
           <div class="team-members">
-            ${matchInfo.blueTeam.map(player => `
+            ${matchInfo.omegaTeam.map(player => `
               <div class="team-player" style="background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.7)), url('${player.agentKillfeed}'); background-size: auto 100%; background-position: right center; background-repeat: no-repeat;">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
                 <div class="player-info">
@@ -178,7 +178,7 @@ function renderMatchCard(matchInfo, index) {
               </div>
             `).join('')}
           </div>
-          ${matchInfo.winningTeam === 'Blue' ? '<div class="victory-badge">胜利</div>' : ''}
+          ${matchInfo.winningTeam === 'Omega' ? '<div class="victory-badge">胜利</div>' : ''}
         </div>
       </div>
     </div>
@@ -209,9 +209,9 @@ function renderTeamRecommendation() {
       <h3>组队推荐</h3>
       <div class="recommended-teams">
         <div class="recommended-team red-team">
-          <div class="team-label">推荐红队</div>
+          <div class="team-label">推荐α队</div>
           <div class="team-players">
-            ${recommendation.redTeam.map(player => `
+            ${recommendation.alphaTeam.map(player => `
               <div class="recommended-player">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-mini">
                 <span class="player-name">${player.name}</span>
@@ -224,9 +224,9 @@ function renderTeamRecommendation() {
         <div class="vs-divider">VS</div>
 
         <div class="recommended-team blue-team">
-          <div class="team-label">推荐蓝队</div>
+          <div class="team-label">推荐Ω队</div>
           <div class="team-players">
-            ${recommendation.blueTeam.map(player => `
+            ${recommendation.omegaTeam.map(player => `
               <div class="recommended-player">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-mini">
                 <span class="player-name">${player.name}</span>
@@ -280,11 +280,11 @@ function calculateTeamRecommendation() {
   const bestCombination = scoredCombinations.sort((a, b) => b.score.total - a.score.total)[0];
 
   return {
-    redTeam: bestCombination.redTeam.map(p => ({
+    alphaTeam: bestCombination.redTeam.map(p => ({
       ...p,
       kd: playerStats[p.puuid]?.kd || 0
     })),
-    blueTeam: bestCombination.blueTeam.map(p => ({
+    omegaTeam: bestCombination.blueTeam.map(p => ({
       ...p,
       kd: playerStats[p.puuid]?.kd || 0
     })),
@@ -408,25 +408,25 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   const { redTeam, blueTeam } = combination;
 
   // 1. K/D平衡度评分 (kdBalance 越大越不平衡)
-  const redKD = redTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
-  const blueKD = blueTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
-  const kdBalance = Math.abs(redKD - blueKD) / Math.max(redKD, blueKD, 0.1);
+  const alphaKD = redTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
+  const omegaKD = blueTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
+  const kdBalance = Math.abs(alphaKD - omegaKD) / Math.max(alphaKD, omegaKD, 0.1);
 
   // 2. 协作差异度评分（collaboration 越大队内配合历史越少）
-  const redCollaboration = calculateTeamCollaboration(redTeam, collaborationMatrix);
-  const blueCollaboration = calculateTeamCollaboration(blueTeam, collaborationMatrix);
-  const collaboration = 1 / (1 + redCollaboration + blueCollaboration);
+  const alphaCollaboration = calculateTeamCollaboration(redTeam, collaborationMatrix);
+  const omegaCollaboration = calculateTeamCollaboration(blueTeam, collaborationMatrix);
+  const collaboration = 1 / (1 + alphaCollaboration + omegaCollaboration);
 
   // 3. 与上次组队差异度评分
   let diversity = 1;
   if (lastTeamConfig) {
-    const redSameCount = redTeam.filter(p => lastTeamConfig.redTeam.includes(p.puuid)).length;
-    const blueSameCount = blueTeam.filter(p => lastTeamConfig.blueTeam.includes(p.puuid)).length;
-    diversity = 1 - (redSameCount + blueSameCount) / 8;
+    const alphaSameCount = redTeam.filter(p => lastTeamConfig.redTeam.includes(p.puuid)).length;
+    const omegaSameCount = blueTeam.filter(p => lastTeamConfig.blueTeam.includes(p.puuid)).length;
+    diversity = 1 - (alphaSameCount + omegaSameCount) / 8;
   }
 
   // 综合评分
-  const total = (1 - kdBalance) * 0.1 + collaboration * 1.8 + diversity * 0.1;
+  const total = (1 - kdBalance) * 0.1 + (1-collaboration * 0.8) + diversity * 0.1;
 
   return {
     kdBalance,
