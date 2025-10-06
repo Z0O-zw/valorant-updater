@@ -2,35 +2,35 @@
     "players": [
         {
             "puuid": "68f46674-7a88-56fe-a1d9-4505df4eeb60",
-            "kills": 102,
-            "deaths": 92,
-            "assists": 34,
+            "kills": 127,
+            "deaths": 115,
+            "assists": 47,
             "killsAgainst": {
                 "68f46674-7a88-56fe-a1d9-4505df4eeb60": 0,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 10,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 21,
-                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 21,
+                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 29,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 0,
-                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 22,
+                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 31,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 8,
-                "4d80d862-158a-529e-a953-0bf22ad05370": 20
+                "4d80d862-158a-529e-a953-0bf22ad05370": 28
             },
             "assistsWith": {
                 "68f46674-7a88-56fe-a1d9-4505df4eeb60": 0,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 2,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 3,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 0,
-                "1a68bb7d-42be-5837-99a6-8160130ea562": 16,
+                "1a68bb7d-42be-5837-99a6-8160130ea562": 24,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 3,
-                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 8,
+                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 13,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 2
             },
-            "bodyshots": 324,
-            "headshots": 57,
-            "legshots": 17,
-            "headrate": 14.3,
-            "win": 3,
-            "all": 6
+            "bodyshots": 357,
+            "headshots": 65,
+            "legshots": 18,
+            "headrate": 14.8,
+            "win": 5,
+            "all": 8
         },
         {
             "puuid": "bf0c4494-3aeb-5699-8085-6b01d17cc781",
@@ -98,17 +98,17 @@
         },
         {
             "puuid": "d9cde280-0c40-54f1-a146-5f5a9691c33c",
-            "kills": 112,
-            "deaths": 91,
-            "assists": 32,
+            "kills": 136,
+            "deaths": 124,
+            "assists": 38,
             "killsAgainst": {
-                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 28,
+                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 36,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 17,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 5,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 0,
-                "1a68bb7d-42be-5837-99a6-8160130ea562": 30,
+                "1a68bb7d-42be-5837-99a6-8160130ea562": 36,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 11,
-                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 19,
+                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 29,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 2
             },
             "assistsWith": {
@@ -117,144 +117,144 @@
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 9,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 0,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 1,
-                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 5,
+                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 7,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 1,
-                "4d80d862-158a-529e-a953-0bf22ad05370": 14
+                "4d80d862-158a-529e-a953-0bf22ad05370": 18
             },
-            "bodyshots": 355,
-            "headshots": 80,
+            "bodyshots": 383,
+            "headshots": 88,
             "legshots": 37,
-            "headrate": 16.9,
+            "headrate": 17.3,
             "win": 3,
-            "all": 6
+            "all": 8
         },
         {
             "puuid": "1a68bb7d-42be-5837-99a6-8160130ea562",
-            "kills": 122,
-            "deaths": 89,
-            "assists": 45,
+            "kills": 165,
+            "deaths": 109,
+            "assists": 49,
             "killsAgainst": {
                 "68f46674-7a88-56fe-a1d9-4505df4eeb60": 0,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 10,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 26,
-                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 33,
+                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 48,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 0,
-                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 21,
+                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 36,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 8,
-                "4d80d862-158a-529e-a953-0bf22ad05370": 24
+                "4d80d862-158a-529e-a953-0bf22ad05370": 37
             },
             "assistsWith": {
-                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 18,
+                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 21,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 6,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 2,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 3,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 0,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 2,
-                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 11,
+                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 12,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 3
             },
-            "bodyshots": 206,
-            "headshots": 104,
-            "legshots": 18,
-            "headrate": 31.7,
-            "win": 3,
-            "all": 6
+            "bodyshots": 229,
+            "headshots": 118,
+            "legshots": 19,
+            "headrate": 32.2,
+            "win": 5,
+            "all": 8
         },
         {
             "puuid": "9c7126ff-575b-58a2-9378-aa1bec7de4cc",
-            "kills": 68,
-            "deaths": 94,
-            "assists": 29,
+            "kills": 94,
+            "deaths": 126,
+            "assists": 32,
             "killsAgainst": {
-                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 12,
+                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 20,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 15,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 0,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 5,
-                "1a68bb7d-42be-5837-99a6-8160130ea562": 13,
+                "1a68bb7d-42be-5837-99a6-8160130ea562": 21,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 0,
-                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 20,
+                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 30,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 3
             },
             "assistsWith": {
                 "68f46674-7a88-56fe-a1d9-4505df4eeb60": 3,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 0,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 8,
-                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 8,
+                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 9,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 4,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 0,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 0,
-                "4d80d862-158a-529e-a953-0bf22ad05370": 6
+                "4d80d862-158a-529e-a953-0bf22ad05370": 8
             },
-            "bodyshots": 224,
-            "headshots": 60,
+            "bodyshots": 240,
+            "headshots": 65,
             "legshots": 28,
-            "headrate": 19.2,
+            "headrate": 19.5,
             "win": 5,
-            "all": 6
+            "all": 8
         },
         {
             "puuid": "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9",
-            "kills": 89,
-            "deaths": 99,
-            "assists": 30,
+            "kills": 114,
+            "deaths": 126,
+            "assists": 33,
             "killsAgainst": {
                 "68f46674-7a88-56fe-a1d9-4505df4eeb60": 6,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 0,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 20,
-                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 14,
+                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 24,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 2,
-                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 25,
+                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 33,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 0,
-                "4d80d862-158a-529e-a953-0bf22ad05370": 22
+                "4d80d862-158a-529e-a953-0bf22ad05370": 29
             },
             "assistsWith": {
-                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 3,
+                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 4,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 10,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 1,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 11,
-                "1a68bb7d-42be-5837-99a6-8160130ea562": 5,
+                "1a68bb7d-42be-5837-99a6-8160130ea562": 7,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 0,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 0,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 1
             },
-            "bodyshots": 283,
-            "headshots": 67,
+            "bodyshots": 317,
+            "headshots": 80,
             "legshots": 14,
-            "headrate": 18.4,
-            "win": 1,
-            "all": 6
+            "headrate": 19.5,
+            "win": 3,
+            "all": 8
         },
         {
             "puuid": "4d80d862-158a-529e-a953-0bf22ad05370",
-            "kills": 115,
-            "deaths": 79,
-            "assists": 34,
+            "kills": 135,
+            "deaths": 107,
+            "assists": 36,
             "killsAgainst": {
-                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 25,
+                "68f46674-7a88-56fe-a1d9-4505df4eeb60": 32,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 25,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 8,
                 "d9cde280-0c40-54f1-a146-5f5a9691c33c": 3,
-                "1a68bb7d-42be-5837-99a6-8160130ea562": 27,
+                "1a68bb7d-42be-5837-99a6-8160130ea562": 33,
                 "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 0,
-                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 27,
+                "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 34,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 0
             },
             "assistsWith": {
                 "68f46674-7a88-56fe-a1d9-4505df4eeb60": 4,
                 "bf0c4494-3aeb-5699-8085-6b01d17cc781": 3,
                 "390fc46f-0eb1-53a6-bcae-c58e06cfaef2": 8,
-                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 12,
+                "d9cde280-0c40-54f1-a146-5f5a9691c33c": 13,
                 "1a68bb7d-42be-5837-99a6-8160130ea562": 1,
-                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 4,
+                "9c7126ff-575b-58a2-9378-aa1bec7de4cc": 5,
                 "1aac17e6-c2ce-5a09-9987-fb93f4a1cdf9": 2,
                 "4d80d862-158a-529e-a953-0bf22ad05370": 0
             },
-            "bodyshots": 307,
-            "headshots": 66,
-            "legshots": 34,
-            "headrate": 16.2,
+            "bodyshots": 320,
+            "headshots": 72,
+            "legshots": 38,
+            "headrate": 16.7,
             "win": 4,
-            "all": 6
+            "all": 8
         }
     ]
 }
