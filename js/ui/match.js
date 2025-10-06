@@ -279,6 +279,26 @@ function calculateTeamRecommendation() {
   // 选择最佳组合
   const bestCombination = scoredCombinations.sort((a, b) => b.score.total - a.score.total)[0];
 
+  // 调试信息：输出推荐结果的详细分析
+  console.log('🎯 组队推荐分析:');
+  console.log('最佳组合得分:', bestCombination.score);
+  console.log('α队成员:', bestCombination.redTeam.map(p => p.name));
+  console.log('Ω队成员:', bestCombination.blueTeam.map(p => p.name));
+
+  // 输出协作矩阵中的关键数据
+  console.log('协作关系分析:');
+  const matrix = collaborationMatrix;
+  bestCombination.redTeam.forEach(p1 => {
+    bestCombination.redTeam.forEach(p2 => {
+      if (p1.puuid !== p2.puuid) {
+        const count = (matrix[p1.puuid]?.[p2.puuid] || 0) + (matrix[p2.puuid]?.[p1.puuid] || 0);
+        if (count > 0) {
+          console.log(`  α队内: ${p1.name} ↔ ${p2.name}: ${count}次协作`);
+        }
+      }
+    });
+  });
+
   return {
     alphaTeam: bestCombination.redTeam.map(p => ({
       ...p,
@@ -412,10 +432,14 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   const omegaKD = blueTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
   const kdBalance = Math.abs(alphaKD - omegaKD) / Math.max(alphaKD, omegaKD, 0.1);
 
-  // 2. 协作差异度评分（collaboration 越大队内配合历史越少）
+  // 2. 协作差异度评分（分数越高表示队内协作历史越少）
   const alphaCollaboration = calculateTeamCollaboration(redTeam, collaborationMatrix);
   const omegaCollaboration = calculateTeamCollaboration(blueTeam, collaborationMatrix);
-  const collaboration = 1 / (1 + alphaCollaboration + omegaCollaboration);
+
+  // 分别计算每队的协作差异度，然后取平均
+  const alphaCollaborationScore = 1 / (1 + alphaCollaboration);
+  const omegaCollaborationScore = 1 / (1 + omegaCollaboration);
+  const collaboration = (alphaCollaborationScore + omegaCollaborationScore) / 2;
 
   // 3. 与上次组队差异度评分
   let diversity = 1;
@@ -426,7 +450,7 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   }
 
   // 综合评分
-  const total = (1 - kdBalance) * 0.1 + (1-collaboration * 0.8) + diversity * 0.1;
+  const total = (1 - kdBalance) * 0.1 + collaboration * 0.8 + diversity * 0.1;
 
   return {
     kdBalance,
