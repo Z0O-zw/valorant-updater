@@ -76,12 +76,14 @@ function parseMatchInfo(match) {
   // 解析队伍组成和计算KDA
   const redTeam = playersData.filter(p => p.team === 'Red').map(player => ({
     ...player,
-    kda: calculatePlayerKDA(player, match)
+    kda: calculatePlayerKDA(player, match),
+    agentKillfeed: player.assets?.agent?.killfeed || ''
   }));
 
   const blueTeam = playersData.filter(p => p.team === 'Blue').map(player => ({
     ...player,
-    kda: calculatePlayerKDA(player, match)
+    kda: calculatePlayerKDA(player, match),
+    agentKillfeed: player.assets?.agent?.killfeed || ''
   }));
 
   // 确定获胜方和大比分
@@ -144,7 +146,7 @@ function renderMatchCard(matchInfo, index) {
           <div class="team-label red-label">红队</div>
           <div class="team-members">
             ${matchInfo.redTeam.map(player => `
-              <div class="team-player">
+              <div class="team-player" style="background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('${player.agentKillfeed}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
                 <div class="player-info">
                   <span class="player-name">${player.name}</span>
@@ -162,7 +164,7 @@ function renderMatchCard(matchInfo, index) {
           <div class="team-label blue-label">蓝队</div>
           <div class="team-members">
             ${matchInfo.blueTeam.map(player => `
-              <div class="team-player">
+              <div class="team-player" style="background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('${player.agentKillfeed}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
                 <div class="player-info">
                   <span class="player-name">${player.name}</span>
