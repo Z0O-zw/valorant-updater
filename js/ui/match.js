@@ -468,7 +468,7 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   // 1. K/D平衡度评分 (kdBalance 越大越不平衡)
   const alphaKD = redTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
   const omegaKD = blueTeam.reduce((sum, p) => sum + (playerStats[p.puuid]?.kd || 0), 0) / 4;
-  const kdBalance = Math.abs(alphaKD - omegaKD) / Math.mean(alphaKD, omegaKD);
+  const kdBalance = Math.abs(alphaKD - omegaKD) * 2 / (alphaKD + omegaKD);
 
   // 2. 协作差异度评分（分数越高表示队内协作历史越少）
   const alphaCollaboration = calculateTeamCollaboration(redTeam, collaborationMatrix);
