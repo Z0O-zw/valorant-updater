@@ -22,57 +22,21 @@ export function render() {
     return;
   }
 
-  // 生成组队推荐
-  const teamRecommendation = generateTeamRecommendation();
-
   let html = `
     <div class="section">
-      <h2>📊 对局记录</h2>
-
-      <!-- 组队推荐 -->
-      <div class="team-recommendation">
-        <h3>🎯 组队推荐</h3>
-        <div class="recommended-teams">
-          <div class="team red-team">
-            <h4>红队</h4>
-            <div class="team-players">
-              ${teamRecommendation.teamRed.map(player => `
-                <div class="recommended-player">
-                  <img src="${player.avatar}" alt="${player.name}" class="player-avatar-small">
-                  <span class="player-name">${player.name}</span>
-                  <span class="player-kd">K/D: ${player.kd}</span>
-                </div>
-              `).join('')}
-            </div>
-            <div class="team-stats">平均K/D: ${teamRecommendation.teamRedAvgKD}</div>
-          </div>
-
-          <div class="vs-divider">VS</div>
-
-          <div class="team blue-team">
-            <h4>蓝队</h4>
-            <div class="team-players">
-              ${teamRecommendation.teamBlue.map(player => `
-                <div class="recommended-player">
-                  <img src="${player.avatar}" alt="${player.name}" class="player-avatar-small">
-                  <span class="player-name">${player.name}</span>
-                  <span class="player-kd">K/D: ${player.kd}</span>
-                </div>
-              `).join('')}
-            </div>
-            <div class="team-stats">平均K/D: ${teamRecommendation.teamBlueAvgKD}</div>
-          </div>
-        </div>
-      </div>
+      <h2>对局记录</h2>
 
       <!-- 对局记录列表 -->
       <div class="match-records">
-        <h3>📝 历史对局</h3>
         <div class="matches-list">
   `;
 
-  // 按时间倒序排列对局
-  const sortedMatches = [...matches].sort((a, b) => {
+  // 过滤掉指定的 matchid 并按时间倒序排列对局
+  const filteredMatches = matches.filter(match =>
+    match.metadata?.matchid !== '98cce6af-a308-4f13-ad8e-b3362af0ac05'
+  );
+
+  const sortedMatches = [...filteredMatches].sort((a, b) => {
     const timeA = new Date(a.metadata?.game_start_patched || 0).getTime();
     const timeB = new Date(b.metadata?.game_start_patched || 0).getTime();
     return timeB - timeA;
@@ -109,14 +73,26 @@ function parseMatchInfo(match) {
     dateStr = date.toLocaleDateString('zh-CN', options);
   }
 
-  // 解析队伍组成
-  const redTeam = playersData.filter(p => p.team === 'Red');
-  const blueTeam = playersData.filter(p => p.team === 'Blue');
+  // 解析队伍组成和计算KDA
+  const redTeam = playersData.filter(p => p.team === 'Red').map(player => ({
+    ...player,
+    kda: calculatePlayerKDA(player, match)
+  }));
 
-  // 确定获胜方
+  const blueTeam = playersData.filter(p => p.team === 'Blue').map(player => ({
+    ...player,
+    kda: calculatePlayerKDA(player, match)
+  }));
+
+  // 确定获胜方和大比分
   let winningTeam = null;
+  let redScore = 0;
+  let blueScore = 0;
+
   if (teams.red && teams.blue) {
     winningTeam = teams.red.has_won ? 'Red' : teams.blue.has_won ? 'Blue' : null;
+    redScore = teams.red.rounds_won || 0;
+    blueScore = teams.blue.rounds_won || 0;
   }
 
   return {
@@ -125,8 +101,24 @@ function parseMatchInfo(match) {
     redTeam,
     blueTeam,
     winningTeam,
+    redScore,
+    blueScore,
     matchId: metadata.matchid
   };
+}
+
+// 计算玩家在该场比赛的KDA
+function calculatePlayerKDA(player, match) {
+  if (!match.kills || !player.stats) {
+    return { kills: 0, deaths: 0, assists: 0 };
+  }
+
+  // 从玩家统计数据中获取KDA
+  const kills = player.stats.kills || 0;
+  const deaths = player.stats.deaths || 0;
+  const assists = player.stats.assists || 0;
+
+  return { kills, deaths, assists };
 }
 
 // 渲染比赛卡片
@@ -135,11 +127,14 @@ function renderMatchCard(matchInfo, index) {
     <div class="match-card">
       <div class="match-header">
         <div class="match-map">
-          <span class="map-icon">🗺️</span>
           <span class="map-name">${matchInfo.map}</span>
         </div>
+        <div class="match-score">
+          <span class="score ${matchInfo.winningTeam === 'Red' ? 'winning-score' : ''}">${matchInfo.redScore}</span>
+          <span class="score-separator">:</span>
+          <span class="score ${matchInfo.winningTeam === 'Blue' ? 'winning-score' : ''}">${matchInfo.blueScore}</span>
+        </div>
         <div class="match-date">
-          <span class="date-icon">📅</span>
           <span class="date-text">${matchInfo.date}</span>
         </div>
       </div>
@@ -151,7 +146,10 @@ function renderMatchCard(matchInfo, index) {
             ${matchInfo.redTeam.map(player => `
               <div class="team-player">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
-                <span class="player-name">${player.name}</span>
+                <div class="player-info">
+                  <span class="player-name">${player.name}</span>
+                  <span class="player-kda">${player.kda.kills}/${player.kda.deaths}/${player.kda.assists}</span>
+                </div>
               </div>
             `).join('')}
           </div>
@@ -166,7 +164,10 @@ function renderMatchCard(matchInfo, index) {
             ${matchInfo.blueTeam.map(player => `
               <div class="team-player">
                 <img src="${getPlayerAvatar(player.puuid)}" alt="${player.name}" class="player-avatar-small">
-                <span class="player-name">${player.name}</span>
+                <div class="player-info">
+                  <span class="player-name">${player.name}</span>
+                  <span class="player-kda">${player.kda.kills}/${player.kda.deaths}/${player.kda.assists}</span>
+                </div>
               </div>
             `).join('')}
           </div>
@@ -183,92 +184,3 @@ function getPlayerAvatar(puuid) {
   return player?.card || 'https://via.placeholder.com/40x40?text=?';
 }
 
-// 生成组队推荐
-function generateTeamRecommendation() {
-  if (!players || players.length === 0) {
-    return {
-      teamRed: [],
-      teamBlue: [],
-      teamRedAvgKD: '0.00',
-      teamBlueAvgKD: '0.00'
-    };
-  }
-
-  // 计算每个玩家的统计数据
-  const playerStats = players.map(player => {
-    const stats = calculatePlayerStats(player.puuid);
-    return {
-      ...player,
-      kd: stats.kd,
-      kdValue: stats.kdValue,
-      assistsWith: stats.assistsWith
-    };
-  });
-
-  // 简单的平衡算法：按K/D排序后交替分配
-  const sortedPlayers = [...playerStats].sort((a, b) => b.kdValue - a.kdValue);
-
-  const teamRed = [];
-  const teamBlue = [];
-
-  sortedPlayers.forEach((player, index) => {
-    if (index % 2 === 0) {
-      teamRed.push(player);
-    } else {
-      teamBlue.push(player);
-    }
-  });
-
-  // 计算平均K/D
-  const teamRedAvgKD = (teamRed.reduce((sum, p) => sum + p.kdValue, 0) / Math.max(teamRed.length, 1)).toFixed(2);
-  const teamBlueAvgKD = (teamBlue.reduce((sum, p) => sum + p.kdValue, 0) / Math.max(teamBlue.length, 1)).toFixed(2);
-
-  return {
-    teamRed,
-    teamBlue,
-    teamRedAvgKD,
-    teamBlueAvgKD
-  };
-}
-
-// 计算玩家统计数据
-function calculatePlayerStats(puuid) {
-  const matches = getMatches();
-  let totalKills = 0;
-  let totalDeaths = 0;
-  let assistsWith = new Set();
-
-  matches.forEach(match => {
-    if (!match.kills) return;
-
-    match.kills.forEach(kill => {
-      if (kill.killer_puuid === puuid) {
-        totalKills++;
-      }
-      if (kill.victim_puuid === puuid) {
-        totalDeaths++;
-      }
-
-      // 计算协助关系
-      if (kill.assistants) {
-        kill.assistants.forEach(assistant => {
-          if (assistant.assistant_puuid === puuid) {
-            assistsWith.add(kill.killer_puuid);
-          }
-          if (kill.killer_puuid === puuid) {
-            assistsWith.add(assistant.assistant_puuid);
-          }
-        });
-      }
-    });
-  });
-
-  const kdValue = totalDeaths > 0 ? totalKills / totalDeaths : totalKills;
-  const kd = kdValue.toFixed(2);
-
-  return {
-    kd,
-    kdValue,
-    assistsWith: assistsWith.size
-  };
-}
