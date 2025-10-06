@@ -488,7 +488,7 @@ function evaluateTeamCombination(combination, playerStats, collaborationMatrix, 
   }
 
   // 综合评分 - 调整权重让避免重复更重要
-  const total = (1 - kdBalance) * 1 + collaboration * 20 + (1 - diversity) * 1;
+  const total = (1 - kdBalance) * 1 + collaboration * 20 + (1 - diversity) * 8;
 
   return {
     kdBalance,
