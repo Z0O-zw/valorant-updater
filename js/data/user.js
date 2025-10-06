@@ -168,6 +168,7 @@ export async function updateUserData() {
           try {
             updatedLeaderboardData = await updateLeaderboard();
             console.log("✅ Leaderboard 更新完成");
+            console.log("🔍 updatedLeaderboardData 示例:", updatedLeaderboardData?.players?.[0]);
           } catch (error) {
             console.error("❌ 更新 leaderboard 失败:", error);
           }
@@ -405,5 +406,6 @@ export async function updateUserData() {
     showLoadingIndicator(false);
   }
 
+  console.log("🎯 updateUserData 返回:", { hasNewMatches, updatedLeaderboardData: updatedLeaderboardData?.players?.[0] });
   return { hasNewMatches, updatedLeaderboardData };
 }
