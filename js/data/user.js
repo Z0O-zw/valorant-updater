@@ -164,15 +164,10 @@ export async function updateUserData() {
           }
 
           // 补充保存后更新 leaderboard
-          console.log("🏆 补充保存后更新 leaderboard...");
           try {
-            console.log("🔄 调用 updateLeaderboard()...");
             updatedLeaderboardData = await updateLeaderboard();
-            console.log("✅ Leaderboard 更新完成，返回值类型:", typeof updatedLeaderboardData);
-            console.log("🔍 updatedLeaderboardData 示例:", updatedLeaderboardData?.players?.[0]);
           } catch (error) {
             console.error("❌ 更新 leaderboard 失败:", error);
-            console.error("❌ 错误详情:", error.stack);
           }
         } else {
           console.log("ℹ️ 所有比赛文件都已存在");
@@ -319,11 +314,8 @@ export async function updateUserData() {
             console.log("⏳ 等待 2 秒后更新 leaderboard...");
             await new Promise(resolve => setTimeout(resolve, 2000));
 
-            console.log("🏆 开始更新 leaderboard...");
             try {
               updatedLeaderboardData = await updateLeaderboard();
-              console.log("✅ Leaderboard 更新完成，返回值类型:", typeof updatedLeaderboardData);
-              console.log("🔍 updatedLeaderboardData 示例:", updatedLeaderboardData?.players?.[0]);
             } catch (error) {
               console.error("❌ 更新 leaderboard 失败:", error);
             }

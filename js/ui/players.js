@@ -12,7 +12,6 @@ export function setPlayers(newPlayers) {
 // 设置排行榜数据
 export function setLeaderboardData(data) {
   leaderboardData = data;
-  console.log('🔄 setLeaderboardData 被调用，数据示例:', data?.players?.[0]);
 }
 
 
@@ -21,7 +20,6 @@ export async function render() {
   const content = document.getElementById('content');
   if (!content) return;
 
-  console.log('🎨 render() 被调用，当前 leaderboardData:', leaderboardData?.players?.[0]);
 
   if (!leaderboardData || !leaderboardData.players) {
     content.innerHTML = `
