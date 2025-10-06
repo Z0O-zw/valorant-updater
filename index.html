@@ -10,26 +10,36 @@
 
 <body>
 
-  <h1>4v4内战榜</h1>
+  <div class="main-container">
+    <h1>4v4内战榜</h1>
 
-  <nav>
-    <button id="tab_match" onclick="showTab('match')" class="active">对局记录</button>
-    <button id="tab_players" onclick="showTab('players')">选手榜单</button>
-    <button id="tab_arrest" onclick="showTab('arrest')">逮捕榜</button>
-    <button id="tab_godfather" onclick="showTab('godfather')">义父母榜</button>
-  </nav>
+    <nav>
+      <button id="tab_match" onclick="showTab('match')" class="active">对局记录</button>
+      <button id="tab_players" onclick="showTab('players')">选手榜单</button>
+      <button id="tab_arrest" onclick="showTab('arrest')">逮捕榜</button>
+      <button id="tab_godfather" onclick="showTab('godfather')">义父母榜</button>
+    </nav>
 
-  <div id="content"></div>
+    <div id="content"></div>
+  </div>
 
   <!-- 模块化脚本 -->
   <script type="module" src="js/main.js"></script>
 
   <!-- 添加模块化样式 -->
   <style>
+    /* 主容器固定宽度 */
+    .main-container {
+      max-width: 1200px;
+      width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
     .action-btn {
       display: block;
-      width: 100%;
-      margin: 10px 0;
+      width: 400px;
+      margin: 10px auto;
       padding: 15px;
       border: none;
       border-radius: 5px;
@@ -227,34 +237,11 @@
       color: #333;
     }
 
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .player-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px;
-      }
-
-      .player-basic {
-        margin-right: 0;
-        margin-bottom: 15px;
-        min-width: auto;
-      }
-
-      .player-stats {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .stat-group {
-        justify-content: center;
-      }
-    }
+    /* 固定尺寸设计 - 移除响应式 */
 
     /* 逮捕榜样式 */
     .arrest-tabs {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
       margin: 20px 0;
       border-bottom: 2px solid #e2e8f0;
@@ -355,21 +342,10 @@
     }
 
     /* 响应式设计 */
-    @media (max-width: 768px) {
-      .arrest-tabs {
-        justify-content: center;
-      }
-
-      .arrest-tab {
-        font-size: 12px;
-        padding: 6px 12px;
-      }
-    }
 
     /* 义父母榜样式 - 基于逮捕榜样式 */
     .godfather-tabs {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
       margin: 20px 0;
       border-bottom: 2px solid #fbbf24;
@@ -465,16 +441,6 @@
     }
 
     /* 响应式设计 */
-    @media (max-width: 768px) {
-      .godfather-tabs {
-        justify-content: center;
-      }
-
-      .godfather-tab {
-        font-size: 12px;
-        padding: 6px 12px;
-      }
-    }
 
     /* 对局记录界面样式 */
 
@@ -684,38 +650,6 @@
       justify-content: center;
     }
 
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .match-teams {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .vs-separator {
-        transform: rotate(90deg);
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-      }
-
-      .match-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-
-      .map-name {
-        font-size: 18px;
-      }
-
-      .date-text {
-        font-size: 16px;
-      }
-
-      .score {
-        font-size: 20px;
-      }
-    }
 
     /* 组队推荐样式 */
     .team-recommendation {
@@ -858,24 +792,6 @@
       border: 1px solid #e5e7eb;
     }
 
-    @media (max-width: 768px) {
-      .recommended-teams {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .vs-divider {
-        transform: rotate(90deg);
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-      }
-
-      .balance-info {
-        flex-direction: column;
-        gap: 8px;
-      }
-    }
   </style>
 
 </body>
