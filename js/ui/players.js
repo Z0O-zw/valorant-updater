@@ -25,7 +25,10 @@ export async function render() {
     content.innerHTML = `
       <div class="section">
         <h2>选手榜单</h2>
-        <p>正在加载排行榜数据...</p>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px;">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">正在加载排行榜数据...</div>
+        </div>
       </div>
     `;
     return;
@@ -103,10 +106,6 @@ export async function render() {
             <div class="stat-item">
               <span class="stat-label">胜率</span>
               <span class="stat-value">${player.winRate}%</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">总场次</span>
-              <span class="stat-value">${player.totalGames}</span>
             </div>
           </div>
         </div>
