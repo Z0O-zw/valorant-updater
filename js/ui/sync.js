@@ -4,7 +4,6 @@ import { players } from './players.js';
 import { getMatches } from '../data/match.js';
 import { saveToGithub } from '../api/github.js';
 import { updateUserData } from '../data/user.js';
-import { updateLeaderboard } from '../data/leaderboard.js';
 
 // 渲染同步界面
 export function render() {
@@ -41,11 +40,6 @@ export function render() {
           <button onclick="window.uiSync.updateUserData()" class="action-btn">
             🔄 更新用户数据
             <small>从 Henrik API 获取最新比赛和用户信息</small>
-          </button>
-
-          <button onclick="window.uiSync.forceUpdateLeaderboard()" class="action-btn">
-            🏆 强制更新排行榜
-            <small>重新计算所有玩家的统计数据（包括爆头率、胜率等）</small>
           </button>
 
           <button onclick="window.uiSync.syncToGithub()" class="action-btn">
@@ -176,34 +170,11 @@ async function checkStatus() {
   }
 }
 
-// 强制更新排行榜
-async function forceUpdateLeaderboard() {
-  const logElement = document.getElementById('log-content');
-  if (logElement) {
-    logElement.innerHTML = '🏆 开始更新排行榜...';
-  }
-
-  try {
-    await updateLeaderboard();
-    if (logElement) {
-      logElement.innerHTML += '<br>✅ 排行榜更新完成！已重新计算所有统计数据。';
-    }
-    // 刷新界面以显示新数据
-    render();
-  } catch (error) {
-    console.error('更新排行榜失败:', error);
-    if (logElement) {
-      logElement.innerHTML += `<br>❌ 更新失败: ${error.message}`;
-    }
-  }
-}
-
 // 导出给全局使用
 if (typeof window !== 'undefined') {
   window.uiSync = {
     updateUserData: handleUpdateUserData,
     syncToGithub,
-    checkStatus,
-    forceUpdateLeaderboard
+    checkStatus
   };
 }
